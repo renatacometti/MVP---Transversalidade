@@ -489,7 +489,21 @@ body {
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
   margin-bottom: 16px;
-  overflow: hidden;
+  overflow: visible;
+}
+
+.estrutura-add-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  width: 160px;
+  z-index: 500;
+  padding: 4px 0;
 }
 
 .card-header {
@@ -1186,12 +1200,12 @@ body {
   position: absolute;
   top: calc(100% + 4px);
   left: 50%;
-  transform: translateX(-10%);
+  transform: translateX(-50%);
   background: #ffffff;
   border: 1px solid #cbd5e1;
   border-radius: 4px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-  width: 170px;
+  width: 160px;
   z-index: 500;
   padding: 4px 0;
 }
