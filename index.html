@@ -399,7 +399,7 @@
             <div class="card-body">
               
               <!-- First Model Row: Portfólio 105 -->
-              <div class="estrutura-model-row">
+              <div class="estrutura-model-row" onclick="openPortfolioView(event)" style="cursor: pointer;" title="Abrir Portfólio (Organizador)">
                 <div class="estrutura-model-left">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
                   <span>Portfólio</span>
@@ -420,7 +420,7 @@
 
                 <!-- Floating Dropdown Menu -->
                 <div class="estrutura-add-dropdown" id="estrutura-add-menu">
-                  <div class="estrutura-menu-item" onclick="showToast('Criar Portfólio...')">
+                  <div class="estrutura-menu-item" onclick="openPortfolioView(event)">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
                     <span>Portfólio</span>
                   </div>
@@ -1095,6 +1095,207 @@
                   Desfazer
                 </button>
               </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- VIEW: MODELO PORTFÓLIO (Ao clicar em Portfólio na aba Estrutura) -->
+        <div id="view-modelo-portfolio" class="view-container hidden">
+          <!-- Page Header -->
+          <div class="page-header-row" style="align-items: center; justify-content: space-between; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 16px;">
+            <div>
+              <h1 class="page-title">Portfólio <span style="font-size: 13px; font-weight: normal; color: #64748b;">(Organizador)</span></h1>
+            </div>
+            <!-- Toolbar Action Icons -->
+            <div style="display: flex; align-items: center; gap: 4px;">
+              <button class="pagination-btn" title="Recolher tudo"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="7 13 12 18 17 13"/><polyline points="7 6 12 11 17 6"/></svg></button>
+              <button class="pagination-btn" title="Expandir tudo"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg></button>
+              <button class="pagination-btn" title="Lista"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/></svg></button>
+              <button class="pagination-btn" title="Grade"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></button>
+              <select class="pagination-page-select" style="padding: 3px 6px;">
+                <option selected>30</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- PROPRIEDADES (Portfólio) -->
+          <div class="projeto-content-panel">
+            <form id="portfolio-properties-form" onsubmit="event.preventDefault(); showToast('Propriedades do Portfólio salvas!');">
+              
+              <!-- Section 1: PROPRIEDADES -->
+              <div class="card-section">
+                <div class="card-header">
+                  <span class="card-header-title">PROPRIEDADES</span>
+                  <div style="display: flex; align-items: center; gap: 8px; margin-left: auto;">
+                    <button type="button" class="btn-teal-action" onclick="showToast('Adicionar propriedade...')">Adicionar propriedade +</button>
+                    <button type="button" class="btn-teal-action" onclick="showToast('Adicionar grupo...')">Adicionar grupo +</button>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><polyline points="18 15 12 9 6 15"/></svg>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="form-row-grid">
+                    <div class="form-group">
+                      <label class="form-label">Nome modelo <span class="required">*</span> <span class="help-icon" title="Nome do modelo">?</span></label>
+                      <input type="text" class="form-input form-input-line" value="Portfólio" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label">Nome modelo no plural <span class="required">*</span> <span class="help-icon" title="Nome no plural">?</span></label>
+                      <input type="text" class="form-input form-input-line" value="Portfólios" required>
+                    </div>
+
+                    <div class="form-group" style="width: 100px;">
+                      <label class="form-label">Posição <span class="required">*</span> <span class="help-icon" title="Ordem de exibição">?</span></label>
+                      <input type="text" class="form-input form-input-line" value="1" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label">Ícone <span class="required">*</span> <span class="help-icon" title="Ícone do modelo">?</span></label>
+                      <div style="display:flex; align-items:center; gap:6px; padding-top:6px;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                        <span style="color:#94a3b8; font-size:12px; cursor:pointer;">&times;</span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label">Ordenar por <span class="required">*</span> <span class="help-icon" title="Campo para ordenação">?</span></label>
+                      <select class="form-select form-input-line">
+                        <option selected>Nome</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section 2: PARTES INTERESSADAS (Aberto com Toggle ON) -->
+              <div class="card-section" style="margin-top: 12px;">
+                <div class="card-header">
+                  <div style="display:flex; align-items:center; gap: 8px;">
+                    <span class="card-header-title">PARTES INTERESSADAS</span>
+                    <label class="switch-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+                  </div>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><polyline points="18 15 12 9 6 15"/></svg>
+                </div>
+                <div class="card-body">
+                  <div class="form-group" style="margin-bottom: 16px;">
+                    <label class="form-label">Possíveis papéis de pessoa <span class="required">*</span> <span class="help-icon" title="Papéis de pessoas">?</span></label>
+                    <div class="chips-container-line">
+                      <span class="chip-pill">GESTOR PMO-ES <span class="chip-pill-remove">&times;</span></span>
+                      <span class="chip-pill">Parceiro <span class="chip-pill-remove">&times;</span></span>
+                      <span class="chip-pill">Gerente <span class="chip-pill-remove">&times;</span></span>
+                      <span class="chip-pill">Membro da equipe <span class="chip-pill-remove">&times;</span></span>
+                      <span class="chip-pill">Patrocinador <span class="chip-pill-remove">&times;</span></span>
+                    </div>
+                    <div style="font-size: 11px; color: #94a3b8; font-style: italic;">Use vírgula para separar os valores</div>
+                  </div>
+
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Possíveis papéis de uma organização <span class="required">*</span> <span class="help-icon" title="Papéis de organização">?</span></label>
+                    <div class="chips-container-line">
+                      <span class="chip-pill">Concorrente <span class="chip-pill-remove">&times;</span></span>
+                      <span class="chip-pill">Financiador(a) <span class="chip-pill-remove">&times;</span></span>
+                      <span class="chip-pill">Cliente <span class="chip-pill-remove">&times;</span></span>
+                    </div>
+                    <div style="font-size: 11px; color: #94a3b8; font-style: italic;">Use vírgula para separar os valores</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section 3: PAINEL DE CONTROLE (Aberto com Toggle ON) -->
+              <div class="card-section" style="margin-top: 12px;">
+                <div class="card-header">
+                  <div style="display:flex; align-items:center; gap: 8px;">
+                    <span class="card-header-title">PAINEL DE CONTROLE</span>
+                    <label class="switch-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+                  </div>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><polyline points="18 15 12 9 6 15"/></svg>
+                </div>
+                <div class="card-body">
+                  <div class="form-group" style="margin-bottom: 16px;">
+                    <label class="form-label">Exibir partes interessadas <span class="help-icon">?</span></label>
+                    <div class="chips-dropdown-field">
+                      <span class="chip-pill">Gerente <span class="chip-pill-remove">&times;</span></span>
+                      <span class="chip-pill">Membro da equipe <span class="chip-pill-remove">&times;</span></span>
+                      <span class="chip-pill">Parceiro <span class="chip-pill-remove">&times;</span></span>
+                      <span class="chip-pill">Patrocinador <span class="chip-pill-remove">&times;</span></span>
+                      <span class="chip-pill">Cliente <span class="chip-pill-remove">&times;</span></span>
+                      <span class="chip-pill">Concorrente <span class="chip-pill-remove">&times;</span></span>
+                      <span class="chip-pill">Financiador(a) <span class="chip-pill-remove">&times;</span></span>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5" style="margin-left: auto;"><polyline points="6 9 12 15 18 9"/></svg>
+                    </div>
+                  </div>
+
+                  <div style="display:flex; flex-direction:column; gap:10px; margin-top: 12px;">
+                    <div style="display:flex; align-items:center; gap:10px; font-size:12px; color:#475569;">
+                      <span>Marco histórico</span>
+                      <label class="switch-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:10px; font-size:12px; color:#475569;">
+                      <span>EVA</span>
+                      <label class="switch-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:10px; font-size:12px; color:#475569;">
+                      <span>Risco</span>
+                      <label class="switch-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section 4: GESTÃO DE RISCOS E OCORRÊNCIAS -->
+              <div class="card-section" style="margin-top: 12px;">
+                <div class="card-header">
+                  <div style="display:flex; align-items:center; gap: 8px;">
+                    <span class="card-header-title">GESTÃO DE RISCOS E OCORRÊNCIAS</span>
+                    <label class="switch-toggle"><input type="checkbox"><span class="slider"></span></label>
+                  </div>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+              </div>
+
+              <!-- Section 5: CENTROS DE CUSTO -->
+              <div class="card-section" style="margin-top: 12px;">
+                <div class="card-header">
+                  <div style="display:flex; align-items:center; gap: 8px;">
+                    <span class="card-header-title">CENTROS DE CUSTO</span>
+                    <label class="switch-toggle"><input type="checkbox"><span class="slider"></span></label>
+                  </div>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+              </div>
+
+              <!-- Section 6: GESTÃO DE PROCESSOS -->
+              <div class="card-section" style="margin-top: 12px;">
+                <div class="card-header">
+                  <div style="display:flex; align-items:center; gap: 8px;">
+                    <span class="card-header-title">GESTÃO DE PROCESSOS</span>
+                    <label class="switch-toggle"><input type="checkbox"><span class="slider"></span></label>
+                  </div>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+              </div>
+
+              <!-- Section 7: DIÁRIO -->
+              <div class="card-section" style="margin-top: 12px;">
+                <div class="card-header">
+                  <div style="display:flex; align-items:center; gap: 8px;">
+                    <span class="card-header-title">DIÁRIO</span>
+                    <label class="switch-toggle"><input type="checkbox"><span class="slider"></span></label>
+                  </div>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+              </div>
+
+              <!-- Footer Actions -->
+              <div class="actions-footer" style="margin-top: 20px;">
+                <button type="submit" class="btn-salvar">Salvar</button>
+                <button type="button" class="btn-desfazer" onclick="showToast('Alterações desfeitas.')">
+                  <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                  Desfazer
+                </button>
+              </div>
+
             </form>
           </div>
         </div>

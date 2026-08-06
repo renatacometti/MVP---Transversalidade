@@ -156,11 +156,13 @@ window.openHomeScenarioView = function(e) {
   const vPlano = document.getElementById('view-modelo-de-plano');
   const vProjeto = document.getElementById('view-modelo-projeto');
   const vPrograma = document.getElementById('view-modelo-programa');
+  const vPortfolio = document.getElementById('view-modelo-portfolio');
   const vCenario = document.getElementById('view-cenario-transversalidades');
 
   if (vPlano) vPlano.classList.add('hidden');
   if (vProjeto) vProjeto.classList.add('hidden');
   if (vPrograma) vPrograma.classList.add('hidden');
+  if (vPortfolio) vPortfolio.classList.add('hidden');
   if (vCenario) vCenario.classList.remove('hidden');
 
   // Activate Blue Theme Mode on app container and render blue rail icons
@@ -182,15 +184,38 @@ window.openHomeScenarioView = function(e) {
   if (typeof showToast === 'function') showToast('Cenário Transversalidades exibido no Tema Azul!');
 };
 
+window.openPortfolioView = function(e) {
+  if (e && e.stopPropagation) e.stopPropagation();
+  const vPlano = document.getElementById('view-modelo-de-plano');
+  const vProjeto = document.getElementById('view-modelo-projeto');
+  const vPrograma = document.getElementById('view-modelo-programa');
+  const vPortfolio = document.getElementById('view-modelo-portfolio');
+  const vCenario = document.getElementById('view-cenario-transversalidades');
+
+  if (vPlano) vPlano.classList.add('hidden');
+  if (vProjeto) vProjeto.classList.add('hidden');
+  if (vPrograma) vPrograma.classList.add('hidden');
+  if (vCenario) vCenario.classList.add('hidden');
+  if (vPortfolio) vPortfolio.classList.remove('hidden');
+
+  document.querySelectorAll('.sidebar-tree-item').forEach(i => i.classList.remove('active-selected'));
+  const itemPort = document.getElementById('tree-portfolio-toggle');
+  if (itemPort) itemPort.classList.add('active-selected');
+
+  if (typeof showToast === 'function') showToast('Navegando para Propriedades do Portfólio (Organizador)');
+};
+
 window.openProgramaView = function(e) {
   if (e && e.stopPropagation) e.stopPropagation();
   const vPlano = document.getElementById('view-modelo-de-plano');
   const vProjeto = document.getElementById('view-modelo-projeto');
   const vPrograma = document.getElementById('view-modelo-programa');
+  const vPortfolio = document.getElementById('view-modelo-portfolio');
   const vCenario = document.getElementById('view-cenario-transversalidades');
 
   if (vPlano) vPlano.classList.add('hidden');
   if (vProjeto) vProjeto.classList.add('hidden');
+  if (vPortfolio) vPortfolio.classList.add('hidden');
   if (vCenario) vCenario.classList.add('hidden');
   if (vPrograma) vPrograma.classList.remove('hidden');
 
@@ -214,10 +239,12 @@ window.openNewProgramaView = function(e) {
   const vPlano = document.getElementById('view-modelo-de-plano');
   const vProjeto = document.getElementById('view-modelo-projeto');
   const vPrograma = document.getElementById('view-modelo-programa');
+  const vPortfolio = document.getElementById('view-modelo-portfolio');
   const vCenario = document.getElementById('view-cenario-transversalidades');
 
   if (vPlano) vPlano.classList.add('hidden');
   if (vProjeto) vProjeto.classList.add('hidden');
+  if (vPortfolio) vPortfolio.classList.add('hidden');
   if (vCenario) vCenario.classList.add('hidden');
   if (vPrograma) vPrograma.classList.remove('hidden');
 
@@ -247,10 +274,12 @@ window.openProjetoView = function(e) {
   const vPlano = document.getElementById('view-modelo-de-plano');
   const vProjeto = document.getElementById('view-modelo-projeto');
   const vPrograma = document.getElementById('view-modelo-programa');
+  const vPortfolio = document.getElementById('view-modelo-portfolio');
   const vCenario = document.getElementById('view-cenario-transversalidades');
 
   if (vPlano) vPlano.classList.add('hidden');
   if (vPrograma) vPrograma.classList.add('hidden');
+  if (vPortfolio) vPortfolio.classList.add('hidden');
   if (vCenario) vCenario.classList.add('hidden');
   if (vProjeto) vProjeto.classList.remove('hidden');
 
@@ -267,10 +296,12 @@ window.openPlanoView = function(e) {
   const vPlano = document.getElementById('view-modelo-de-plano');
   const vProjeto = document.getElementById('view-modelo-projeto');
   const vPrograma = document.getElementById('view-modelo-programa');
+  const vPortfolio = document.getElementById('view-modelo-portfolio');
   const vCenario = document.getElementById('view-cenario-transversalidades');
 
   if (vProjeto) vProjeto.classList.add('hidden');
   if (vPrograma) vPrograma.classList.add('hidden');
+  if (vPortfolio) vPortfolio.classList.add('hidden');
   if (vCenario) vCenario.classList.add('hidden');
   if (vPlano) vPlano.classList.remove('hidden');
 
