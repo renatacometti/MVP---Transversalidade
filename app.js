@@ -641,14 +641,30 @@ document.addEventListener('DOMContentLoaded', () => {
   // Modelos (+) Add Box Menu Toggle na secao MODELOS (Portfólio)
   const portModelosAddTrigger = document.getElementById('portfolio-modelos-add-box-trigger');
   const portModelosAddMenu = document.getElementById('portfolio-modelos-add-menu');
+  const portNovoTrigger = document.getElementById('portfolio-novo-trigger');
+  const portNovoSubMenu = document.getElementById('portfolio-novo-sub-menu');
+
   if (portModelosAddTrigger && portModelosAddMenu) {
     portModelosAddTrigger.addEventListener('click', (e) => {
       e.stopPropagation();
-      portModelosAddMenu.style.display = (portModelosAddMenu.style.display === 'block') ? 'none' : 'block';
+      const isVisible = (portModelosAddMenu.style.display === 'block');
+      portModelosAddMenu.style.display = isVisible ? 'none' : 'block';
+      if (isVisible && portNovoSubMenu) {
+        portNovoSubMenu.style.display = 'none';
+      }
     });
+
+    if (portNovoTrigger && portNovoSubMenu) {
+      portNovoTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        portNovoSubMenu.style.display = (portNovoSubMenu.style.display === 'block') ? 'none' : 'block';
+      });
+    }
+
     document.addEventListener('click', (e) => {
       if (!portModelosAddTrigger.contains(e.target) && !portModelosAddMenu.contains(e.target)) {
         portModelosAddMenu.style.display = 'none';
+        if (portNovoSubMenu) portNovoSubMenu.style.display = 'none';
       }
     });
   }
