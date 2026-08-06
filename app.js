@@ -269,6 +269,72 @@ window.openNewProgramaView = function(e) {
   if (typeof showToast === 'function') showToast('Novo Programa: Preencha os campos para incluir e salvar.');
 };
 
+window.openNewPortfolioView = function(e) {
+  if (e && e.stopPropagation) e.stopPropagation();
+  const vPlano = document.getElementById('view-modelo-de-plano');
+  const vProjeto = document.getElementById('view-modelo-projeto');
+  const vPrograma = document.getElementById('view-modelo-programa');
+  const vPortfolio = document.getElementById('view-modelo-portfolio');
+  const vCenario = document.getElementById('view-cenario-transversalidades');
+
+  if (vPlano) vPlano.classList.add('hidden');
+  if (vProjeto) vProjeto.classList.add('hidden');
+  if (vPrograma) vPrograma.classList.add('hidden');
+  if (vCenario) vCenario.classList.add('hidden');
+  if (vPortfolio) vPortfolio.classList.remove('hidden');
+
+  document.querySelectorAll('.sidebar-tree-item').forEach(i => i.classList.remove('active-selected'));
+
+  const form = document.getElementById('portfolio-properties-form');
+  if (form) {
+    const inputs = form.querySelectorAll('.form-row-grid input[type="text"]');
+    if (inputs.length >= 3) {
+      inputs[0].value = '';
+      inputs[0].placeholder = 'Informe o nome do modelo';
+      inputs[1].value = '';
+      inputs[1].placeholder = 'Informe o nome no plural';
+      inputs[2].value = '';
+      inputs[2].placeholder = 'Ex: 1';
+    }
+  }
+
+  const estAddMenu = document.getElementById('estrutura-add-menu');
+  if (estAddMenu) estAddMenu.style.display = 'none';
+
+  if (typeof showToast === 'function') showToast('Novo Portfólio: Preencha os campos para cadastrar.');
+};
+
+window.openNewProjetoView = function(e) {
+  if (e && e.stopPropagation) e.stopPropagation();
+  const vPlano = document.getElementById('view-modelo-de-plano');
+  const vProjeto = document.getElementById('view-modelo-projeto');
+  const vPrograma = document.getElementById('view-modelo-programa');
+  const vPortfolio = document.getElementById('view-modelo-portfolio');
+  const vCenario = document.getElementById('view-cenario-transversalidades');
+
+  if (vPlano) vPlano.classList.add('hidden');
+  if (vPrograma) vPrograma.classList.add('hidden');
+  if (vPortfolio) vPortfolio.classList.add('hidden');
+  if (vCenario) vCenario.classList.add('hidden');
+  if (vProjeto) vProjeto.classList.remove('hidden');
+
+  document.querySelectorAll('.sidebar-tree-item').forEach(i => i.classList.remove('active-selected'));
+
+  const form = document.getElementById('projeto-properties-form');
+  if (form) {
+    const inputs = form.querySelectorAll('.tags-form-row input[type="text"]');
+    if (inputs.length >= 1) {
+      inputs[0].value = '';
+      inputs[0].placeholder = 'Informe o nome do modelo';
+    }
+  }
+
+  const estAddMenu = document.getElementById('estrutura-add-menu');
+  if (estAddMenu) estAddMenu.style.display = 'none';
+
+  if (typeof showToast === 'function') showToast('Novo Projeto: Preencha os campos para cadastrar.');
+};
+
 window.openProjetoView = function(e) {
   if (e && e.stopPropagation) e.stopPropagation();
   const vPlano = document.getElementById('view-modelo-de-plano');
@@ -623,6 +689,41 @@ document.addEventListener('DOMContentLoaded', () => {
     showToast(`Propriedade "${typeName}" adicionada.`);
   };
 
+  window.addModelToEstruturaList = function(name, iconSvg, clickFn) {
+    const container = document.getElementById('estrutura-models-list');
+    if (!container) return;
+
+    const randomCode = Math.floor(106 + Math.random() * 900);
+    const row = document.createElement('div');
+    row.className = 'estrutura-model-row';
+    row.style.cursor = 'pointer';
+    row.style.marginBottom = '8px';
+    row.title = `Abrir ${name}`;
+    if (clickFn) row.onclick = clickFn;
+    
+    row.innerHTML = `
+      <div class="estrutura-model-left">
+        ${iconSvg}
+        <span>${name}</span>
+      </div>
+      <div class="estrutura-model-right">
+        <button class="cost-center-kebab-btn" title="Mais opções" onclick="showToast('Opções do ${name} ${randomCode}')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
+        </button>
+        <span class="cost-center-id-code">${randomCode}</span>
+      </div>
+    `;
+
+    container.appendChild(row);
+
+    // Update Estrutura tab badge count
+    const badge = document.querySelector('.tab-btn[data-tab="tab-estrutura"] .tab-badge');
+    if (badge) {
+      const currentCount = parseInt(badge.innerText, 10) || 0;
+      badge.innerText = currentCount + 1;
+    }
+  };
+
   // Form submit handlers
   const propForm = document.getElementById('properties-form');
   if (propForm) {
@@ -631,11 +732,34 @@ document.addEventListener('DOMContentLoaded', () => {
       showToast('Alterações salvas com sucesso!');
     });
   }
+
+  const portPropForm = document.getElementById('portfolio-properties-form');
+  if (portPropForm) {
+    portPropForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = portPropForm.querySelector('input[type="text"]');
+      const name = (input && input.value.trim()) ? input.value.trim() : 'Portfólio';
+      const iconSvg = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>`;
+      addModelToEstruturaList(name, iconSvg, openPortfolioView);
+      showToast(`Modelo '${name}' cadastrado com sucesso na Estrutura!`);
+      openPlanoView();
+      const tabBtn = document.querySelector('.tab-btn[data-tab="tab-estrutura"]');
+      if (tabBtn) tabBtn.click();
+    });
+  }
+
   const projPropForm = document.getElementById('projeto-properties-form');
   if (projPropForm) {
     projPropForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      showToast('Propriedades do Projeto salvas!');
+      const input = projPropForm.querySelector('input[type="text"]');
+      const name = (input && input.value.trim()) ? input.value.trim() : 'Projeto';
+      const iconSvg = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`;
+      addModelToEstruturaList(name, iconSvg, openProjetoView);
+      showToast(`Modelo '${name}' cadastrado com sucesso na Estrutura!`);
+      openPlanoView();
+      const tabBtn = document.querySelector('.tab-btn[data-tab="tab-estrutura"]');
+      if (tabBtn) tabBtn.click();
     });
   }
 
@@ -646,7 +770,11 @@ document.addEventListener('DOMContentLoaded', () => {
       
       const inputs = programaForm.querySelectorAll('.form-row-grid input[type="text"]');
       let progName = (inputs.length > 0 && inputs[0].value.trim()) ? inputs[0].value.trim() : 'Novo Programa';
+      const iconSvg = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`;
 
+      addModelToEstruturaList(progName, iconSvg, openProgramaView);
+
+      // Transversalidade items list sync
       const itemsList = document.getElementById('transversalidade-items-list');
       if (itemsList) {
         const existingSpans = itemsList.querySelectorAll('.estrutura-model-left span');
@@ -666,7 +794,7 @@ document.addEventListener('DOMContentLoaded', () => {
           newRow.onclick = function(ev) { openProgramaView(ev); };
           newRow.innerHTML = `
             <div class="estrutura-model-left">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              ${iconSvg}
               <span>${progName}</span>
             </div>
             <div class="estrutura-model-right">
@@ -681,12 +809,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       if (typeof syncDominioOptions === 'function') syncDominioOptions();
+      if (typeof syncTransversalRailIcons === 'function') syncTransversalRailIcons();
 
-      openPlanoView(e);
-      const transTabBtn = document.querySelector('.tab-btn[data-tab="tab-transversalidade"]');
-      if (transTabBtn) transTabBtn.click();
-
-      showToast(`'${progName}' cadastrado com sucesso na aba Transversalidade!`);
+      showToast(`Modelo '${progName}' cadastrado com sucesso!`);
+      openPlanoView();
+      const tabBtn = document.querySelector('.tab-btn[data-tab="tab-estrutura"]');
+      if (tabBtn) tabBtn.click();
     });
   }
 });
