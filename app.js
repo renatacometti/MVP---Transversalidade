@@ -572,6 +572,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Modelos (+) Add Box Menu Toggle na secao MODELOS (Portfólio)
+  const portModelosAddTrigger = document.getElementById('portfolio-modelos-add-box-trigger');
+  const portModelosAddMenu = document.getElementById('portfolio-modelos-add-menu');
+  if (portModelosAddTrigger && portModelosAddMenu) {
+    portModelosAddTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      portModelosAddMenu.style.display = (portModelosAddMenu.style.display === 'block') ? 'none' : 'block';
+    });
+    document.addEventListener('click', (e) => {
+      if (!portModelosAddTrigger.contains(e.target) && !portModelosAddMenu.contains(e.target)) {
+        portModelosAddMenu.style.display = 'none';
+      }
+    });
+  }
+
   // Sidebar Portfólio Tree Toggle
   const treePortfolioToggle = document.getElementById('tree-portfolio-toggle');
   const treePortfolioBranch = document.getElementById('tree-portfolio-branch');
