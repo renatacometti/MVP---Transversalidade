@@ -1574,7 +1574,7 @@
 
                 <div class="card-body">
                   <!-- Item Row 1: Área Temática (109) -->
-                  <div class="estrutura-model-row" style="margin-bottom: 16px;">
+                  <div class="estrutura-model-row" onclick="openAreaTematicaView(event)" style="cursor: pointer; margin-bottom: 16px;" title="Abrir Área Temática (Organizador)">
                     <div class="estrutura-model-left">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
                       <span>Área Temática</span>
@@ -1596,6 +1596,247 @@
                     <!-- Floating Dropdown Menu -->
                     <div class="estrutura-add-dropdown" id="eixo-modelos-add-menu" style="display: none;">
                       <div class="estrutura-menu-item" onclick="openNewPortfolioView(event)">
+                        <span>Novo</span>
+                      </div>
+                      <div class="estrutura-menu-item" onclick="showToast('Reutilizar modelo...')">
+                        <span>Reutilizar</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Pagination Toolbar -->
+                  <div class="estrutura-pagination">
+                    <button class="pagination-btn" title="Primeira página">&laquo;</button>
+                    <button class="pagination-btn" title="Página anterior">&lt;</button>
+                    <select class="pagination-page-select">
+                      <option selected>1 of 1</option>
+                    </select>
+                    <button class="pagination-btn" title="Próxima página">&gt;</button>
+                    <button class="pagination-btn" title="Última página">&raquo;</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Footer Actions -->
+              <div class="actions-footer" style="margin-top: 20px;">
+                <button type="submit" class="btn-salvar">Salvar</button>
+                <button type="button" class="btn-desfazer" onclick="showToast('Alterações desfeitas.')">
+                  <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                  Desfazer
+                </button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+        <!-- VIEW: MODELO ÁREA TEMÁTICA (Ao clicar em Área Temática) -->
+        <div id="view-modelo-area-tematica" class="view-container hidden">
+          <!-- Page Header -->
+          <div class="page-header-row" style="align-items: center; justify-content: space-between; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 16px;">
+            <div>
+              <h1 class="page-title">Área Temática <span style="font-size: 13px; font-weight: normal; color: #64748b;">(Organizador)</span></h1>
+            </div>
+            <!-- Toolbar Action Icons -->
+            <div style="display: flex; align-items: center; gap: 4px;">
+              <button class="pagination-btn" title="Recolher tudo"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="7 13 12 18 17 13"/><polyline points="7 6 12 11 17 6"/></svg></button>
+              <button class="pagination-btn" title="Expandir tudo"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg></button>
+              <button class="pagination-btn" title="Lista"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/></svg></button>
+              <button class="pagination-btn" title="Grade"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></button>
+              <select class="pagination-page-select" style="padding: 3px 6px;">
+                <option selected>30</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- PROPRIEDADES (Área Temática) -->
+          <div class="projeto-content-panel">
+            <form id="area-tematica-properties-form" onsubmit="event.preventDefault(); showToast('Propriedades da Área Temática salvas!');">
+              
+              <!-- Section 1: PROPRIEDADES -->
+              <div class="card-section">
+                <div class="card-header">
+                  <span class="card-header-title">PROPRIEDADES</span>
+                  <div style="display: flex; align-items: center; gap: 8px; margin-left: auto;">
+                    <button type="button" class="btn-teal-action" onclick="showToast('Adicionar propriedade...')">Adicionar propriedade +</button>
+                    <button type="button" class="btn-teal-action" onclick="showToast('Adicionar grupo...')">Adicionar grupo +</button>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><polyline points="18 15 12 9 6 15"/></svg>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="form-row-grid" style="margin-bottom: 16px;">
+                    <div class="form-group">
+                      <label class="form-label">Nome modelo <span class="required">*</span> <span class="help-icon" title="Nome do modelo">?</span></label>
+                      <input type="text" class="form-input form-input-line" value="Área Temática" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label">Nome modelo no plural <span class="required">*</span> <span class="help-icon" title="Nome no plural">?</span></label>
+                      <input type="text" class="form-input form-input-line" value="Áreas Temáticas" required>
+                    </div>
+
+                    <div class="form-group" style="width: 100px;">
+                      <label class="form-label">Posição <span class="required">*</span> <span class="help-icon" title="Ordem de exibição">?</span></label>
+                      <input type="text" class="form-input form-input-line" value="1" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label">Ícone <span class="required">*</span> <span class="help-icon" title="Ícone do modelo">?</span></label>
+                      <div style="display:flex; align-items:center; gap:6px; padding-top:6px;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                        <span style="color:#94a3b8; font-size:12px; cursor:pointer;">&times;</span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label">Ordenar por <span class="required">*</span> <span class="help-icon" title="Campo para ordenação">?</span></label>
+                      <select class="form-select form-input-line">
+                        <option selected>Número de Ordenação</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- Property Card: .0 Número de Ordenação (Toggle ON) -->
+                  <div class="property-cards-row">
+                    <div class="accordion-card">
+                      <div class="accordion-card-left">
+                        <span style="font-weight: 700; color: #64748b; font-size: 13px;">.0</span>
+                        <span>Número de Ordenação</span>
+                        <label class="switch-toggle" style="margin-left: 8px;"><input type="checkbox" checked><span class="slider"></span></label>
+                      </div>
+                      <div class="accordion-card-right">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section 2: PARTES INTERESSADAS (Fechado com Toggle OFF) -->
+              <div class="card-section" style="margin-top: 12px;">
+                <div class="card-header">
+                  <div style="display:flex; align-items:center; gap: 8px;">
+                    <span class="card-header-title">PARTES INTERESSADAS</span>
+                    <label class="switch-toggle"><input type="checkbox"><span class="slider"></span></label>
+                  </div>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><polyline points="18 15 12 9 6 15"/></svg>
+                </div>
+              </div>
+
+              <!-- Section 3: PAINEL DE CONTROLE (Aberto com Toggle ON) -->
+              <div class="card-section" style="margin-top: 12px;">
+                <div class="card-header">
+                  <div style="display:flex; align-items:center; gap: 8px;">
+                    <span class="card-header-title">PAINEL DE CONTROLE</span>
+                    <label class="switch-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+                  </div>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><polyline points="18 15 12 9 6 15"/></svg>
+                </div>
+                <div class="card-body">
+                  <div class="form-group" style="margin-bottom: 16px;">
+                    <label class="form-label">Exibir partes interessadas <span class="help-icon">?</span></label>
+                    <div class="chips-dropdown-field">
+                      <span style="color:#94a3b8; font-size:12px;">Selecione os papéis...</span>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5" style="margin-left: auto;"><polyline points="6 9 12 15 18 9"/></svg>
+                    </div>
+                  </div>
+
+                  <div style="display:flex; flex-direction:column; gap:10px; margin-top: 12px;">
+                    <div style="display:flex; align-items:center; gap:10px; font-size:12px; color:#475569;">
+                      <span>Marco histórico</span>
+                      <label class="switch-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:10px; font-size:12px; color:#475569;">
+                      <span>EVA</span>
+                      <label class="switch-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:10px; font-size:12px; color:#475569;">
+                      <span>Risco</span>
+                      <label class="switch-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section 4: GESTÃO DE RISCOS E OCORRÊNCIAS -->
+              <div class="card-section" style="margin-top: 12px;">
+                <div class="card-header">
+                  <div style="display:flex; align-items:center; gap: 8px;">
+                    <span class="card-header-title">GESTÃO DE RISCOS E OCORRÊNCIAS</span>
+                    <label class="switch-toggle"><input type="checkbox"><span class="slider"></span></label>
+                  </div>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><polyline points="18 15 12 9 6 15"/></svg>
+                </div>
+              </div>
+
+              <!-- Section 5: CENTROS DE CUSTO -->
+              <div class="card-section" style="margin-top: 12px;">
+                <div class="card-header">
+                  <div style="display:flex; align-items:center; gap: 8px;">
+                    <span class="card-header-title">CENTROS DE CUSTO</span>
+                    <label class="switch-toggle"><input type="checkbox"><span class="slider"></span></label>
+                  </div>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><polyline points="18 15 12 9 6 15"/></svg>
+                </div>
+              </div>
+
+              <!-- Section 6: GESTÃO DE PROCESSOS -->
+              <div class="card-section" style="margin-top: 12px;">
+                <div class="card-header">
+                  <div style="display:flex; align-items:center; gap: 8px;">
+                    <span class="card-header-title">GESTÃO DE PROCESSOS</span>
+                    <label class="switch-toggle"><input type="checkbox"><span class="slider"></span></label>
+                  </div>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><polyline points="18 15 12 9 6 15"/></svg>
+                </div>
+              </div>
+
+              <!-- Section 7: DIÁRIO -->
+              <div class="card-section" style="margin-top: 12px;">
+                <div class="card-header">
+                  <div style="display:flex; align-items:center; gap: 8px;">
+                    <span class="card-header-title">DIÁRIO</span>
+                    <label class="switch-toggle"><input type="checkbox"><span class="slider"></span></label>
+                  </div>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><polyline points="18 15 12 9 6 15"/></svg>
+                </div>
+              </div>
+
+              <!-- Section 8: MODELOS (Abaixo de DIÁRIO com Projeto 119) -->
+              <div class="card-section" style="margin-top: 12px; position: relative;">
+                <div class="card-header">
+                  <div style="display:flex; align-items:center; gap: 8px;">
+                    <span class="card-header-title">MODELOS</span>
+                    <label class="switch-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+                  </div>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><polyline points="18 15 12 9 6 15"/></svg>
+                </div>
+
+                <div class="card-body">
+                  <!-- Item Row 1: Projeto (119) -->
+                  <div class="estrutura-model-row" onclick="openProjetoView(event)" style="cursor: pointer; margin-bottom: 16px;" title="Abrir Projeto">
+                    <div class="estrutura-model-left">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                      <span>Projeto</span>
+                    </div>
+                    <div class="estrutura-model-right">
+                      <button type="button" class="cost-center-kebab-btn" title="Mais opções" onclick="showToast('Opções do Projeto 119')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
+                      </button>
+                      <span class="cost-center-id-code">119</span>
+                    </div>
+                  </div>
+
+                  <!-- Add Box with Floating Dropdown Menu -->
+                  <div class="estrutura-add-container">
+                    <div class="estrutura-add-box" id="area-tematica-modelos-add-box-trigger" title="Adicionar modelo">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </div>
+
+                    <!-- Floating Dropdown Menu -->
+                    <div class="estrutura-add-dropdown" id="area-tematica-modelos-add-menu" style="display: none;">
+                      <div class="estrutura-menu-item" onclick="openNewProjetoView(event)">
                         <span>Novo</span>
                       </div>
                       <div class="estrutura-menu-item" onclick="showToast('Reutilizar modelo...')">

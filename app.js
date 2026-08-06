@@ -158,6 +158,7 @@ window.openHomeScenarioView = function(e) {
   const vPrograma = document.getElementById('view-modelo-programa');
   const vPortfolio = document.getElementById('view-modelo-portfolio');
   const vEixo = document.getElementById('view-modelo-eixo');
+  const vAreaTematica = document.getElementById('view-modelo-area-tematica');
   const vCenario = document.getElementById('view-cenario-transversalidades');
 
   if (vPlano) vPlano.classList.add('hidden');
@@ -165,6 +166,7 @@ window.openHomeScenarioView = function(e) {
   if (vPrograma) vPrograma.classList.add('hidden');
   if (vPortfolio) vPortfolio.classList.add('hidden');
   if (vEixo) vEixo.classList.add('hidden');
+  if (vAreaTematica) vAreaTematica.classList.add('hidden');
   if (vCenario) vCenario.classList.remove('hidden');
 
   // Activate Blue Theme Mode on app container and render blue rail icons
@@ -193,12 +195,14 @@ window.openPortfolioView = function(e) {
   const vPrograma = document.getElementById('view-modelo-programa');
   const vPortfolio = document.getElementById('view-modelo-portfolio');
   const vEixo = document.getElementById('view-modelo-eixo');
+  const vAreaTematica = document.getElementById('view-modelo-area-tematica');
   const vCenario = document.getElementById('view-cenario-transversalidades');
 
   if (vPlano) vPlano.classList.add('hidden');
   if (vProjeto) vProjeto.classList.add('hidden');
   if (vPrograma) vPrograma.classList.add('hidden');
   if (vEixo) vEixo.classList.add('hidden');
+  if (vAreaTematica) vAreaTematica.classList.add('hidden');
   if (vCenario) vCenario.classList.add('hidden');
   if (vPortfolio) vPortfolio.classList.remove('hidden');
 
@@ -216,18 +220,43 @@ window.openEixoView = function(e) {
   const vPrograma = document.getElementById('view-modelo-programa');
   const vPortfolio = document.getElementById('view-modelo-portfolio');
   const vEixo = document.getElementById('view-modelo-eixo');
+  const vAreaTematica = document.getElementById('view-modelo-area-tematica');
   const vCenario = document.getElementById('view-cenario-transversalidades');
 
   if (vPlano) vPlano.classList.add('hidden');
   if (vProjeto) vProjeto.classList.add('hidden');
   if (vPrograma) vPrograma.classList.add('hidden');
   if (vPortfolio) vPortfolio.classList.add('hidden');
+  if (vAreaTematica) vAreaTematica.classList.add('hidden');
   if (vCenario) vCenario.classList.add('hidden');
   if (vEixo) vEixo.classList.remove('hidden');
 
   document.querySelectorAll('.sidebar-tree-item').forEach(i => i.classList.remove('active-selected'));
 
   if (typeof showToast === 'function') showToast('Navegando para Propriedades do Eixo (Organizador)');
+};
+
+window.openAreaTematicaView = function(e) {
+  if (e && e.stopPropagation) e.stopPropagation();
+  const vPlano = document.getElementById('view-modelo-de-plano');
+  const vProjeto = document.getElementById('view-modelo-projeto');
+  const vPrograma = document.getElementById('view-modelo-programa');
+  const vPortfolio = document.getElementById('view-modelo-portfolio');
+  const vEixo = document.getElementById('view-modelo-eixo');
+  const vAreaTematica = document.getElementById('view-modelo-area-tematica');
+  const vCenario = document.getElementById('view-cenario-transversalidades');
+
+  if (vPlano) vPlano.classList.add('hidden');
+  if (vProjeto) vProjeto.classList.add('hidden');
+  if (vPrograma) vPrograma.classList.add('hidden');
+  if (vPortfolio) vPortfolio.classList.add('hidden');
+  if (vEixo) vEixo.classList.add('hidden');
+  if (vCenario) vCenario.classList.add('hidden');
+  if (vAreaTematica) vAreaTematica.classList.remove('hidden');
+
+  document.querySelectorAll('.sidebar-tree-item').forEach(i => i.classList.remove('active-selected'));
+
+  if (typeof showToast === 'function') showToast('Navegando para Propriedades de Área Temática (Organizador)');
 };
 
 window.openProgramaView = function(e) {
@@ -237,12 +266,14 @@ window.openProgramaView = function(e) {
   const vPrograma = document.getElementById('view-modelo-programa');
   const vPortfolio = document.getElementById('view-modelo-portfolio');
   const vEixo = document.getElementById('view-modelo-eixo');
+  const vAreaTematica = document.getElementById('view-modelo-area-tematica');
   const vCenario = document.getElementById('view-cenario-transversalidades');
 
   if (vPlano) vPlano.classList.add('hidden');
   if (vProjeto) vProjeto.classList.add('hidden');
   if (vPortfolio) vPortfolio.classList.add('hidden');
   if (vEixo) vEixo.classList.add('hidden');
+  if (vAreaTematica) vAreaTematica.classList.add('hidden');
   if (vCenario) vCenario.classList.add('hidden');
   if (vPrograma) vPrograma.classList.remove('hidden');
 
@@ -268,12 +299,14 @@ window.openNewProgramaView = function(e) {
   const vPrograma = document.getElementById('view-modelo-programa');
   const vPortfolio = document.getElementById('view-modelo-portfolio');
   const vEixo = document.getElementById('view-modelo-eixo');
+  const vAreaTematica = document.getElementById('view-modelo-area-tematica');
   const vCenario = document.getElementById('view-cenario-transversalidades');
 
   if (vPlano) vPlano.classList.add('hidden');
   if (vProjeto) vProjeto.classList.add('hidden');
   if (vPortfolio) vPortfolio.classList.add('hidden');
   if (vEixo) vEixo.classList.add('hidden');
+  if (vAreaTematica) vAreaTematica.classList.add('hidden');
   if (vCenario) vCenario.classList.add('hidden');
   if (vPrograma) vPrograma.classList.remove('hidden');
 
@@ -305,12 +338,14 @@ window.openNewPortfolioView = function(e) {
   const vPrograma = document.getElementById('view-modelo-programa');
   const vPortfolio = document.getElementById('view-modelo-portfolio');
   const vEixo = document.getElementById('view-modelo-eixo');
+  const vAreaTematica = document.getElementById('view-modelo-area-tematica');
   const vCenario = document.getElementById('view-cenario-transversalidades');
 
   if (vPlano) vPlano.classList.add('hidden');
   if (vProjeto) vProjeto.classList.add('hidden');
   if (vPrograma) vPrograma.classList.add('hidden');
   if (vEixo) vEixo.classList.add('hidden');
+  if (vAreaTematica) vAreaTematica.classList.add('hidden');
   if (vCenario) vCenario.classList.add('hidden');
   if (vPortfolio) vPortfolio.classList.remove('hidden');
 
@@ -342,12 +377,14 @@ window.openNewProjetoView = function(e) {
   const vPrograma = document.getElementById('view-modelo-programa');
   const vPortfolio = document.getElementById('view-modelo-portfolio');
   const vEixo = document.getElementById('view-modelo-eixo');
+  const vAreaTematica = document.getElementById('view-modelo-area-tematica');
   const vCenario = document.getElementById('view-cenario-transversalidades');
 
   if (vPlano) vPlano.classList.add('hidden');
   if (vPrograma) vPrograma.classList.add('hidden');
   if (vPortfolio) vPortfolio.classList.add('hidden');
   if (vEixo) vEixo.classList.add('hidden');
+  if (vAreaTematica) vAreaTematica.classList.add('hidden');
   if (vCenario) vCenario.classList.add('hidden');
   if (vProjeto) vProjeto.classList.remove('hidden');
 
@@ -375,12 +412,14 @@ window.openProjetoView = function(e) {
   const vPrograma = document.getElementById('view-modelo-programa');
   const vPortfolio = document.getElementById('view-modelo-portfolio');
   const vEixo = document.getElementById('view-modelo-eixo');
+  const vAreaTematica = document.getElementById('view-modelo-area-tematica');
   const vCenario = document.getElementById('view-cenario-transversalidades');
 
   if (vPlano) vPlano.classList.add('hidden');
   if (vPrograma) vPrograma.classList.add('hidden');
   if (vPortfolio) vPortfolio.classList.add('hidden');
   if (vEixo) vEixo.classList.add('hidden');
+  if (vAreaTematica) vAreaTematica.classList.add('hidden');
   if (vCenario) vCenario.classList.add('hidden');
   if (vProjeto) vProjeto.classList.remove('hidden');
 
@@ -399,12 +438,14 @@ window.openPlanoView = function(e) {
   const vPrograma = document.getElementById('view-modelo-programa');
   const vPortfolio = document.getElementById('view-modelo-portfolio');
   const vEixo = document.getElementById('view-modelo-eixo');
+  const vAreaTematica = document.getElementById('view-modelo-area-tematica');
   const vCenario = document.getElementById('view-cenario-transversalidades');
 
   if (vProjeto) vProjeto.classList.add('hidden');
   if (vPrograma) vPrograma.classList.add('hidden');
   if (vPortfolio) vPortfolio.classList.add('hidden');
   if (vEixo) vEixo.classList.add('hidden');
+  if (vAreaTematica) vAreaTematica.classList.add('hidden');
   if (vCenario) vCenario.classList.add('hidden');
   if (vPlano) vPlano.classList.remove('hidden');
 
@@ -702,6 +743,36 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!portModelosAddTrigger.contains(e.target) && !portModelosAddMenu.contains(e.target)) {
         portModelosAddMenu.style.display = 'none';
         if (portNovoSubMenu) portNovoSubMenu.style.display = 'none';
+      }
+    });
+  }
+
+  // Modelos (+) Add Box Menu Toggle na secao MODELOS (Eixo)
+  const eixoModelosAddTrigger = document.getElementById('eixo-modelos-add-box-trigger');
+  const eixoModelosAddMenu = document.getElementById('eixo-modelos-add-menu');
+  if (eixoModelosAddTrigger && eixoModelosAddMenu) {
+    eixoModelosAddTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      eixoModelosAddMenu.style.display = (eixoModelosAddMenu.style.display === 'block') ? 'none' : 'block';
+    });
+    document.addEventListener('click', (e) => {
+      if (!eixoModelosAddTrigger.contains(e.target) && !eixoModelosAddMenu.contains(e.target)) {
+        eixoModelosAddMenu.style.display = 'none';
+      }
+    });
+  }
+
+  // Modelos (+) Add Box Menu Toggle na secao MODELOS (Área Temática)
+  const areaModelosAddTrigger = document.getElementById('area-tematica-modelos-add-box-trigger');
+  const areaModelosAddMenu = document.getElementById('area-tematica-modelos-add-menu');
+  if (areaModelosAddTrigger && areaModelosAddMenu) {
+    areaModelosAddTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      areaModelosAddMenu.style.display = (areaModelosAddMenu.style.display === 'block') ? 'none' : 'block';
+    });
+    document.addEventListener('click', (e) => {
+      if (!areaModelosAddTrigger.contains(e.target) && !areaModelosAddMenu.contains(e.target)) {
+        areaModelosAddMenu.style.display = 'none';
       }
     });
   }
