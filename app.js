@@ -704,17 +704,75 @@ document.addEventListener('DOMContentLoaded', () => {
   // Vínculos (+) Add Box Menu Toggle na secao VÍNCULOS (Programa)
   const vinculosAddTrigger = document.getElementById('vinculos-add-box-trigger');
   const vinculosAddMenu = document.getElementById('vinculos-add-menu');
-  if (vinculosAddTrigger && vinculosAddMenu) {
+  const vinculosTreePopup = document.getElementById('vinculos-tree-popup');
+  if (vinculosAddTrigger) {
     vinculosAddTrigger.addEventListener('click', (e) => {
       e.stopPropagation();
-      vinculosAddMenu.style.display = (vinculosAddMenu.style.display === 'block') ? 'none' : 'block';
+      toggleVinculosTreePopup();
     });
     document.addEventListener('click', (e) => {
-      if (!vinculosAddTrigger.contains(e.target) && !vinculosAddMenu.contains(e.target)) {
-        vinculosAddMenu.style.display = 'none';
+      if (vinculosAddTrigger && vinculosTreePopup && !vinculosAddTrigger.contains(e.target) && !vinculosTreePopup.contains(e.target)) {
+        vinculosTreePopup.style.display = 'none';
       }
     });
   }
+
+window.toggleVinculosTreePopup = function(show) {
+  const popup = document.getElementById('vinculos-tree-popup');
+  const menu = document.getElementById('vinculos-add-menu');
+  if (menu) menu.style.display = 'none';
+  if (popup) {
+    if (typeof show === 'boolean') {
+      popup.style.display = show ? 'block' : 'none';
+    } else {
+      popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
+    }
+  }
+};
+
+window.selectProjetoVinculo = function(element, name) {
+  document.querySelectorAll('#vinculos-tree-popup .selectable-projeto').forEach(el => {
+    el.style.background = 'none';
+    el.style.color = '#475569';
+    el.style.fontWeight = 'normal';
+  });
+  if (element) {
+    element.style.background = '#e0f2fe';
+    element.style.color = '#0369a1';
+    element.style.fontWeight = '600';
+  }
+
+  // Append new item to vinculos-models-list if not present
+  const vinculosList = document.getElementById('vinculos-models-list');
+  if (vinculosList) {
+    const existing = vinculosList.querySelector('.vinculo-added-row');
+    if (!existing) {
+      const row = document.createElement('div');
+      row.className = 'estrutura-model-row vinculo-added-row';
+      row.style.marginBottom = '12px';
+      row.style.cursor = 'pointer';
+      row.innerHTML = `
+        <div class="estrutura-model-left">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>Projeto</span>
+        </div>
+        <div class="estrutura-model-right">
+          <button type="button" class="cost-center-kebab-btn" title="Mais opções" onclick="showToast('Opções do Projeto 119')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
+          </button>
+          <span class="cost-center-id-code">119</span>
+        </div>
+      `;
+      vinculosList.appendChild(row);
+    }
+  }
+
+  setTimeout(() => {
+    toggleVinculosTreePopup(false);
+  }, 250);
+
+  if (typeof showToast === 'function') showToast('Vínculo efetivado com sucesso');
+};
 
   // Modelos (+) Add Box Menu Toggle na secao MODELOS (Portfólio)
   const portModelosAddTrigger = document.getElementById('portfolio-modelos-add-box-trigger');

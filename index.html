@@ -2154,6 +2154,9 @@
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><polyline points="18 15 12 9 6 15"/></svg>
                 </div>
                 <div class="card-body">
+                  <!-- Dynamic Vinculos List -->
+                  <div id="vinculos-models-list"></div>
+
                   <!-- Add Box with Floating Plus Menu (VÍNCULOS) -->
                   <div class="estrutura-add-container">
                     <div class="estrutura-add-box" id="vinculos-add-box-trigger" title="Adicionar vínculo">
@@ -2162,8 +2165,122 @@
 
                     <!-- Floating Dropdown Menu (Vincular) -->
                     <div class="estrutura-add-dropdown" id="vinculos-add-menu" style="display: none;">
-                      <div class="estrutura-menu-item" onclick="showToast('Vincular item...')">
+                      <div class="estrutura-menu-item" onclick="toggleVinculosTreePopup(true)">
                         <span>Vincular</span>
+                      </div>
+                    </div>
+
+                    <!-- Popover Árvore de Seleção de Vínculo -->
+                    <div class="vinculos-tree-modal" id="vinculos-tree-popup" style="display: none; position: absolute; left: 50%; top: calc(100% + 6px); transform: translateX(-50%); background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; box-shadow: 0 8px 30px rgba(0,0,0,0.15); width: 270px; z-index: 1000; padding: 12px 14px;">
+                      <!-- Popover Header with Close Icon -->
+                      <div style="display: flex; align-items: center; justify-content: flex-end; margin-bottom: 4px;">
+                        <button type="button" onclick="toggleVinculosTreePopup(false)" style="background:none; border:none; color:#94a3b8; font-size:16px; cursor:pointer; padding:0; line-height:1;">&times;</button>
+                      </div>
+
+                      <div class="vinculos-tree-container" style="font-size: 13px; color: #475569; display: flex; flex-direction: column; gap: 5px;">
+                        
+                        <!-- Level 1: Portfólio (Desabilitado) -->
+                        <div style="display: flex; align-items: center; gap: 6px; color: #cbd5e1;">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                          <span>Portfólio</span>
+                        </div>
+
+                        <!-- Level 2: Projeto (Selecionável) -->
+                        <div class="vinculo-tree-item selectable-projeto" onclick="selectProjetoVinculo(this, 'Projeto (Portfólio)')" style="display: flex; align-items: center; gap: 6px; padding-left: 18px; color: #475569; cursor: pointer; border-radius: 4px; padding-top: 3px; padding-bottom: 3px;">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                          <span>Projeto</span>
+                        </div>
+
+                        <!-- Level 3: Etapa -->
+                        <div style="display: flex; align-items: center; gap: 6px; padding-left: 36px; color: #004b6e;">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#004b6e" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                          <span>Etapa</span>
+                        </div>
+
+                        <!-- Level 4: Subetapa -->
+                        <div style="display: flex; align-items: center; gap: 6px; padding-left: 54px; color: #004b6e;">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#004b6e" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                          <span>Subetapa</span>
+                        </div>
+
+                        <!-- Level 5: Marco crítico -->
+                        <div style="display: flex; align-items: center; gap: 6px; padding-left: 72px; color: #004b6e;">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#004b6e" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+                          <span>Marco crítico</span>
+                        </div>
+
+                        <!-- Level 5: Entrega -->
+                        <div style="display: flex; align-items: center; gap: 6px; padding-left: 72px; color: #004b6e;">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#004b6e" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                          <span>Entrega</span>
+                        </div>
+
+                        <!-- Level 4: Marco crítico -->
+                        <div style="display: flex; align-items: center; gap: 6px; padding-left: 54px; color: #004b6e;">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#004b6e" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+                          <span>Marco crítico</span>
+                        </div>
+
+                        <!-- Level 4: Entrega -->
+                        <div style="display: flex; align-items: center; gap: 6px; padding-left: 54px; color: #004b6e;">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#004b6e" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                          <span>Entrega</span>
+                        </div>
+
+                        <!-- Level 1: Eixo (Desabilitado) -->
+                        <div style="display: flex; align-items: center; gap: 6px; color: #cbd5e1; margin-top: 4px;">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="2"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="7.5" y1="7.5" x2="10.5" y2="16.5"/><line x1="16.5" y1="7.5" x2="13.5" y2="16.5"/></svg>
+                          <span>Eixo</span>
+                        </div>
+
+                        <!-- Level 2: Área Temática -->
+                        <div style="display: flex; align-items: center; gap: 6px; padding-left: 18px; color: #004b6e;">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#004b6e" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                          <span>Área Temática</span>
+                        </div>
+
+                        <!-- Level 3: Projeto (Selecionável) -->
+                        <div class="vinculo-tree-item selectable-projeto" onclick="selectProjetoVinculo(this, 'Projeto (Área Temática)')" style="display: flex; align-items: center; gap: 6px; padding-left: 36px; color: #475569; cursor: pointer; border-radius: 4px; padding-top: 3px; padding-bottom: 3px;">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                          <span>Projeto</span>
+                        </div>
+
+                        <!-- Level 4: Etapa -->
+                        <div style="display: flex; align-items: center; gap: 6px; padding-left: 54px; color: #004b6e;">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#004b6e" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                          <span>Etapa</span>
+                        </div>
+
+                        <!-- Level 5: Subetapa -->
+                        <div style="display: flex; align-items: center; gap: 6px; padding-left: 72px; color: #004b6e;">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#004b6e" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                          <span>Subetapa</span>
+                        </div>
+
+                        <!-- Level 6: Marco crítico -->
+                        <div style="display: flex; align-items: center; gap: 6px; padding-left: 90px; color: #004b6e;">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#004b6e" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+                          <span>Marco crítico</span>
+                        </div>
+
+                        <!-- Level 6: Entrega -->
+                        <div style="display: flex; align-items: center; gap: 6px; padding-left: 90px; color: #004b6e;">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#004b6e" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                          <span>Entrega</span>
+                        </div>
+
+                        <!-- Level 5: Marco crítico -->
+                        <div style="display: flex; align-items: center; gap: 6px; padding-left: 72px; color: #004b6e;">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#004b6e" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+                          <span>Marco crítico</span>
+                        </div>
+
+                        <!-- Level 5: Entrega -->
+                        <div style="display: flex; align-items: center; gap: 6px; padding-left: 72px; color: #004b6e;">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#004b6e" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                          <span>Entrega</span>
+                        </div>
+
                       </div>
                     </div>
                   </div>
