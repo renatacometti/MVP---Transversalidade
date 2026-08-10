@@ -284,6 +284,13 @@ window.openProgramaView = function(e) {
   if (vPrograma) vPrograma.classList.remove('hidden');
 
   document.querySelectorAll('.sidebar-tree-item').forEach(i => i.classList.remove('active-selected'));
+  const progItem = document.querySelector('.sidebar-tree-item.level-2');
+  if (progItem) progItem.classList.add('active-selected');
+
+  if (vPrograma) {
+    const titleEl = vPrograma.querySelector('.page-title');
+    if (titleEl) titleEl.innerHTML = 'Programa <span style="font-size: 13px; font-weight: normal; color: #64748b;">(Programa)</span>';
+  }
 
   const form = document.getElementById('programa-properties-form');
   if (form) {
@@ -319,6 +326,13 @@ window.openSubprogramaView = function(e) {
   if (vPrograma) vPrograma.classList.remove('hidden');
 
   document.querySelectorAll('.sidebar-tree-item').forEach(i => i.classList.remove('active-selected'));
+  const subItem = document.getElementById('tree-item-subprograma');
+  if (subItem) subItem.classList.add('active-selected');
+
+  if (vPrograma) {
+    const titleEl = vPrograma.querySelector('.page-title');
+    if (titleEl) titleEl.innerHTML = 'Subprograma <span style="font-size: 13px; font-weight: normal; color: #64748b;">(Programa)</span>';
+  }
 
   const form = document.getElementById('programa-properties-form');
   if (form) {
