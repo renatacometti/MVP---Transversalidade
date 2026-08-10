@@ -177,15 +177,15 @@ window.openHomeScenarioView = function(e) {
 
   renderBlueRailIcons();
 
-  // Update sub-sidebar header title and hide dropdown & tree for clean panel
+  // Update sub-sidebar header title and ensure dropdown & tree are displayed
   const subTitle = document.querySelector('.sub-sidebar .sidebar-title');
   if (subTitle) subTitle.innerText = 'Transversalidades';
 
   const dropBox = document.querySelector('.sub-sidebar .sidebar-dropdown-box');
-  if (dropBox) dropBox.style.display = 'none';
+  if (dropBox) dropBox.style.display = 'flex';
 
   const treeSec = document.querySelector('.sub-sidebar .sidebar-tree-section');
-  if (treeSec) treeSec.style.display = 'none';
+  if (treeSec) treeSec.style.display = 'block';
 
   if (typeof showToast === 'function') showToast('Cenário Transversalidades exibido no Tema Azul!');
 };
@@ -508,6 +508,16 @@ window.openModelosEstruturaisView = function(e) {
   if (appContainer) appContainer.classList.remove('blue-theme');
 
   renderPinkRailIcons();
+
+  // Restore sub-sidebar elements
+  const subTitle = document.querySelector('.sub-sidebar .sidebar-title');
+  if (subTitle) subTitle.innerText = 'Modelos de Plano';
+
+  const dropBox = document.querySelector('.sub-sidebar .sidebar-dropdown-box');
+  if (dropBox) dropBox.style.display = 'flex';
+
+  const treeSec = document.querySelector('.sub-sidebar .sidebar-tree-section');
+  if (treeSec) treeSec.style.display = 'block';
 
   if (typeof showToast === 'function') showToast('Abrindo Modelos Estruturais (Propriedades, Estrutura, Centro de Custo, Relatórios)');
 };
