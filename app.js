@@ -265,6 +265,7 @@ window.openAreaTematicaView = function(e) {
 
 window.openProgramaView = function(e) {
   if (e && e.stopPropagation) e.stopPropagation();
+  const vPlanoList = document.getElementById('view-modelo-de-plano-list');
   const vPlano = document.getElementById('view-modelo-de-plano');
   const vProjeto = document.getElementById('view-modelo-projeto');
   const vPrograma = document.getElementById('view-modelo-programa');
@@ -273,6 +274,7 @@ window.openProgramaView = function(e) {
   const vAreaTematica = document.getElementById('view-modelo-area-tematica');
   const vCenario = document.getElementById('view-cenario-transversalidades');
 
+  if (vPlanoList) vPlanoList.classList.add('hidden');
   if (vPlano) vPlano.classList.add('hidden');
   if (vProjeto) vProjeto.classList.add('hidden');
   if (vPortfolio) vPortfolio.classList.add('hidden');
@@ -294,6 +296,41 @@ window.openProgramaView = function(e) {
   }
 
   if (typeof showToast === 'function') showToast('Navegando para Propriedades do Programa (Programa)');
+};
+
+window.openSubprogramaView = function(e) {
+  if (e && e.stopPropagation) e.stopPropagation();
+  const vPlanoList = document.getElementById('view-modelo-de-plano-list');
+  const vPlano = document.getElementById('view-modelo-de-plano');
+  const vProjeto = document.getElementById('view-modelo-projeto');
+  const vPrograma = document.getElementById('view-modelo-programa');
+  const vPortfolio = document.getElementById('view-modelo-portfolio');
+  const vEixo = document.getElementById('view-modelo-eixo');
+  const vAreaTematica = document.getElementById('view-modelo-area-tematica');
+  const vCenario = document.getElementById('view-cenario-transversalidades');
+
+  if (vPlanoList) vPlanoList.classList.add('hidden');
+  if (vPlano) vPlano.classList.add('hidden');
+  if (vProjeto) vProjeto.classList.add('hidden');
+  if (vPortfolio) vPortfolio.classList.add('hidden');
+  if (vEixo) vEixo.classList.add('hidden');
+  if (vAreaTematica) vAreaTematica.classList.add('hidden');
+  if (vCenario) vCenario.classList.add('hidden');
+  if (vPrograma) vPrograma.classList.remove('hidden');
+
+  document.querySelectorAll('.sidebar-tree-item').forEach(i => i.classList.remove('active-selected'));
+
+  const form = document.getElementById('programa-properties-form');
+  if (form) {
+    const inputs = form.querySelectorAll('.form-row-grid input[type="text"]');
+    if (inputs.length >= 3) {
+      inputs[0].value = 'Subprograma';
+      inputs[1].value = 'Subprogramas';
+      inputs[2].value = '2';
+    }
+  }
+
+  if (typeof showToast === 'function') showToast('Navegando para Propriedades do Subprograma (Programa)');
 };
 
 window.openNewProgramaView = function(e) {
