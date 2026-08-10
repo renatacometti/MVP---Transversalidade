@@ -190,6 +190,7 @@ window.openHomeScenarioView = function(e) {
 
 window.openPortfolioView = function(e) {
   if (e && e.stopPropagation) e.stopPropagation();
+  const vPlanoList = document.getElementById('view-modelo-de-plano-list');
   const vPlano = document.getElementById('view-modelo-de-plano');
   const vProjeto = document.getElementById('view-modelo-projeto');
   const vPrograma = document.getElementById('view-modelo-programa');
@@ -198,6 +199,7 @@ window.openPortfolioView = function(e) {
   const vAreaTematica = document.getElementById('view-modelo-area-tematica');
   const vCenario = document.getElementById('view-cenario-transversalidades');
 
+  if (vPlanoList) vPlanoList.classList.add('hidden');
   if (vPlano) vPlano.classList.add('hidden');
   if (vProjeto) vProjeto.classList.add('hidden');
   if (vPrograma) vPrograma.classList.add('hidden');
@@ -433,6 +435,7 @@ window.openProjetoView = function(e) {
 
 window.openPlanoView = function(e) {
   if (e && e.stopPropagation) e.stopPropagation();
+  const vPlanoList = document.getElementById('view-modelo-de-plano-list');
   const vPlano = document.getElementById('view-modelo-de-plano');
   const vProjeto = document.getElementById('view-modelo-projeto');
   const vPrograma = document.getElementById('view-modelo-programa');
@@ -441,13 +444,15 @@ window.openPlanoView = function(e) {
   const vAreaTematica = document.getElementById('view-modelo-area-tematica');
   const vCenario = document.getElementById('view-cenario-transversalidades');
 
+  if (vPlano) vPlano.classList.add('hidden');
   if (vProjeto) vProjeto.classList.add('hidden');
   if (vPrograma) vPrograma.classList.add('hidden');
   if (vPortfolio) vPortfolio.classList.add('hidden');
   if (vEixo) vEixo.classList.add('hidden');
   if (vAreaTematica) vAreaTematica.classList.add('hidden');
   if (vCenario) vCenario.classList.add('hidden');
-  if (vPlano) vPlano.classList.remove('hidden');
+
+  if (vPlanoList) vPlanoList.classList.remove('hidden');
 
   // Remove Blue Theme Mode and restore pink rail icons
   const appContainer = document.querySelector('.app-container');
@@ -473,7 +478,42 @@ window.openPlanoView = function(e) {
   const itemPort = document.getElementById('tree-portfolio-toggle');
   if (itemPort) itemPort.classList.add('active-selected');
 
-  if (typeof showToast === 'function') showToast('Navegando para Modelo de Plano');
+  if (typeof showToast === 'function') showToast('Navegando para Modelos de Plano');
+};
+
+window.openModelosEstruturaisView = function(e) {
+  if (e && e.stopPropagation) e.stopPropagation();
+  const vPlanoList = document.getElementById('view-modelo-de-plano-list');
+  const vPlano = document.getElementById('view-modelo-de-plano');
+  const vProjeto = document.getElementById('view-modelo-projeto');
+  const vPrograma = document.getElementById('view-modelo-programa');
+  const vPortfolio = document.getElementById('view-modelo-portfolio');
+  const vEixo = document.getElementById('view-modelo-eixo');
+  const vAreaTematica = document.getElementById('view-modelo-area-tematica');
+  const vCenario = document.getElementById('view-cenario-transversalidades');
+
+  if (vPlanoList) vPlanoList.classList.add('hidden');
+  if (vProjeto) vProjeto.classList.add('hidden');
+  if (vPrograma) vPrograma.classList.add('hidden');
+  if (vPortfolio) vPortfolio.classList.add('hidden');
+  if (vEixo) vEixo.classList.add('hidden');
+  if (vAreaTematica) vAreaTematica.classList.add('hidden');
+  if (vCenario) vCenario.classList.add('hidden');
+
+  if (vPlano) vPlano.classList.remove('hidden');
+
+  const appContainer = document.querySelector('.app-container');
+  if (appContainer) appContainer.classList.remove('blue-theme');
+
+  renderPinkRailIcons();
+
+  if (typeof showToast === 'function') showToast('Abrindo Modelos Estruturais (Propriedades, Estrutura, Centro de Custo, Relatórios)');
+};
+
+window.openVisoesTransversaisView = function(e) {
+  if (e && e.stopPropagation) e.stopPropagation();
+  if (typeof openHomeScenarioView === 'function') openHomeScenarioView(e);
+  if (typeof showToast === 'function') showToast('Abrindo Visões Transversais (Estrutura de Transversalidade)');
 };
 
 document.addEventListener('DOMContentLoaded', () => {
