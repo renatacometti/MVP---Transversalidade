@@ -308,7 +308,7 @@
             <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 13px; color: #94a3b8;">
               <button class="pagination-btn" style="border:none; background:none; cursor:pointer;" title="Primeira página">&laquo;</button>
               <button class="pagination-btn" style="border:none; background:none; cursor:pointer;" title="Página anterior">&lt;</button>
-              <select style="border: 1px solid #cbd5e1; border-radius: 4px; padding: 2px 8px; font-size: 12px; color: #475569;">
+<select style="border: 1px solid #cbd5e1; border-radius: 4px; padding: 2px 8px; font-size: 12px; color: #475569;">
                 <option selected>1 of 1</option>
               </select>
               <button class="pagination-btn" style="border:none; background:none; cursor:pointer;" title="Próxima página">&gt;</button>
@@ -317,10 +317,10 @@
           </div>
         </div>
 
-        <!-- VIEW 1: MODELOS ESTRUTURAIS (Abas: Propriedades, Estrutura, Centro de Custo, Relatórios) -->
+        <!-- VIEW 1: MODELOS ESTRUTURAIS (Formato Vertical em Cartões conforme o Print) -->
         <div id="view-modelo-de-plano" class="view-container hidden">
           <!-- Page Header with Back Button -->
-          <div class="page-header-row" style="align-items: center;">
+          <div class="page-header-row" style="align-items: center; margin-bottom: 20px;">
             <div style="display: flex; align-items: center; gap: 10px;">
               <button type="button" onclick="openPlanoView()" style="background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; padding: 4px 10px; cursor: pointer; color: #475569; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500;" title="Voltar para Modelos de Plano">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
@@ -331,576 +331,235 @@
             <span class="plan-subtitle-badge">Modelo de Gestão PMO23-26</span>
           </div>
 
-          <!-- Tabbed Navigation Bar (4 Abas: Propriedades, Estrutura, Centro de Custo, Relatórios) -->
-          <nav class="tabs-navigation" aria-label="Abas dos Modelos Estruturais">
-            <button class="tab-btn active" data-tab="propriedades">
-              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-              <span>Propriedades</span>
-            </button>
+          <form id="properties-form">
 
-            <button class="tab-btn" data-tab="estrutura">
-              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><path d="M10 6h4M7 10v7h7" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-              <span>Estrutura</span>
-              <span class="tab-badge">3</span>
-            </button>
-
-            <button class="tab-btn" data-tab="centro-custo">
-              <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-              <span>Centro de Custo</span>
-            </button>
-
-            <button class="tab-btn" data-tab="relatorios">
-              <svg viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
-              <span>Relatórios</span>
-              <span class="tab-badge">4</span>
-            </button>
-          </nav>
-
-          <!-- ==================== TAB 1: PROPRIEDADES (ORIGINAL) ==================== -->
-          <div class="tab-content-panel active" id="tab-propriedades">
-            <form id="properties-form">
-              <div class="card-section">
-                <div class="card-header">
-                  <span class="card-header-title">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                    PROPRIEDADES
-                  </span>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+            <!-- Card 1: PROPRIEDADES -->
+            <div class="card-section" style="margin-bottom: 16px;">
+              <div class="card-header">
+                <span class="card-header-title">PROPRIEDADES</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="cursor:pointer;"><polyline points="18 15 12 9 6 15"/></svg>
+              </div>
+              <div class="card-body">
+                <div class="form-group" style="margin-bottom: 14px;">
+                  <label class="form-label" style="font-size: 12px; color: #64748b;">
+                    Nome <span class="required" style="color:#ef4444;">*</span> <span class="help-icon">?</span>
+                  </label>
+                  <input type="text" class="form-input form-input-line" value="Modelo de Gestão PMO23-26" required>
                 </div>
-                <div class="card-body">
-                  <div class="form-group">
-                    <label class="form-label">
-                      Nome <span class="required">*</span>
-                      <span class="help-icon" title="Nome identificador curto do modelo de plano">?</span>
-                    </label>
-                    <input type="text" class="form-input form-input-line" value="Modelo de Gestão PMO23-26" required>
+
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label class="form-label" style="font-size: 12px; color: #64748b;">
+                    Nome completo <span class="required" style="color:#ef4444;">*</span> <span class="help-icon">?</span>
+                  </label>
+                  <input type="text" class="form-input form-input-line" value="Modelo de Gestão PMO23-26" required>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2: MODELOS -->
+            <div class="card-section" style="margin-bottom: 16px; position: relative;">
+              <div class="card-header">
+                <span class="card-header-title">MODELOS</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="cursor:pointer;"><polyline points="18 15 12 9 6 15"/></svg>
+              </div>
+              <div class="card-body">
+                <div id="estrutura-models-list">
+                  <div class="estrutura-model-row" onclick="openPortfolioView(event)" style="cursor: pointer;" title="Abrir Portfólio (Organizador)">
+                    <div class="estrutura-model-left">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                      <span>Portfólio</span>
+                    </div>
+                    <div class="estrutura-model-right">
+                      <button type="button" class="cost-center-kebab-btn" title="Mais opções" onclick="event.stopPropagation(); showToast('Opções do Portfólio 105')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
+                      </button>
+                      <span class="cost-center-id-code">105</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Add Box with Floating Plus Menu -->
+                <div class="estrutura-add-container">
+                  <div class="estrutura-add-box" id="estrutura-add-box-trigger" title="Adicionar modelo">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                   </div>
 
-                  <div class="form-group">
-                    <label class="form-label">
-                      Nome completo <span class="required">*</span>
-                      <span class="help-icon" title="Nome oficial completo registrado para este plano">?</span>
-                    </label>
-                    <input type="text" class="form-input form-input-line" value="Modelo de Gestão PMO23-26" required>
+                  <div class="estrutura-add-dropdown" id="estrutura-add-menu" style="display: none;">
+                    <div class="estrutura-menu-item" onclick="openNewPortfolioView(event)">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                      <span>Portfólio</span>
+                    </div>
+                    <div class="estrutura-menu-item" onclick="openNewProgramaView(event)">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                      <span>Programa</span>
+                    </div>
+                    <div class="estrutura-menu-item" onclick="openNewProjetoView(event)">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                      <span>Projeto</span>
+                    </div>
+                    <div class="estrutura-menu-item" onclick="openNewPortfolioView(event)">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                      <span>Organizador</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Pagination Toolbar -->
+                <div class="estrutura-pagination">
+                  <button class="pagination-btn" style="border:none; background:none; cursor:pointer;" title="Primeira página">&laquo;</button>
+                  <button class="pagination-btn" style="border:none; background:none; cursor:pointer;" title="Página anterior">&lt;</button>
+                  <select class="pagination-page-select">
+                    <option selected>1 of 1</option>
+                  </select>
+                  <button class="pagination-btn" style="border:none; background:none; cursor:pointer;" title="Próxima página">&gt;</button>
+                  <button class="pagination-btn" style="border:none; background:none; cursor:pointer;" title="Última página">&raquo;</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3: MODELO DE CENTRO DE CUSTO -->
+            <div class="card-section" style="margin-bottom: 16px;">
+              <div class="card-header">
+                <span class="card-header-title">MODELO DE CENTRO DE CUSTO</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="cursor:pointer;"><polyline points="18 15 12 9 6 15"/></svg>
+              </div>
+              <div class="card-body">
+                <div class="cost-center-card-row">
+                  <div class="cost-center-left">
+                    <span class="cost-center-dollar-icon">$</span>
+                    <span class="cost-center-title">Modelo</span>
+                  </div>
+                  <div class="cost-center-right">
+                    <button type="button" class="cost-center-kebab-btn" title="Mais opções" onclick="showToast('Opções do Modelo de Centro de Custo 56888')">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
+                    </button>
+                    <span class="cost-center-id-code">56888</span>
                   </div>
                 </div>
               </div>
+            </div>
 
-              <!-- Card Compartilhamento -->
-              <div class="card-section">
-                <div class="card-header">
-                  <span class="card-header-title">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-                    COMPARTILHAMENTO
-                  </span>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
-                </div>
-                <div class="card-body">
-                  <div class="form-group">
-                    <label class="form-label" style="font-style: italic; color: #5a6e7d; font-size: 13px; font-weight: normal; margin-bottom: 2px;">
-                      Escritórios
-                      <span class="help-icon" title="Unidades organizacionais com acesso a este modelo">?</span>
-                    </label>
-
-                    <!-- Multiselect Dropdown Container -->
-                    <div class="multiselect-container" id="multiselect-escritorios">
-                      <div class="multiselect-trigger" id="multiselect-trigger">
-                        <div class="multiselect-selected-chips" id="selected-chips">
-                          <span class="chip-pill" data-value="Todos">
-                            Todos
-                            <span class="chip-pill-remove" title="Remover">&times;</span>
-                          </span>
-                        </div>
-                        <div class="multiselect-arrow">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-                        </div>
+            <!-- Card 4: COMPARTILHAMENTO -->
+            <div class="card-section" style="margin-bottom: 16px;">
+              <div class="card-header">
+                <span class="card-header-title">COMPARTILHAMENTO</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="cursor:pointer;"><polyline points="18 15 12 9 6 15"/></svg>
+              </div>
+              <div class="card-body">
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label class="form-label" style="font-size: 12px; color: #64748b;">
+                    Escritórios <span class="help-icon">?</span>
+                  </label>
+                  <div class="multiselect-container" id="multiselect-escritorios">
+                    <div class="multiselect-trigger" id="multiselect-trigger">
+                      <div class="multiselect-selected-chips" id="selected-chips">
+                        <span class="chip-pill" data-value="Todos">
+                          Todos
+                          <span class="chip-pill-remove" title="Remover">&times;</span>
+                        </span>
                       </div>
-
-                      <!-- Dropdown Box (Contendo os valores copiados do print) -->
-                      <div class="multiselect-dropdown" id="multiselect-dropdown">
-                        <div class="multiselect-search-row">
-                          <div class="search-input-wrapper">
-                            <input type="text" class="multiselect-search-input" id="multiselect-search" placeholder="">
-                            <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                          </div>
-                          <button type="button" class="multiselect-close-btn" id="multiselect-close" title="Fechar">&times;</button>
-                        </div>
-
-                        <div class="multiselect-options-list" id="multiselect-options">
-                          <div class="multiselect-option selected" data-value="Todos">
-                            <div class="custom-checkbox">
-                              <svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg>
-                            </div>
-                            <span>Todos</span>
-                          </div>
-
-                          <div class="multiselect-option" data-value="APEES">
-                            <div class="custom-checkbox">
-                              <svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg>
-                            </div>
-                            <span>APEES</span>
-                          </div>
-
-                          <div class="multiselect-option" data-value="CESAN">
-                            <div class="custom-checkbox">
-                              <svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg>
-                            </div>
-                            <span>CESAN</span>
-                          </div>
-
-                          <div class="multiselect-option" data-value="DIO/ES">
-                            <div class="custom-checkbox">
-                              <svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg>
-                            </div>
-                            <span>DIO/ES</span>
-                          </div>
-
-                          <div class="multiselect-option" data-value="IJSN">
-                            <div class="custom-checkbox">
-                              <svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg>
-                            </div>
-                            <span>IJSN</span>
-                          </div>
-
-                          <div class="multiselect-option" data-value="PMO-ES">
-                            <div class="custom-checkbox">
-                              <svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg>
-                            </div>
-                            <span>PMO-ES</span>
-                          </div>
-
-                          <div class="multiselect-option" data-value="SEGER">
-                            <div class="custom-checkbox">
-                              <svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg>
-                            </div>
-                            <span>SEGER</span>
-                          </div>
-
-                          <div class="multiselect-option" data-value="SESA">
-                            <div class="custom-checkbox">
-                              <svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg>
-                            </div>
-                            <span>SESA</span>
-                          </div>
-                        </div>
+                      <div class="multiselect-arrow">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
                       </div>
                     </div>
 
+                    <!-- Dropdown Options -->
+                    <div class="multiselect-dropdown" id="multiselect-dropdown">
+                      <div class="multiselect-search-row">
+                        <div class="search-input-wrapper">
+                          <input type="text" class="multiselect-search-input" id="multiselect-search" placeholder="">
+                          <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        </div>
+                        <button type="button" class="multiselect-close-btn" id="multiselect-close" title="Fechar">&times;</button>
+                      </div>
+
+                      <div class="multiselect-options-list" id="multiselect-options">
+                        <div class="multiselect-option selected" data-value="Todos">
+                          <div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>
+                          <span>Todos</span>
+                        </div>
+                        <div class="multiselect-option" data-value="APEES">
+                          <div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>
+                          <span>APEES</span>
+                        </div>
+                        <div class="multiselect-option" data-value="CESAN">
+                          <div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>
+                          <span>CESAN</span>
+                        </div>
+                        <div class="multiselect-option" data-value="DIO/ES">
+                          <div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>
+                          <span>DIO/ES</span>
+                        </div>
+                        <div class="multiselect-option" data-value="IJSN">
+                          <div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>
+                          <span>IJSN</span>
+                        </div>
+                        <div class="multiselect-option" data-value="PMO-ES">
+                          <div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>
+                          <span>PMO-ES</span>
+                        </div>
+                        <div class="multiselect-option" data-value="SEGER">
+                          <div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>
+                          <span>SEGER</span>
+                        </div>
+                        <div class="multiselect-option" data-value="SESA">
+                          <div class="custom-checkbox"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></div>
+                          <span>SESA</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-
-              <!-- Footer Save & Undo Actions -->
-              <div class="actions-footer">
-                <button type="submit" class="btn-salvar">Salvar</button>
-                <button type="button" class="btn-desfazer" onclick="showToast('Alterações desfeitas.')">
-                  <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                  Desfazer
-                </button>
-              </div>
-            </form>
-          </div>
-
-        <!-- ==================== TAB 2: ESTRUTURA ==================== -->
-        <div class="tab-content-panel" id="tab-estrutura">
-          <div class="card-section">
-            <div class="card-header">
-              <span class="card-header-title">
-                MODELOS
-              </span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><polyline points="18 15 12 9 6 15"/></svg>
             </div>
-            <div class="card-body">
-              
-              <div id="estrutura-models-list">
-                <!-- First Model Row: Portfólio 105 -->
-                <div class="estrutura-model-row" onclick="openPortfolioView(event)" style="cursor: pointer;" title="Abrir Portfólio (Organizador)">
-                  <div class="estrutura-model-left">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-                    <span>Portfólio</span>
+
+            <!-- Card 5: MODELOS DE RELATÓRIOS -->
+            <div class="card-section" style="margin-bottom: 16px;">
+              <div class="card-header">
+                <span class="card-header-title">MODELOS DE RELATÓRIOS</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="cursor:pointer;"><polyline points="18 15 12 9 6 15"/></svg>
+              </div>
+              <div class="card-body">
+                <div class="report-models-list">
+                  <div class="report-model-row" style="margin-bottom: 8px;">
+                    <div class="report-model-left">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                      <span>Relação de Processos</span>
+                    </div>
+                    <div class="report-model-right">
+                      <button type="button" class="report-delete-btn" title="Excluir" onclick="showToast('Modelo 20831 removido.')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                      </button>
+                      <span class="report-id-code">20831</span>
+                    </div>
                   </div>
-                  <div class="estrutura-model-right">
-                    <button class="cost-center-kebab-btn" title="Mais opções" onclick="showToast('Opções do Portfólio 105')">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
-                    </button>
-                    <span class="cost-center-id-code">105</span>
+
+                  <div class="report-model-row">
+                    <div class="report-model-left">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                      <span>Entregas e Marcos Crítico</span>
+                    </div>
+                    <div class="report-model-right">
+                      <button type="button" class="report-delete-btn" title="Excluir" onclick="showToast('Modelo 58325 removido.')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                      </button>
+                      <span class="report-id-code">58325</span>
+                    </div>
                   </div>
                 </div>
               </div>
-
-              <!-- Add Box with Floating Plus Menu -->
-              <div class="estrutura-add-container">
-                <div class="estrutura-add-box" id="estrutura-add-box-trigger" title="Adicionar modelo">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                </div>
-
-                <!-- Floating Dropdown Menu -->
-                <div class="estrutura-add-dropdown" id="estrutura-add-menu">
-                  <div class="estrutura-menu-item" onclick="openNewPortfolioView(event)">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-                    <span>Portfólio</span>
-                  </div>
-                  <div class="estrutura-menu-item" onclick="openNewProgramaView(event)">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                    <span>Programa</span>
-                  </div>
-                  <div class="estrutura-menu-item" onclick="openNewProjetoView(event)">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                    <span>Projeto</span>
-                  </div>
-                  <div class="estrutura-menu-item" onclick="openNewPortfolioView(event)">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
-                    <span>Organizador</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Pagination Toolbar -->
-              <div class="estrutura-pagination">
-                <button class="pagination-btn" title="Primeira página">&laquo;</button>
-                <button class="pagination-btn" title="Página anterior">&lt;</button>
-                <select class="pagination-page-select">
-                  <option selected>1 of 1</option>
-                </select>
-                <button class="pagination-btn" title="Próxima página">&gt;</button>
-                <button class="pagination-btn" title="Última página">&raquo;</button>
-              </div>
-
-              <!-- Action Footer -->
-              <div class="actions-footer">
-                <button type="button" class="btn-salvar" onclick="showToast('Estrutura salva com sucesso!')">Salvar</button>
-                <button type="button" class="btn-desfazer" onclick="showToast('Alterações na estrutura desfeitas.')">
-                  <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                  Desfazer
-                </button>
-              </div>
-
             </div>
-          </div>
-        </div>
 
-        <!-- ==================== TAB 3: CENTRO DE CUSTO ==================== -->
-        <div class="tab-content-panel" id="tab-centro-custo">
-          
-          <!-- Card: MODELO DE CENTRO DE CUSTO -->
-          <div class="card-section">
-            <div class="card-header">
-              <span class="card-header-title">
-                MODELO DE CENTRO DE CUSTO
-              </span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><polyline points="18 15 12 9 6 15"/></svg>
+            <!-- Footer Save & Undo Actions -->
+            <div class="actions-footer" style="margin-top: 20px;">
+              <button type="submit" class="btn-salvar">Salvar</button>
+              <button type="button" class="btn-desfazer" onclick="showToast('Alterações desfeitas.')">
+                <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                Desfazer
+              </button>
             </div>
-            <div class="card-body">
-              
-              <div class="cost-center-card-row">
-                <div class="cost-center-left">
-                  <span class="cost-center-dollar-icon">$</span>
-                  <span class="cost-center-title">Modelo</span>
-                </div>
-                <div class="cost-center-right">
-                  <button class="cost-center-kebab-btn" title="Mais opções" onclick="showToast('Opções do Modelo de Centro de Custo 56888')">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
-                  </button>
-                  <span class="cost-center-id-code">56888</span>
-                </div>
-              </div>
 
-              <!-- Action Footer -->
-              <div class="actions-footer">
-                <button type="button" class="btn-salvar" onclick="showToast('Modelo de Centro de Custo salvo com sucesso!')">Salvar</button>
-                <button type="button" class="btn-desfazer" onclick="showToast('Alterações no Centro de Custo desfeitas.')">
-                  <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                  Desfazer
-                </button>
-              </div>
-
-            </div>
-          </div>
-
-        </div>
-
-        <!-- ==================== TAB 4: TRANSVERSALIDADE ==================== -->
-        <div class="tab-content-panel" id="tab-transversalidade">
-          
-          <!-- Card: VISÃO -->
-          <div class="card-section">
-            <div class="card-header">
-              <span class="card-header-title">
-                VISÃO
-              </span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><polyline points="18 15 12 9 6 15"/></svg>
-            </div>
-            <div class="card-body">
-              
-              <!-- Lista de Itens Cadastrados em Transversalidade -->
-              <div id="transversalidade-items-list">
-                <!-- Item Row: Programa 105 -->
-                <div class="estrutura-model-row" onclick="openProgramaView(event)" style="cursor: pointer;" title="Abrir Programa (Programa)">
-                  <div class="estrutura-model-left">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                    <span>Programa</span>
-                  </div>
-                  <div class="estrutura-model-right">
-                    <button class="cost-center-kebab-btn" title="Mais opções" onclick="showToast('Opções do Programa 105')">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
-                    </button>
-                    <span class="cost-center-id-code">105</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Add Box with Floating Plus Menu -->
-              <div class="estrutura-add-container">
-                <div class="estrutura-add-box" id="tags-add-box-trigger" title="Adicionar tag">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                </div>
-
-                <!-- Floating Dropdown Menu (Apenas Programa e Organizador para Transversalidade) -->
-                <div class="estrutura-add-dropdown" id="tags-add-menu">
-                  <div class="estrutura-menu-item" style="background:#f1f5f9; color:#004b6e;" onclick="openNewProgramaView(event)">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                    <span>Programa</span>
-                  </div>
-                  <div class="estrutura-menu-item" onclick="showToast('Criar Organizador...')">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
-                    <span>Organizador</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Pagination Toolbar -->
-              <div class="estrutura-pagination">
-                <button class="pagination-btn" title="Primeira página">&laquo;</button>
-                <button class="pagination-btn" title="Página anterior">&lt;</button>
-                <select class="pagination-page-select">
-                  <option selected>1 of 1</option>
-                </select>
-                <button class="pagination-btn" title="Próxima página">&gt;</button>
-                <button class="pagination-btn" title="Última página">&raquo;</button>
-              </div>
-
-              <!-- Action Footer -->
-              <div class="actions-footer">
-                <button type="button" class="btn-salvar" onclick="showToast('Tags salvas com sucesso!')">Salvar</button>
-                <button type="button" class="btn-desfazer" onclick="showToast('Alterações de Tags desfeitas.')">
-                  <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                  Desfazer
-                </button>
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-        <!-- ==================== TAB 5: RELATÓRIOS ==================== -->
-        <div class="tab-content-panel" id="tab-relatorios">
-          <div class="card-section">
-            <div class="card-header">
-              <span class="card-header-title">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                MODELOS DE RELATÓRIOS
-              </span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><polyline points="18 15 12 9 6 15"/></svg>
-            </div>
-            <div class="card-body">
-              
-              <div class="report-models-list">
-                
-                <!-- 1 -->
-                <div class="report-model-row">
-                  <div class="report-model-left">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                    <span>Relação de Processos</span>
-                  </div>
-                  <div class="report-model-right">
-                    <button class="report-delete-btn" title="Excluir" onclick="showToast('Modelo 20831 removido.')">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                    </button>
-                    <span class="report-id-code">20831</span>
-                  </div>
-                </div>
-
-                <!-- 2 -->
-                <div class="report-model-row">
-                  <div class="report-model-left">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                    <span>Entregas e Marcos Crítico</span>
-                  </div>
-                  <div class="report-model-right">
-                    <button class="report-delete-btn" title="Excluir" onclick="showToast('Modelo 58325 removido.')">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                    </button>
-                    <span class="report-id-code">58325</span>
-                  </div>
-                </div>
-
-                <!-- 3 -->
-                <div class="report-model-row">
-                  <div class="report-model-left">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                    <span>Projetos e Entreas</span>
-                  </div>
-                  <div class="report-model-right">
-                    <button class="report-delete-btn" title="Excluir" onclick="showToast('Modelo 85060 removido.')">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                    </button>
-                    <span class="report-id-code">85060</span>
-                  </div>
-                </div>
-
-                <!-- 4 -->
-                <div class="report-model-row">
-                  <div class="report-model-left">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                    <span>Estado Presente</span>
-                  </div>
-                  <div class="report-model-right">
-                    <button class="report-delete-btn" title="Excluir" onclick="showToast('Modelo 95569 removido.')">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                    </button>
-                    <span class="report-id-code">95569</span>
-                  </div>
-                </div>
-
-                <!-- 5 -->
-                <div class="report-model-row">
-                  <div class="report-model-left">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                    <span>'Projetos - Linha de Base</span>
-                  </div>
-                  <div class="report-model-right">
-                    <button class="report-delete-btn" title="Excluir" onclick="showToast('Modelo 100050 removido.')">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                    </button>
-                    <span class="report-id-code">100050</span>
-                  </div>
-                </div>
-
-                <!-- 6 -->
-                <div class="report-model-row">
-                  <div class="report-model-left">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                    <span>Projetos - Riscos</span>
-                  </div>
-                  <div class="report-model-right">
-                    <button class="report-delete-btn" title="Excluir" onclick="showToast('Modelo 100053 removido.')">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                    </button>
-                    <span class="report-id-code">100053</span>
-                  </div>
-                </div>
-
-                <!-- 7 -->
-                <div class="report-model-row">
-                  <div class="report-model-left">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                    <span>Marco Crítico atrasado</span>
-                  </div>
-                  <div class="report-model-right">
-                    <button class="report-delete-btn" title="Excluir" onclick="showToast('Modelo 110255 removido.')">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                    </button>
-                    <span class="report-id-code">110255</span>
-                  </div>
-                </div>
-
-                <!-- 8 -->
-                <div class="report-model-row">
-                  <div class="report-model-left">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                    <span>Entregas sem contagem PE</span>
-                  </div>
-                  <div class="report-model-right">
-                    <button class="report-delete-btn" title="Excluir" onclick="showToast('Modelo 110298 removido.')">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                    </button>
-                    <span class="report-id-code">110298</span>
-                  </div>
-                </div>
-
-                <!-- 9 -->
-                <div class="report-model-row">
-                  <div class="report-model-left">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                    <span>Projetos Concluídos</span>
-                  </div>
-                  <div class="report-model-right">
-                    <button class="report-delete-btn" title="Excluir" onclick="showToast('Modelo 110385 removido.')">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                    </button>
-                    <span class="report-id-code">110385</span>
-                  </div>
-                </div>
-
-                <!-- 10 -->
-                <div class="report-model-row">
-                  <div class="report-model-left">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                    <span>Projetos Transversais</span>
-                  </div>
-                  <div class="report-model-right">
-                    <button class="report-delete-btn" title="Excluir" onclick="showToast('Modelo 110704 removido.')">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                    </button>
-                    <span class="report-id-code">110704</span>
-                  </div>
-                </div>
-
-                <!-- 11 -->
-                <div class="report-model-row">
-                  <div class="report-model-left">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                    <span>ENTREGAS MÊS</span>
-                  </div>
-                  <div class="report-model-right">
-                    <button class="report-delete-btn" title="Excluir" onclick="showToast('Modelo 116038 removido.')">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                    </button>
-                    <span class="report-id-code">116038</span>
-                  </div>
-                </div>
-
-                <!-- 12 -->
-                <div class="report-model-row">
-                  <div class="report-model-left">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                    <span>Relatório Entregas PO</span>
-                  </div>
-                  <div class="report-model-right">
-                    <button class="report-delete-btn" title="Excluir" onclick="showToast('Modelo 121843 removido.')">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                    </button>
-                    <span class="report-id-code">121843</span>
-                  </div>
-                </div>
-
-                <!-- 13 -->
-                <div class="report-model-row">
-                  <div class="report-model-left">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                    <span>Entregas sem cronograma</span>
-                  </div>
-                  <div class="report-model-right">
-                    <button class="report-delete-btn" title="Excluir" onclick="showToast('Modelo 126213 removido.')">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                    </button>
-                    <span class="report-id-code">126213</span>
-                  </div>
-                </div>
-
-              </div>
-
-              <!-- Action Footer (Salvar / Desfazer) -->
-              <div class="actions-footer">
-                <button type="button" class="btn-salvar" onclick="showToast('Modelos de Relatórios salvos com sucesso!')">Salvar</button>
-                <button type="button" class="btn-desfazer" onclick="showToast('Alterações nos Relatórios desfeitas.')">
-                  <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                  Desfazer
-                </button>
-              </div>
-
-            </div>
-          </div>
+          </form>
         </div>
       </div>
       <!-- FIM VIEW 1: MODELO DE PLANO -->
