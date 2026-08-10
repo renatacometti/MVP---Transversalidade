@@ -153,6 +153,7 @@ window.syncDominioOptions = function() {
 // Global helper functions for View Switching (disponíveis imediatamente para eventos inline)
 window.openHomeScenarioView = function(e) {
   if (e && e.stopPropagation) e.stopPropagation();
+  const vPlanoList = document.getElementById('view-modelo-de-plano-list');
   const vPlano = document.getElementById('view-modelo-de-plano');
   const vProjeto = document.getElementById('view-modelo-projeto');
   const vPrograma = document.getElementById('view-modelo-programa');
@@ -161,6 +162,7 @@ window.openHomeScenarioView = function(e) {
   const vAreaTematica = document.getElementById('view-modelo-area-tematica');
   const vCenario = document.getElementById('view-cenario-transversalidades');
 
+  if (vPlanoList) vPlanoList.classList.add('hidden');
   if (vPlano) vPlano.classList.add('hidden');
   if (vProjeto) vProjeto.classList.add('hidden');
   if (vPrograma) vPrograma.classList.add('hidden');
