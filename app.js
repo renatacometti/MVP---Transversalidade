@@ -87,27 +87,39 @@ window.renderBlueRailIcons = function() {
     </button>
   `;
 
-  // Render dynamic book icons (1 initial + 1 for each extra item)
-  const itemsList = document.getElementById('transversalidade-items-list');
-  if (itemsList) {
-    const spans = itemsList.querySelectorAll('.estrutura-model-left span');
-    spans.forEach((s, index) => {
-      const title = s.innerText.trim();
-      if (!title) return;
-
-      const btn = document.createElement('button');
-      btn.className = 'rail-btn dynamic-transversal-btn' + (index === 0 ? ' active' : '');
-      btn.title = `Transversalidade: ${title}`;
-      btn.onclick = function(e) { openHomeScenarioView(e); };
-      btn.innerHTML = `
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-        </svg>
-      `;
-      railContainer.appendChild(btn);
+  // Render dynamic book icons for each program in Visões Transversais
+  const visoesView = document.getElementById('view-visoes-transversais');
+  let progNames = [];
+  if (visoesView) {
+    const spans = visoesView.querySelectorAll('.card-section .estrutura-model-row .estrutura-model-left span');
+    spans.forEach(s => {
+      const txt = s.innerText.trim();
+      if (txt && !progNames.includes(txt)) progNames.push(txt);
     });
   }
+
+  // Default fallback programs if empty
+  if (progNames.length === 0) {
+    progNames = ['Programa', 'Programa 2'];
+  }
+
+  progNames.forEach((name, index) => {
+    const btn = document.createElement('button');
+    btn.className = 'rail-btn dynamic-transversal-btn' + (index === 0 ? ' active' : '');
+    btn.title = name;
+    btn.onclick = function(e) {
+      document.querySelectorAll('.dynamic-transversal-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      openHomeScenarioView(e);
+    };
+    btn.innerHTML = `
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+      </svg>
+    `;
+    railContainer.appendChild(btn);
+  });
 };
 
 window.syncTransversalRailIcons = function() {
@@ -161,6 +173,7 @@ window.openHomeScenarioView = function(e) {
   const vEixo = document.getElementById('view-modelo-eixo');
   const vAreaTematica = document.getElementById('view-modelo-area-tematica');
   const vCenario = document.getElementById('view-cenario-transversalidades');
+  const vVisoes = document.getElementById('view-visoes-transversais');
 
   if (vPlanoList) vPlanoList.classList.add('hidden');
   if (vPlano) vPlano.classList.add('hidden');
@@ -169,6 +182,7 @@ window.openHomeScenarioView = function(e) {
   if (vPortfolio) vPortfolio.classList.add('hidden');
   if (vEixo) vEixo.classList.add('hidden');
   if (vAreaTematica) vAreaTematica.classList.add('hidden');
+  if (vVisoes) vVisoes.classList.add('hidden');
   if (vCenario) vCenario.classList.remove('hidden');
 
   // Activate Blue Theme Mode on app container and render blue rail icons
@@ -177,15 +191,15 @@ window.openHomeScenarioView = function(e) {
 
   renderBlueRailIcons();
 
-  // Update sub-sidebar header title and ensure dropdown & tree are displayed
+  // Update sub-sidebar header title and hide dropdown & tree for clean panel matching print
   const subTitle = document.querySelector('.sub-sidebar .sidebar-title');
   if (subTitle) subTitle.innerText = 'Transversalidades';
 
   const dropBox = document.querySelector('.sub-sidebar .sidebar-dropdown-box');
-  if (dropBox) dropBox.style.display = 'flex';
+  if (dropBox) dropBox.style.display = 'none';
 
   const treeSec = document.querySelector('.sub-sidebar .sidebar-tree-section');
-  if (treeSec) treeSec.style.display = 'block';
+  if (treeSec) treeSec.style.display = 'none';
 
   if (typeof showToast === 'function') showToast('Cenário Transversalidades exibido no Tema Azul!');
 };
@@ -200,6 +214,7 @@ window.openPortfolioView = function(e) {
   const vEixo = document.getElementById('view-modelo-eixo');
   const vAreaTematica = document.getElementById('view-modelo-area-tematica');
   const vCenario = document.getElementById('view-cenario-transversalidades');
+  const vVisoes = document.getElementById('view-visoes-transversais');
 
   if (vPlanoList) vPlanoList.classList.add('hidden');
   if (vPlano) vPlano.classList.add('hidden');
@@ -208,6 +223,7 @@ window.openPortfolioView = function(e) {
   if (vEixo) vEixo.classList.add('hidden');
   if (vAreaTematica) vAreaTematica.classList.add('hidden');
   if (vCenario) vCenario.classList.add('hidden');
+  if (vVisoes) vVisoes.classList.add('hidden');
   if (vPortfolio) vPortfolio.classList.remove('hidden');
 
   document.querySelectorAll('.sidebar-tree-item').forEach(i => i.classList.remove('active-selected'));
@@ -219,6 +235,7 @@ window.openPortfolioView = function(e) {
 
 window.openEixoView = function(e) {
   if (e && e.stopPropagation) e.stopPropagation();
+  const vPlanoList = document.getElementById('view-modelo-de-plano-list');
   const vPlano = document.getElementById('view-modelo-de-plano');
   const vProjeto = document.getElementById('view-modelo-projeto');
   const vPrograma = document.getElementById('view-modelo-programa');
@@ -226,13 +243,16 @@ window.openEixoView = function(e) {
   const vEixo = document.getElementById('view-modelo-eixo');
   const vAreaTematica = document.getElementById('view-modelo-area-tematica');
   const vCenario = document.getElementById('view-cenario-transversalidades');
+  const vVisoes = document.getElementById('view-visoes-transversais');
 
+  if (vPlanoList) vPlanoList.classList.add('hidden');
   if (vPlano) vPlano.classList.add('hidden');
   if (vProjeto) vProjeto.classList.add('hidden');
   if (vPrograma) vPrograma.classList.add('hidden');
   if (vPortfolio) vPortfolio.classList.add('hidden');
   if (vAreaTematica) vAreaTematica.classList.add('hidden');
   if (vCenario) vCenario.classList.add('hidden');
+  if (vVisoes) vVisoes.classList.add('hidden');
   if (vEixo) vEixo.classList.remove('hidden');
 
   document.querySelectorAll('.sidebar-tree-item').forEach(i => i.classList.remove('active-selected'));
@@ -242,6 +262,7 @@ window.openEixoView = function(e) {
 
 window.openAreaTematicaView = function(e) {
   if (e && e.stopPropagation) e.stopPropagation();
+  const vPlanoList = document.getElementById('view-modelo-de-plano-list');
   const vPlano = document.getElementById('view-modelo-de-plano');
   const vProjeto = document.getElementById('view-modelo-projeto');
   const vPrograma = document.getElementById('view-modelo-programa');
@@ -249,13 +270,16 @@ window.openAreaTematicaView = function(e) {
   const vEixo = document.getElementById('view-modelo-eixo');
   const vAreaTematica = document.getElementById('view-modelo-area-tematica');
   const vCenario = document.getElementById('view-cenario-transversalidades');
+  const vVisoes = document.getElementById('view-visoes-transversais');
 
+  if (vPlanoList) vPlanoList.classList.add('hidden');
   if (vPlano) vPlano.classList.add('hidden');
   if (vProjeto) vProjeto.classList.add('hidden');
   if (vPrograma) vPrograma.classList.add('hidden');
   if (vPortfolio) vPortfolio.classList.add('hidden');
   if (vEixo) vEixo.classList.add('hidden');
   if (vCenario) vCenario.classList.add('hidden');
+  if (vVisoes) vVisoes.classList.add('hidden');
   if (vAreaTematica) vAreaTematica.classList.remove('hidden');
 
   document.querySelectorAll('.sidebar-tree-item').forEach(i => i.classList.remove('active-selected'));
@@ -263,7 +287,7 @@ window.openAreaTematicaView = function(e) {
   if (typeof showToast === 'function') showToast('Navegando para Propriedades de Área Temática (Organizador)');
 };
 
-window.openProgramaView = function(e) {
+window.openProgramaView = function(e, customName) {
   if (e && e.stopPropagation) e.stopPropagation();
   const vPlanoList = document.getElementById('view-modelo-de-plano-list');
   const vPlano = document.getElementById('view-modelo-de-plano');
@@ -273,6 +297,7 @@ window.openProgramaView = function(e) {
   const vEixo = document.getElementById('view-modelo-eixo');
   const vAreaTematica = document.getElementById('view-modelo-area-tematica');
   const vCenario = document.getElementById('view-cenario-transversalidades');
+  const vVisoes = document.getElementById('view-visoes-transversais');
 
   if (vPlanoList) vPlanoList.classList.add('hidden');
   if (vPlano) vPlano.classList.add('hidden');
@@ -281,24 +306,54 @@ window.openProgramaView = function(e) {
   if (vEixo) vEixo.classList.add('hidden');
   if (vAreaTematica) vAreaTematica.classList.add('hidden');
   if (vCenario) vCenario.classList.add('hidden');
+  if (vVisoes) vVisoes.classList.add('hidden');
   if (vPrograma) vPrograma.classList.remove('hidden');
 
   document.querySelectorAll('.sidebar-tree-item').forEach(i => i.classList.remove('active-selected'));
   const progItem = document.querySelector('.sidebar-tree-item.level-2');
   if (progItem) progItem.classList.add('active-selected');
 
+  let selectedName = 'Programa';
+  if (typeof customName === 'string' && customName.trim()) {
+    selectedName = customName.trim();
+  } else if (e && e.currentTarget) {
+    const span = e.currentTarget.querySelector('.estrutura-model-left span');
+    if (span && span.innerText.trim()) {
+      selectedName = span.innerText.trim();
+    }
+  }
+
   if (vPrograma) {
     const titleEl = vPrograma.querySelector('.page-title');
-    if (titleEl) titleEl.innerHTML = 'Programa <span style="font-size: 13px; font-weight: normal; color: #64748b;">(Programa)</span>';
+    if (titleEl) titleEl.innerHTML = `${selectedName} <span style="font-size: 13px; font-weight: normal; color: #64748b;">(Programa)</span>`;
   }
 
   const form = document.getElementById('programa-properties-form');
   if (form) {
     const inputs = form.querySelectorAll('.form-row-grid input[type="text"]');
     if (inputs.length >= 3) {
-      inputs[0].value = 'Programa';
-      inputs[1].value = 'Programas';
+      inputs[0].value = selectedName;
+      inputs[1].value = selectedName.toLowerCase().endsWith('s') ? selectedName : selectedName + 's';
       inputs[2].value = '1';
+    }
+  }
+
+  // Diferenciar cards exibidos entre MENU AZUL e MENU ROSA
+  const appContainer = document.querySelector('.app-container');
+  const isBlueTheme = appContainer && appContainer.classList.contains('blue-theme');
+  if (vPrograma) {
+    const costCenterSec = document.getElementById('programa-centro-custo-section') || vPrograma.querySelector('.card-section:has(#cost-centers-list)');
+    const riskSec = document.getElementById('gestao-risco-card');
+    const processSec = document.getElementById('gestao-processo-card');
+
+    if (isBlueTheme) {
+      if (costCenterSec) costCenterSec.style.display = 'none';
+      if (riskSec) riskSec.style.display = 'none';
+      if (processSec) processSec.style.display = 'none';
+    } else {
+      if (costCenterSec) costCenterSec.style.display = 'block';
+      if (riskSec) riskSec.style.display = 'block';
+      if (processSec) processSec.style.display = 'block';
     }
   }
 
@@ -315,6 +370,7 @@ window.openSubprogramaView = function(e) {
   const vEixo = document.getElementById('view-modelo-eixo');
   const vAreaTematica = document.getElementById('view-modelo-area-tematica');
   const vCenario = document.getElementById('view-cenario-transversalidades');
+  const vVisoes = document.getElementById('view-visoes-transversais');
 
   if (vPlanoList) vPlanoList.classList.add('hidden');
   if (vPlano) vPlano.classList.add('hidden');
@@ -323,6 +379,7 @@ window.openSubprogramaView = function(e) {
   if (vEixo) vEixo.classList.add('hidden');
   if (vAreaTematica) vAreaTematica.classList.add('hidden');
   if (vCenario) vCenario.classList.add('hidden');
+  if (vVisoes) vVisoes.classList.add('hidden');
   if (vPrograma) vPrograma.classList.remove('hidden');
 
   document.querySelectorAll('.sidebar-tree-item').forEach(i => i.classList.remove('active-selected'));
@@ -340,7 +397,7 @@ window.openSubprogramaView = function(e) {
     if (inputs.length >= 3) {
       inputs[0].value = 'Subprograma';
       inputs[1].value = 'Subprogramas';
-      inputs[2].value = '2';
+      inputs[2].value = '1.1';
     }
   }
 
@@ -356,6 +413,7 @@ window.openNewProgramaView = function(e) {
   const vEixo = document.getElementById('view-modelo-eixo');
   const vAreaTematica = document.getElementById('view-modelo-area-tematica');
   const vCenario = document.getElementById('view-cenario-transversalidades');
+  const vVisoes = document.getElementById('view-visoes-transversais');
 
   if (vPlano) vPlano.classList.add('hidden');
   if (vProjeto) vProjeto.classList.add('hidden');
@@ -363,6 +421,7 @@ window.openNewProgramaView = function(e) {
   if (vEixo) vEixo.classList.add('hidden');
   if (vAreaTematica) vAreaTematica.classList.add('hidden');
   if (vCenario) vCenario.classList.add('hidden');
+  if (vVisoes) vVisoes.classList.add('hidden');
   if (vPrograma) vPrograma.classList.remove('hidden');
 
   document.querySelectorAll('.sidebar-tree-item').forEach(i => i.classList.remove('active-selected'));
@@ -383,6 +442,9 @@ window.openNewProgramaView = function(e) {
   const tagsAddMenu = document.getElementById('tags-add-menu');
   if (tagsAddMenu) tagsAddMenu.style.display = 'none';
 
+  const visaoAddMenu = document.getElementById('visao-add-menu');
+  if (visaoAddMenu) visaoAddMenu.style.display = 'none';
+
   if (typeof showToast === 'function') showToast('Novo Programa: Preencha os campos para incluir e salvar.');
 };
 
@@ -395,6 +457,7 @@ window.openNewPortfolioView = function(e) {
   const vEixo = document.getElementById('view-modelo-eixo');
   const vAreaTematica = document.getElementById('view-modelo-area-tematica');
   const vCenario = document.getElementById('view-cenario-transversalidades');
+  const vVisoes = document.getElementById('view-visoes-transversais');
 
   if (vPlano) vPlano.classList.add('hidden');
   if (vProjeto) vProjeto.classList.add('hidden');
@@ -402,6 +465,7 @@ window.openNewPortfolioView = function(e) {
   if (vEixo) vEixo.classList.add('hidden');
   if (vAreaTematica) vAreaTematica.classList.add('hidden');
   if (vCenario) vCenario.classList.add('hidden');
+  if (vVisoes) vVisoes.classList.add('hidden');
   if (vPortfolio) vPortfolio.classList.remove('hidden');
 
   document.querySelectorAll('.sidebar-tree-item').forEach(i => i.classList.remove('active-selected'));
@@ -422,11 +486,15 @@ window.openNewPortfolioView = function(e) {
   const estAddMenu = document.getElementById('estrutura-add-menu');
   if (estAddMenu) estAddMenu.style.display = 'none';
 
+  const visaoAddMenu = document.getElementById('visao-add-menu');
+  if (visaoAddMenu) visaoAddMenu.style.display = 'none';
+
   if (typeof showToast === 'function') showToast('Novo Portfólio: Preencha os campos para cadastrar.');
 };
 
 window.openNewProjetoView = function(e) {
   if (e && e.stopPropagation) e.stopPropagation();
+  const vPlanoList = document.getElementById('view-modelo-de-plano-list');
   const vPlano = document.getElementById('view-modelo-de-plano');
   const vProjeto = document.getElementById('view-modelo-projeto');
   const vPrograma = document.getElementById('view-modelo-programa');
@@ -434,13 +502,16 @@ window.openNewProjetoView = function(e) {
   const vEixo = document.getElementById('view-modelo-eixo');
   const vAreaTematica = document.getElementById('view-modelo-area-tematica');
   const vCenario = document.getElementById('view-cenario-transversalidades');
+  const vVisoes = document.getElementById('view-visoes-transversais');
 
+  if (vPlanoList) vPlanoList.classList.add('hidden');
   if (vPlano) vPlano.classList.add('hidden');
   if (vPrograma) vPrograma.classList.add('hidden');
   if (vPortfolio) vPortfolio.classList.add('hidden');
   if (vEixo) vEixo.classList.add('hidden');
   if (vAreaTematica) vAreaTematica.classList.add('hidden');
   if (vCenario) vCenario.classList.add('hidden');
+  if (vVisoes) vVisoes.classList.add('hidden');
   if (vProjeto) vProjeto.classList.remove('hidden');
 
   document.querySelectorAll('.sidebar-tree-item').forEach(i => i.classList.remove('active-selected'));
@@ -457,11 +528,15 @@ window.openNewProjetoView = function(e) {
   const estAddMenu = document.getElementById('estrutura-add-menu');
   if (estAddMenu) estAddMenu.style.display = 'none';
 
+  const visaoAddMenu = document.getElementById('visao-add-menu');
+  if (visaoAddMenu) visaoAddMenu.style.display = 'none';
+
   if (typeof showToast === 'function') showToast('Novo Projeto: Preencha os campos para cadastrar.');
 };
 
 window.openProjetoView = function(e) {
   if (e && e.stopPropagation) e.stopPropagation();
+  const vPlanoList = document.getElementById('view-modelo-de-plano-list');
   const vPlano = document.getElementById('view-modelo-de-plano');
   const vProjeto = document.getElementById('view-modelo-projeto');
   const vPrograma = document.getElementById('view-modelo-programa');
@@ -469,13 +544,16 @@ window.openProjetoView = function(e) {
   const vEixo = document.getElementById('view-modelo-eixo');
   const vAreaTematica = document.getElementById('view-modelo-area-tematica');
   const vCenario = document.getElementById('view-cenario-transversalidades');
+  const vVisoes = document.getElementById('view-visoes-transversais');
 
+  if (vPlanoList) vPlanoList.classList.add('hidden');
   if (vPlano) vPlano.classList.add('hidden');
   if (vPrograma) vPrograma.classList.add('hidden');
   if (vPortfolio) vPortfolio.classList.add('hidden');
   if (vEixo) vEixo.classList.add('hidden');
   if (vAreaTematica) vAreaTematica.classList.add('hidden');
   if (vCenario) vCenario.classList.add('hidden');
+  if (vVisoes) vVisoes.classList.add('hidden');
   if (vProjeto) vProjeto.classList.remove('hidden');
 
   document.querySelectorAll('.sidebar-tree-item').forEach(i => i.classList.remove('active-selected'));
@@ -496,6 +574,7 @@ window.openPlanoView = function(e) {
   const vEixo = document.getElementById('view-modelo-eixo');
   const vAreaTematica = document.getElementById('view-modelo-area-tematica');
   const vCenario = document.getElementById('view-cenario-transversalidades');
+  const vVisoes = document.getElementById('view-visoes-transversais');
 
   if (vPlano) vPlano.classList.add('hidden');
   if (vProjeto) vProjeto.classList.add('hidden');
@@ -504,6 +583,7 @@ window.openPlanoView = function(e) {
   if (vEixo) vEixo.classList.add('hidden');
   if (vAreaTematica) vAreaTematica.classList.add('hidden');
   if (vCenario) vCenario.classList.add('hidden');
+  if (vVisoes) vVisoes.classList.add('hidden');
 
   if (vPlanoList) vPlanoList.classList.remove('hidden');
 
@@ -544,6 +624,7 @@ window.openModelosEstruturaisView = function(e) {
   const vEixo = document.getElementById('view-modelo-eixo');
   const vAreaTematica = document.getElementById('view-modelo-area-tematica');
   const vCenario = document.getElementById('view-cenario-transversalidades');
+  const vVisoes = document.getElementById('view-visoes-transversais');
 
   if (vPlanoList) vPlanoList.classList.add('hidden');
   if (vProjeto) vProjeto.classList.add('hidden');
@@ -552,6 +633,7 @@ window.openModelosEstruturaisView = function(e) {
   if (vEixo) vEixo.classList.add('hidden');
   if (vAreaTematica) vAreaTematica.classList.add('hidden');
   if (vCenario) vCenario.classList.add('hidden');
+  if (vVisoes) vVisoes.classList.add('hidden');
 
   if (vPlano) vPlano.classList.remove('hidden');
 
@@ -575,8 +657,43 @@ window.openModelosEstruturaisView = function(e) {
 
 window.openVisoesTransversaisView = function(e) {
   if (e && e.stopPropagation) e.stopPropagation();
-  if (typeof openHomeScenarioView === 'function') openHomeScenarioView(e);
-  if (typeof showToast === 'function') showToast('Abrindo Visões Transversais (Estrutura de Transversalidade)');
+  const vPlanoList = document.getElementById('view-modelo-de-plano-list');
+  const vPlano = document.getElementById('view-modelo-de-plano');
+  const vProjeto = document.getElementById('view-modelo-projeto');
+  const vPrograma = document.getElementById('view-modelo-programa');
+  const vPortfolio = document.getElementById('view-modelo-portfolio');
+  const vEixo = document.getElementById('view-modelo-eixo');
+  const vAreaTematica = document.getElementById('view-modelo-area-tematica');
+  const vCenario = document.getElementById('view-cenario-transversalidades');
+  const vVisoes = document.getElementById('view-visoes-transversais');
+
+  if (vPlanoList) vPlanoList.classList.add('hidden');
+  if (vPlano) vPlano.classList.add('hidden');
+  if (vProjeto) vProjeto.classList.add('hidden');
+  if (vPrograma) vPrograma.classList.add('hidden');
+  if (vPortfolio) vPortfolio.classList.add('hidden');
+  if (vEixo) vEixo.classList.add('hidden');
+  if (vAreaTematica) vAreaTematica.classList.add('hidden');
+  if (vCenario) vCenario.classList.add('hidden');
+  if (vVisoes) vVisoes.classList.remove('hidden');
+
+  // Maintain Pink Theme Mode (remove blue-theme)
+  const appContainer = document.querySelector('.app-container');
+  if (appContainer) appContainer.classList.remove('blue-theme');
+
+  renderPinkRailIcons();
+
+  // Restore sub-sidebar elements with Pink theme header
+  const subTitle = document.querySelector('.sub-sidebar .sidebar-title');
+  if (subTitle) subTitle.innerText = 'Modelos de Plano';
+
+  const dropBox = document.querySelector('.sub-sidebar .sidebar-dropdown-box');
+  if (dropBox) dropBox.style.display = 'flex';
+
+  const treeSec = document.querySelector('.sub-sidebar .sidebar-tree-section');
+  if (treeSec) treeSec.style.display = 'block';
+
+  if (typeof showToast === 'function') showToast('Abrindo Visões Transversais');
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -785,6 +902,21 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', (e) => {
       if (!tagsAddTrigger.contains(e.target) && !tagsAddMenu.contains(e.target)) {
         tagsAddMenu.style.display = 'none';
+      }
+    });
+  }
+
+  // Visão (+) Add Box Menu Toggle na secao VISÕES
+  const visaoAddTrigger = document.getElementById('visao-add-box-trigger');
+  const visaoAddMenu = document.getElementById('visao-add-menu');
+  if (visaoAddTrigger && visaoAddMenu) {
+    visaoAddTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      visaoAddMenu.style.display = (visaoAddMenu.style.display === 'block') ? 'none' : 'block';
+    });
+    document.addEventListener('click', (e) => {
+      if (!visaoAddTrigger.contains(e.target) && !visaoAddMenu.contains(e.target)) {
+        visaoAddMenu.style.display = 'none';
       }
     });
   }
@@ -1048,6 +1180,49 @@ window.selectProjetoVinculo = function(element, name) {
     });
   }
 
+window.addProgramaToVisoesTransversais = function(name, iconSvg) {
+  const targetContainers = [
+    document.querySelector('#view-visoes-transversais #transversalidade-programas-list'),
+    document.querySelector('#view-visoes-transversais .card-body > div'),
+    document.querySelector('#view-cenario-transversalidades #transversalidade-programas-list')
+  ];
+
+  const randomId = Math.floor(106 + Math.random() * 900);
+
+  targetContainers.forEach(container => {
+    if (!container) return;
+    const row = document.createElement('div');
+    row.className = 'estrutura-model-row';
+    row.style.background = '#fff';
+    row.style.border = '1px solid #e2e8f0';
+    row.style.borderRadius = '6px';
+    row.style.padding = '12px 16px';
+    row.style.display = 'flex';
+    row.style.alignItems = 'center';
+    row.style.justifyContent = 'space-between';
+    row.style.marginBottom = '10px';
+    row.style.cursor = 'pointer';
+    row.title = `Abrir ${name}`;
+    row.onclick = function(e) { openProgramaView(e, name); };
+
+    row.innerHTML = `
+      <div class="estrutura-model-left" style="display: flex; align-items: center; gap: 12px;">
+        ${iconSvg}
+        <span style="font-size: 14px; font-weight: 500; color: #475569;">${name}</span>
+      </div>
+      <div class="estrutura-model-right" style="display: flex; align-items: center; gap: 12px;">
+        <button class="cost-center-kebab-btn" title="Mais opções" onclick="event.stopPropagation(); showToast('Opções do ${name} ${randomId}')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
+        </button>
+        <span class="cost-center-id-code" style="font-size: 11px; color: #94a3b8;">${randomId}</span>
+      </div>
+    `;
+    container.appendChild(row);
+  });
+
+  if (typeof syncTransversalRailIcons === 'function') syncTransversalRailIcons();
+};
+
   const programaForm = document.getElementById('programa-properties-form');
   if (programaForm) {
     programaForm.addEventListener('submit', (e) => {
@@ -1057,49 +1232,13 @@ window.selectProjetoVinculo = function(element, name) {
       let progName = (inputs.length > 0 && inputs[0].value.trim()) ? inputs[0].value.trim() : 'Novo Programa';
       const iconSvg = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`;
 
-      addModelToEstruturaList(progName, iconSvg, openProgramaView);
-
-      // Transversalidade items list sync
-      const itemsList = document.getElementById('transversalidade-items-list');
-      if (itemsList) {
-        const existingSpans = itemsList.querySelectorAll('.estrutura-model-left span');
-        let exists = false;
-        existingSpans.forEach(s => {
-          if (s.innerText.trim().toLowerCase() === progName.toLowerCase()) {
-            exists = true;
-          }
-        });
-
-        if (!exists) {
-          const newId = Math.floor(106 + Math.random() * 900);
-          const newRow = document.createElement('div');
-          newRow.className = 'estrutura-model-row';
-          newRow.style.cursor = 'pointer';
-          newRow.title = `Abrir ${progName}`;
-          newRow.onclick = function(ev) { openProgramaView(ev); };
-          newRow.innerHTML = `
-            <div class="estrutura-model-left">
-              ${iconSvg}
-              <span>${progName}</span>
-            </div>
-            <div class="estrutura-model-right">
-              <button class="cost-center-kebab-btn" title="Mais opções" onclick="showToast('Opções do ${progName} ${newId}')">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
-              </button>
-              <span class="cost-center-id-code">${newId}</span>
-            </div>
-          `;
-          itemsList.appendChild(newRow);
-        }
-      }
+      addProgramaToVisoesTransversais(progName, iconSvg);
 
       if (typeof syncDominioOptions === 'function') syncDominioOptions();
       if (typeof syncTransversalRailIcons === 'function') syncTransversalRailIcons();
 
-      showToast(`Modelo '${progName}' cadastrado com sucesso!`);
-      openPlanoView();
-      const tabBtn = document.querySelector('.tab-btn[data-tab="tab-estrutura"]');
-      if (tabBtn) tabBtn.click();
+      showToast(`Programa '${progName}' cadastrado em Visões Transversais!`);
+      openVisoesTransversaisView();
     });
   }
 });
