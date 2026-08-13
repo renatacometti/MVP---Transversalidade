@@ -2162,8 +2162,8 @@
           <div style="display: flex; align-items: center; gap: 24px; border-bottom: 2px solid #e2e8f0; margin-bottom: 16px; font-size: 13px; color: #64748b; font-weight: 500;">
             <div id="tab-vt-painel" class="vt-tab" style="color: #004b6e; font-weight: 700; border-bottom: 3px solid #36b39b; padding-bottom: 8px; margin-bottom: -2px; cursor: pointer;" onclick="switchVTTab('painel')">Painel de Controle</div>
             <div id="tab-vt-eap" class="vt-tab" style="padding-bottom: 8px; cursor: pointer;" onclick="switchVTTab('eap')">EAP</div>
-            <div id="tab-vt-prop" class="vt-tab" style="padding-bottom: 8px; cursor: pointer;" onclick="showToast('Propriedades')">Propriedades</div>
-            <div id="tab-vt-prog" class="vt-tab" style="padding-bottom: 8px; cursor: pointer;" onclick="showToast('Programas')">Programas</div>
+            <div id="tab-vt-prop" class="vt-tab" style="padding-bottom: 8px; cursor: pointer;" onclick="switchVTTab('prop')">Propriedades</div>
+            <div id="tab-vt-prog" class="vt-tab" style="padding-bottom: 8px; cursor: pointer;" onclick="switchVTTab('prog'); showVTProgramList()">Programas</div>
             <div id="tab-vt-proj" class="vt-tab" style="padding-bottom: 8px; cursor: pointer;" onclick="showToast('Projetos')">Projetos</div>
           </div>
 
@@ -2439,7 +2439,7 @@
           <div id="vt-content-eap" class="vt-content" style="display: none; background: #fff; padding: 10px;">
             
             <!-- EAP Tree Container -->
-            <div style="width: 100%; border: 1px solid #f1f5f9; border-radius: 4px; font-size: 13px;">
+            <div id="eap-tree" style="width: 100%; border: 1px solid #f1f5f9; border-radius: 4px; font-size: 13px;">
               
               <!-- Programas Header -->
               <div style="display: flex; align-items: center; padding: 10px 16px; background: #f8fafc; border-bottom: 1px solid #f1f5f9; color: #475569; font-weight: 700;">
@@ -2448,14 +2448,14 @@
               </div>
 
               <!-- Programa Item: Cultura ES -->
-              <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid #f1f5f9; padding-left: 32px; color: #64748b;">
-                <div style="display: flex; align-items: center; gap: 8px;">
+              <div class="eap-program-row" style="color: #64748b;">
+                <div class="eap-program-name">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
                   Cultura ES
                 </div>
-                <div style="display: flex; align-items: center; gap: 14px;">
+                <div class="eap-metrics">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="2"><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/><path d="M5 21V9a7 7 0 0 1 14 0v12"/></svg>
-                  <div style="display: flex; height: 6px; width: 100px; border-radius: 3px; overflow: hidden; background: #e2e8f0;">
+                  <div class="eap-progress">
                     <div style="width: 40%; background: #36b39b;"></div>
                     <div style="width: 30%; background: #ef4444;"></div>
                     <div style="width: 20%; background: #0ea5e9;"></div>
@@ -2480,14 +2480,14 @@
               </div>
 
               <!-- Programa Item: EsportES -->
-              <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid #f1f5f9; padding-left: 32px; color: #64748b;">
-                <div style="display: flex; align-items: center; gap: 8px;">
+              <div class="eap-program-row" style="color: #64748b;">
+                <div class="eap-program-name">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
                   EsportES
                 </div>
-                <div style="display: flex; align-items: center; gap: 14px;">
+                <div class="eap-metrics">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="2"><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/><path d="M5 21V9a7 7 0 0 1 14 0v12"/></svg>
-                  <div style="display: flex; height: 6px; width: 100px; border-radius: 3px; overflow: hidden; background: #e2e8f0;">
+                  <div class="eap-progress">
                     <div style="width: 15%; background: #36b39b;"></div>
                     <div style="width: 20%; background: #ef4444;"></div>
                     <div style="width: 50%; background: #0ea5e9;"></div>
@@ -2502,14 +2502,14 @@
               </div>
 
               <!-- Programa Item: Melhoria da Qualidade -->
-              <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; padding-left: 32px; color: #64748b;">
-                <div style="display: flex; align-items: center; gap: 8px;">
+              <div class="eap-program-row" style="color: #64748b;">
+                <div class="eap-program-name">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
                   Melhoria da Qualidade da Educação
                 </div>
-                <div style="display: flex; align-items: center; gap: 14px;">
+                <div class="eap-metrics">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="2"><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/><path d="M5 21V9a7 7 0 0 1 14 0v12"/></svg>
-                  <div style="display: flex; height: 6px; width: 100px; border-radius: 3px; overflow: hidden; background: #e2e8f0;">
+                  <div class="eap-progress">
                     <div style="width: 10%; background: #36b39b;"></div>
                     <div style="width: 15%; background: #ef4444;"></div>
                     <div style="width: 60%; background: #0ea5e9;"></div>
@@ -2522,8 +2522,134 @@
                 </div>
               </div>
 
+              <div class="eap-program-row">
+                <div class="eap-program-name">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                  Segurança Pública e Justiça
+                </div>
+                <div class="eap-metrics">
+                  <span class="eap-ghost eap-ghost-red" aria-label="Situação crítica">●</span>
+                  <span class="eap-progress"><i style="width:38%;background:#36b39b"></i><i style="width:14%;background:#ef5b62"></i><i style="width:43%;background:#0789b7"></i><i style="width:5%;background:#7165ae"></i></span>
+                  <strong class="eap-idc">IDC</strong><strong class="eap-idp">IDP</strong><strong class="eap-money eap-money-ok">$</strong>
+                  <span class="eap-clock">◷</span><span class="eap-scope eap-scope-alert">▦</span>
+                </div>
+              </div>
+
+              <div class="eap-program-row">
+                <div class="eap-program-name">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                  Prot.Social, Saúde e Dir.Humanos
+                </div>
+                <div class="eap-metrics">
+                  <span class="eap-ghost eap-ghost-red" aria-label="Situação crítica">●</span>
+                  <span class="eap-progress"><i style="width:36%;background:#36b39b"></i><i style="width:7%;background:#ef5b62"></i><i style="width:52%;background:#0789b7"></i><i style="width:5%;background:#7165ae"></i></span>
+                  <strong class="eap-idc">IDC</strong><strong class="eap-idp">IDP</strong><strong class="eap-money eap-money-alert">$</strong>
+                  <span class="eap-clock">◷</span><span class="eap-scope">▦</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- TAB CONTENT: PROPRIEDADES -->
+          <div id="vt-content-prop" class="vt-content vt-properties" style="display: none;">
+            <div class="vt-properties-card">
+              <label class="vt-scope-toggle">
+                <span>Escopo completo</span>
+                <input type="checkbox" aria-label="Escopo completo">
+              </label>
+
+              <div class="vt-properties-fields">
+                <label class="vt-property-field vt-property-short">
+                  <span>Nome <b>*</b> <i title="Informe o nome do programa">?</i></span>
+                  <input type="text" value="Programa 1" aria-label="Nome">
+                </label>
+
+                <label class="vt-property-field vt-property-short">
+                  <span>Nome completo <b>*</b> <i title="Informe o nome completo do programa">?</i></span>
+                  <input type="text" value="Programa 1" aria-label="Nome completo">
+                </label>
+
+                <label class="vt-property-field vt-property-wide">
+                  <span>Objetivo do programa</span>
+                  <textarea rows="2" aria-label="Objetivo do programa"></textarea>
+                </label>
+
+                <label class="vt-property-field vt-property-wide">
+                  <span>Público-alvo</span>
+                  <textarea rows="2" aria-label="Público-alvo"></textarea>
+                </label>
+              </div>
             </div>
           </div> <!-- Fechamento de vt-content-eap -->
+
+          <!-- TAB CONTENT: PROGRAMAS -->
+          <div id="vt-content-prog" class="vt-content vt-programs" style="display: none;">
+            <section id="vt-program-list" class="vt-program-card" aria-label="Lista de programas">
+              <header class="vt-program-header">
+                <strong>PROGRAMA</strong>
+                <div class="vt-program-actions">
+                  <label>Exibir
+                    <select aria-label="Exibir programas">
+                      <option>Todos</option>
+                      <option>Ativos</option>
+                      <option>Inativos</option>
+                    </select>
+                  </label>
+                  <div class="vt-new-program-trigger">
+                    <button type="button" class="vt-new-program" onclick="toggleVTProgramMenu(event, this)" aria-label="Adicionar programa" title="Adicionar programa">+</button>
+                    <div class="vt-new-program-menu" role="menu">
+                      <button type="button" role="menuitem" onclick="selectVTNewProgram(event)">Novo</button>
+                    </div>
+                  </div>
+                </div>
+              </header>
+
+              <div class="vt-program-empty">
+                <div class="vt-new-program-trigger vt-new-program-trigger-center">
+                  <button type="button" class="vt-program-empty-add" onclick="toggleVTProgramMenu(event, this)" aria-label="Adicionar programa">+</button>
+                  <div class="vt-new-program-menu" role="menu">
+                    <button type="button" role="menuitem" onclick="selectVTNewProgram(event)">Novo</button>
+                  </div>
+                </div>
+              </div>
+
+              <nav class="vt-program-pagination" aria-label="Paginação de programas">
+                <button type="button" aria-label="Primeira página">«</button>
+                <button type="button" aria-label="Página anterior">‹</button>
+                <select aria-label="Página atual"><option>1 de 1</option></select>
+                <button type="button" aria-label="Próxima página">›</button>
+                <button type="button" aria-label="Última página">»</button>
+              </nav>
+            </section>
+
+            <section id="vt-program-form" class="vt-program-form" style="display: none;" aria-labelledby="vt-program-form-title">
+              <div class="vt-program-modal-panel">
+                <header class="vt-program-form-header">
+                  <strong id="vt-program-form-title">Propriedades</strong>
+                  <button type="button" onclick="showVTProgramList()" aria-label="Voltar para programas">×</button>
+                </header>
+                <div class="vt-program-form-fields">
+                <label class="vt-property-field vt-program-name-field">
+                  <span>Nome <b>*</b> <i title="Informe o nome do programa">?</i></span>
+                  <input type="text" aria-label="Nome do novo programa">
+                </label>
+                <label class="vt-property-field vt-program-full-field">
+                  <span>Nome completo <b>*</b> <i title="Informe o nome completo do programa">?</i></span>
+                  <textarea rows="2" aria-label="Nome completo do novo programa"></textarea>
+                </label>
+                <label class="vt-property-field vt-program-full-field">
+                  <span>Objetivo do Programa</span>
+                  <textarea rows="2" aria-label="Objetivo do novo programa"></textarea>
+                </label>
+                <label class="vt-property-field vt-program-full-field">
+                  <span>Público-alvo</span>
+                  <textarea rows="2" aria-label="Público-alvo do novo programa"></textarea>
+                </label>
+                </div>
+              </div>
+            </section>
+          </div>
 
         </div> <!-- Fechamento de view-cenario-transversalidades -->
 

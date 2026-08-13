@@ -152,12 +152,12 @@ window.renderEAPProjects = function() {
 
   const projects = [
     { name: 'Cais das Artes', warning: true, icon: 'play', ghost: true, bars: [30, 0, 70], idc: true, idp: true, money: true, clock: true, scope: true },
-    { name: 'Centro Cultural Carmélia', warning: false, icon: 'play', ghost: true, bars: [50, 30, 20], idc: true, idp: true, money: true, clock: true, scope: true },
-    { name: 'Coinvestimento da Cultura – Fundo a Fundo', warning: true, icon: 'A', ghost: true, bars: [10, 40, 50], idc: false, idp: false, money: true, clock: true, scope: true },
+    { name: 'Centro Cultural Carmélia', warning: false, icon: 'play', ghost: true, bars: [30, 40, 26, 4], idc: true, idp: true, money: true, clock: true, scope: true },
+    { name: 'Coinvestimento da Cultura – Fundo a Fundo', warning: true, icon: 'A', ghost: true, bars: [12, 55, 33], idc: false, idp: false, money: true, clock: true, scope: true },
     { name: 'Editais Funcultura', warning: false, icon: 'play', ghost: true, bars: [10, 20, 50, 20], idc: false, idp: false, money: true, clock: true, scope: true },
     { name: 'Hub Criativo ES+', warning: true, icon: 'play', ghost: true, bars: [5, 80, 15], idc: true, idp: true, money: true, clock: true, scope: true },
     { name: 'Incentivo à Produção Cultural Capixaba', warning: false, icon: 'play', ghost: true, bars: [50, 40, 10], idc: true, idp: true, money: true, clock: true, scope: true },
-    { name: 'Interiorização de sinal', warning: true, icon: 'play', ghost: true, bars: [70, 10, 10, 10], idc: true, idp: true, money: true, clock: true, scope: true },
+    { name: 'Interiorização de sinal', warning: true, icon: 'play', ghost: true, bars: [58, 14, 15, 13], idc: true, idp: true, money: true, clock: true, scope: true },
     { name: 'Midiateca Capixaba', warning: false, icon: 'A', ghost: true, bars: [20, 60, 10, 10], idc: false, idp: false, money: true, clock: true, scope: true },
     { name: 'Modernização TVE e Rad ES', warning: false, icon: 'play', ghost: true, bars: [20, 60, 20], idc: true, idp: true, money: true, clock: true, scope: true },
     { name: 'Reforma do Teatro Carlos Gomes', warning: false, icon: 'check', ghost: true, bars: [100], idc: true, idp: true, money: true, clock: true, scope: true },
@@ -188,16 +188,16 @@ window.renderEAPProjects = function() {
     }
 
     html += `
-      <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid #f1f5f9; padding-left: 64px; color: ${nameColor};">
-        <div style="display: flex; align-items: center; gap: 8px;">
+      <div class="eap-project-row" style="color: ${nameColor};">
+        <div class="eap-project-name">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
           ${warningIcon}${p.name}
         </div>
-        <div style="display: flex; align-items: center; gap: 14px;">
+        <div class="eap-metrics">
           ${stateIcon}
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="2"><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/><path d="M5 21V9a7 7 0 0 1 14 0v12"/></svg>
-          <div style="display: flex; height: 6px; width: 100px; border-radius: 3px; overflow: hidden; background: #e2e8f0;">
+          <div class="eap-progress">
             ${barsHtml}
           </div>
           <span style="font-size: 10px; font-weight: 700; color: ${p.idc ? '#ef4444' : 'transparent'};">IDC</span>
@@ -217,8 +217,26 @@ window.renderEAPProjects = function() {
 setTimeout(renderEAPProjects, 500);
 
 window.switchVTTab = function(tabName) {
+  const transversalView = document.getElementById('view-cenario-transversalidades');
+  const painelContent = document.getElementById('vt-content-painel');
+  const eapContent = document.getElementById('vt-content-eap');
+  const propertiesContent = document.getElementById('vt-content-prop');
+  const programsContent = document.getElementById('vt-content-prog');
+
+  // Alguns navegadores recompõem o HTML legado colocando a EAP dentro do painel.
+  // Normalizamos a estrutura antes de alternar as abas para que uma não oculte a outra.
+  if (painelContent && eapContent && eapContent.parentElement === painelContent) {
+    painelContent.insertAdjacentElement('afterend', eapContent);
+  }
+  if (transversalView && eapContent && propertiesContent && propertiesContent.parentElement !== transversalView) {
+    eapContent.insertAdjacentElement('afterend', propertiesContent);
+  }
+  if (transversalView && propertiesContent && programsContent && programsContent.parentElement !== transversalView) {
+    propertiesContent.insertAdjacentElement('afterend', programsContent);
+  }
+
   // Reset all tabs
-  document.querySelectorAll('.vt-tab').forEach(t => {
+  (transversalView || document).querySelectorAll('.vt-tab').forEach(t => {
     t.style.color = '#64748b';
     t.style.fontWeight = '500';
     t.style.borderBottom = 'none';
@@ -235,7 +253,7 @@ window.switchVTTab = function(tabName) {
   }
 
   // Hide all contents
-  document.querySelectorAll('.vt-content').forEach(c => {
+  (transversalView || document).querySelectorAll('.vt-content').forEach(c => {
     c.style.display = 'none';
   });
 
@@ -244,6 +262,43 @@ window.switchVTTab = function(tabName) {
   if (activeContent) {
     activeContent.style.display = 'block';
   }
+};
+
+window.openVTProgramForm = function() {
+  const list = document.getElementById('vt-program-list');
+  const form = document.getElementById('vt-program-form');
+  if (list) list.style.display = 'none';
+  if (form) form.style.display = 'block';
+  const firstField = document.querySelector('#vt-program-form input');
+  if (firstField) firstField.focus();
+};
+
+window.toggleVTProgramMenu = function(event, button) {
+  if (event) event.stopPropagation();
+  const targetMenu = button && button.parentElement ? button.parentElement.querySelector('.vt-new-program-menu') : null;
+  document.querySelectorAll('.vt-new-program-menu').forEach(menu => {
+    if (menu !== targetMenu) menu.classList.remove('open');
+  });
+  if (targetMenu) targetMenu.classList.toggle('open');
+};
+
+window.selectVTNewProgram = function(event) {
+  if (event) event.stopPropagation();
+  document.querySelectorAll('.vt-new-program-menu').forEach(menu => menu.classList.remove('open'));
+  openVTProgramForm();
+};
+
+document.addEventListener('click', function(event) {
+  if (!event.target.closest('.vt-new-program-trigger')) {
+    document.querySelectorAll('.vt-new-program-menu').forEach(menu => menu.classList.remove('open'));
+  }
+});
+
+window.showVTProgramList = function() {
+  const list = document.getElementById('vt-program-list');
+  const form = document.getElementById('vt-program-form');
+  if (form) form.style.display = 'none';
+  if (list) list.style.display = 'block';
 };
 
 window.openHomeScenarioView = function(e) {
@@ -293,6 +348,8 @@ window.openHomeScenarioView = function(e) {
   const dropBox = document.querySelector('.sub-sidebar .sidebar-dropdown-box');
   if (dropBox) {
     dropBox.style.display = 'flex';
+    dropBox.title = 'Abrir Visão Transversal';
+    dropBox.onclick = openHomeScenarioView;
     dropBox.innerHTML = `
       <div class="sidebar-dropdown-left" style="display: flex; align-items: center; gap: 8px;">
         <span style="font-size: 13px; font-weight: 500; color: #004b6e;">Visão Transversal</span>
@@ -795,6 +852,8 @@ window.openPlanoView = function(e) {
   const dropBox = document.querySelector('.sub-sidebar .sidebar-dropdown-box');
   if (dropBox) {
     dropBox.style.display = 'flex';
+    dropBox.title = 'Voltar para Modelo de Plano';
+    dropBox.onclick = openPlanoView;
     dropBox.innerHTML = `
       <div class="sidebar-dropdown-left">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
