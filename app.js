@@ -87,39 +87,25 @@ window.renderBlueRailIcons = function() {
     </button>
   `;
 
-  // Render dynamic book icons for each program in Visões Transversais
-  const visoesView = document.getElementById('view-visoes-transversais');
-  let progNames = [];
-  if (visoesView) {
-    const spans = visoesView.querySelectorAll('.card-section .estrutura-model-row .estrutura-model-left span');
-    spans.forEach(s => {
-      const txt = s.innerText.trim();
-      if (txt && !progNames.includes(txt)) progNames.push(txt);
-    });
-  }
-
-  // Default fallback programs if empty
-  if (progNames.length === 0) {
-    progNames = ['Programa', 'Programa 2'];
-  }
-
-  progNames.forEach((name, index) => {
-    const btn = document.createElement('button');
-    btn.className = 'rail-btn dynamic-transversal-btn' + (index === 0 ? ' active' : '');
-    btn.title = name;
-    btn.onclick = function(e) {
-      document.querySelectorAll('.dynamic-transversal-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      openHomeScenarioView(e);
-    };
-    btn.innerHTML = `
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-      </svg>
-    `;
-    railContainer.appendChild(btn);
-  });
+  // Render single Crossed Arrows icon for Visões Transversais
+  const btn = document.createElement('button');
+  btn.className = 'rail-btn dynamic-transversal-btn active';
+  btn.title = 'Visões Transversais';
+  btn.setAttribute('data-tooltip', 'Visões Transversais');
+  btn.onclick = function(e) {
+    document.querySelectorAll('.dynamic-transversal-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    openHomeScenarioView(e);
+  };
+  btn.innerHTML = `
+    <svg class="programa-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M16 3h5v5"/>
+      <path d="M4 20h2c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.8-1.1 2-1.7 3.3-1.7H21"/>
+      <path d="M21 16v5h-5"/>
+      <path d="M4 4h2c1.3 0 2.5.6 3.3 1.7l6.1 8.6c.8 1.1 2 1.7 3.3 1.7H21"/>
+    </svg>
+  `;
+  railContainer.appendChild(btn);
 };
 
 window.syncTransversalRailIcons = function() {
@@ -191,17 +177,107 @@ window.openHomeScenarioView = function(e) {
 
   renderBlueRailIcons();
 
-  // Update sub-sidebar header title and hide dropdown & tree for clean panel matching print
+  // Update sub-sidebar header title to PE 2023-2026 and set pin icon on the right (Blue Menu Theme)
   const subTitle = document.querySelector('.sub-sidebar .sidebar-title');
-  if (subTitle) subTitle.innerText = 'Transversalidades';
+  if (subTitle) subTitle.innerText = 'PE 2023-2026';
+
+  const headerSvg = document.querySelector('.sub-sidebar .sidebar-header svg');
+  if (headerSvg) {
+    headerSvg.setAttribute('data-blue-icon', 'true');
+    headerSvg.innerHTML = `
+      <path d="M12 17v5"/>
+      <path d="M9 4h6l-1 6h2.5l-4.5 7-4.5-7H10z"/>
+    `;
+  }
 
   const dropBox = document.querySelector('.sub-sidebar .sidebar-dropdown-box');
-  if (dropBox) dropBox.style.display = 'none';
+  if (dropBox) {
+    dropBox.style.display = 'flex';
+    dropBox.innerHTML = `
+      <div class="sidebar-dropdown-left" style="display: flex; align-items: center; gap: 8px;">
+        <span style="font-size: 13px; font-weight: 500; color: #004b6e;">Visão Transversal</span>
+      </div>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    `;
+  }
 
   const treeSec = document.querySelector('.sub-sidebar .sidebar-tree-section');
   if (treeSec) treeSec.style.display = 'none';
 
   if (typeof showToast === 'function') showToast('Cenário Transversalidades exibido no Tema Azul!');
+};
+
+window.updateBreadcrumb = function(viewMode, activePillName) {
+  const container = document.querySelector('.pink-breadcrumb');
+  if (!container) return;
+
+  const homeSvg = `
+    <div style="display: flex; align-items: center; gap: 6px; padding-top: 4px;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor: pointer;" onclick="openPlanoView(event)" title="Início"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+  `;
+
+  const pill1 = `
+    <div style="display: flex; flex-direction: column; gap: 2px;">
+      <div style="background: #e2e8f0; color: #004b6e; padding: 4px 14px; border-radius: 12px; font-size: 12px; font-weight: 500;">Configurações do Escritório</div>
+      <span style="font-size: 11px; color: #64748b; padding-left: 8px;">PMO-ES</span>
+    </div>
+  `;
+
+  const chevron = `
+    <div style="padding-top: 6px;">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+  `;
+
+  if (viewMode === 'list') {
+    // Mode 1: Lista Principal 'MODELOS DE PLANO' (2 pílulas)
+    container.innerHTML = `
+      ${homeSvg}
+      ${pill1}
+      ${chevron}
+      <div style="display: flex; flex-direction: column; gap: 2px;">
+        <div style="background: #e2e8f0; color: #004b6e; padding: 4px 14px; border-radius: 12px; font-size: 12px; font-weight: 500;">Configuração</div>
+      </div>
+    `;
+  } else if (viewMode === 'detail') {
+    // Mode 2: Modelo de Plano (3 pílulas)
+    container.innerHTML = `
+      ${homeSvg}
+      ${pill1}
+      ${chevron}
+      <div style="display: flex; flex-direction: column; gap: 2px;">
+        <div style="background: #e2e8f0; color: #004b6e; padding: 4px 14px; border-radius: 12px; font-size: 12px; font-weight: 500;">Configuração</div>
+        <span style="font-size: 11px; color: #64748b; padding-left: 8px;">Modelos de Plano</span>
+      </div>
+      ${chevron}
+      <div style="display: flex; flex-direction: column; gap: 2px;">
+        <div style="background: #e2e8f0; color: #004b6e; padding: 4px 14px; border-radius: 12px; font-size: 12px; font-weight: 500;">Modelo de Plano</div>
+      </div>
+    `;
+  } else {
+    // Mode 3: Subtelas como Portfólio, Programa, Projeto, Eixo (4 pílulas)
+    const label = activePillName || 'Modelo de Pacote de Trabalho';
+    container.innerHTML = `
+      ${homeSvg}
+      ${pill1}
+      ${chevron}
+      <div style="display: flex; flex-direction: column; gap: 2px;">
+        <div style="background: #e2e8f0; color: #004b6e; padding: 4px 14px; border-radius: 12px; font-size: 12px; font-weight: 500;">Configuração</div>
+        <span style="font-size: 11px; color: #64748b; padding-left: 8px;">Modelos de Plano</span>
+      </div>
+      ${chevron}
+      <div style="display: flex; flex-direction: column; gap: 2px;">
+        <div style="background: #e2e8f0; color: #004b6e; padding: 4px 14px; border-radius: 12px; font-size: 12px; font-weight: 500;">Modelo de Plano</div>
+        <span style="font-size: 11px; color: #64748b; padding-left: 8px;">Modelo de Gestão PMO23-26</span>
+      </div>
+      ${chevron}
+      <div style="display: flex; flex-direction: column; gap: 2px;">
+        <div style="background: #e2e8f0; color: #004b6e; padding: 4px 14px; border-radius: 12px; font-size: 12px; font-weight: 500;">${label}</div>
+      </div>
+    `;
+  }
 };
 
 window.openPortfolioView = function(e) {
@@ -230,6 +306,8 @@ window.openPortfolioView = function(e) {
   const itemPort = document.getElementById('tree-portfolio-toggle');
   if (itemPort) itemPort.classList.add('active-selected');
 
+  updateBreadcrumb('subdetail', 'Modelo de Pacote de Trabalho');
+
   if (typeof showToast === 'function') showToast('Navegando para Propriedades do Portfólio (Organizador)');
 };
 
@@ -257,6 +335,8 @@ window.openEixoView = function(e) {
 
   document.querySelectorAll('.sidebar-tree-item').forEach(i => i.classList.remove('active-selected'));
 
+  updateBreadcrumb('subdetail', 'Eixo');
+
   if (typeof showToast === 'function') showToast('Navegando para Propriedades do Eixo (Organizador)');
 };
 
@@ -283,6 +363,8 @@ window.openAreaTematicaView = function(e) {
   if (vAreaTematica) vAreaTematica.classList.remove('hidden');
 
   document.querySelectorAll('.sidebar-tree-item').forEach(i => i.classList.remove('active-selected'));
+
+  updateBreadcrumb('subdetail', 'Área Temática');
 
   if (typeof showToast === 'function') showToast('Navegando para Propriedades de Área Temática (Organizador)');
 };
@@ -327,6 +409,8 @@ window.openProgramaView = function(e, customName) {
     const titleEl = vPrograma.querySelector('.page-title');
     if (titleEl) titleEl.innerHTML = `${selectedName} <span style="font-size: 13px; font-weight: normal; color: #64748b;">(Programa)</span>`;
   }
+
+  updateBreadcrumb('subdetail', 'Modelo de Pacote de Trabalho');
 
   const form = document.getElementById('programa-properties-form');
   if (form) {
@@ -560,6 +644,8 @@ window.openProjetoView = function(e) {
   const itemProj = document.getElementById('tree-item-projeto');
   if (itemProj) itemProj.classList.add('active-selected');
 
+  updateBreadcrumb('subdetail', 'Projeto');
+
   if (typeof syncDominioOptions === 'function') syncDominioOptions();
   if (typeof showToast === 'function') showToast('Navegando para Propriedades do Projeto (Projeto)');
 };
@@ -597,8 +683,31 @@ window.openPlanoView = function(e) {
   const subTitle = document.querySelector('.sub-sidebar .sidebar-title');
   if (subTitle) subTitle.innerText = 'Modelos de Plano';
 
+  const headerSvg = document.querySelector('.sub-sidebar .sidebar-header svg');
+  if (headerSvg && headerSvg.getAttribute('data-blue-icon')) {
+    headerSvg.removeAttribute('data-blue-icon');
+    headerSvg.innerHTML = `
+      <circle cx="12" cy="12" r="9"/>
+      <path d="M12 7v5l3 2"/>
+    `;
+  }
+
   const dropBox = document.querySelector('.sub-sidebar .sidebar-dropdown-box');
-  if (dropBox) dropBox.style.display = 'flex';
+  if (dropBox) {
+    dropBox.style.display = 'flex';
+    dropBox.innerHTML = `
+      <div class="sidebar-dropdown-left">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="5" r="2"/>
+          <path d="M12 7l-6 14"/>
+          <path d="M12 7l6 14"/>
+          <path d="M8 15a8 8 0 0 0 8 0"/>
+        </svg>
+        <span>Modelo de Gestão PMO23-26</span>
+      </div>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    `;
+  }
 
   const treeSec = document.querySelector('.sub-sidebar .sidebar-tree-section');
   if (treeSec) treeSec.style.display = 'block';
@@ -610,6 +719,8 @@ window.openPlanoView = function(e) {
   document.querySelectorAll('.sidebar-tree-item').forEach(i => i.classList.remove('active-selected'));
   const itemPort = document.getElementById('tree-portfolio-toggle');
   if (itemPort) itemPort.classList.add('active-selected');
+
+  updateBreadcrumb('list');
 
   if (typeof showToast === 'function') showToast('Navegando para Modelos de Plano');
 };
@@ -652,6 +763,8 @@ window.openModelosEstruturaisView = function(e) {
   const treeSec = document.querySelector('.sub-sidebar .sidebar-tree-section');
   if (treeSec) treeSec.style.display = 'block';
 
+  updateBreadcrumb('detail');
+
   if (typeof showToast === 'function') showToast('Abrindo Modelos Estruturais (Propriedades, Estrutura, Centro de Custo, Relatórios)');
 };
 
@@ -692,6 +805,8 @@ window.openVisoesTransversaisView = function(e) {
 
   const treeSec = document.querySelector('.sub-sidebar .sidebar-tree-section');
   if (treeSec) treeSec.style.display = 'block';
+
+  updateBreadcrumb('subdetail', 'Modelo de Pacote de Trabalho');
 
   if (typeof showToast === 'function') showToast('Abrindo Visões Transversais');
 };
@@ -905,6 +1020,22 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // Visões Transversais Card (+) Add Box Menu Toggle em Modelos Estruturais
+  const vtCardAddTrigger = document.getElementById('visoes-transversais-add-box-trigger');
+  const vtCardAddMenu = document.getElementById('visoes-transversais-add-menu');
+  if (vtCardAddTrigger && vtCardAddMenu) {
+    vtCardAddTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      vtCardAddMenu.style.display = (vtCardAddMenu.style.display === 'block') ? 'none' : 'block';
+    });
+    document.addEventListener('click', (e) => {
+      if (!vtCardAddTrigger.contains(e.target) && !vtCardAddMenu.contains(e.target)) {
+        vtCardAddMenu.style.display = 'none';
+      }
+    });
+  }
+
 
   // Visão (+) Add Box Menu Toggle na secao VISÕES
   const visaoAddTrigger = document.getElementById('visao-add-box-trigger');
@@ -1182,6 +1313,7 @@ window.selectProjetoVinculo = function(element, name) {
 
 window.addProgramaToVisoesTransversais = function(name, iconSvg) {
   const targetContainers = [
+    document.querySelector('#visoes-transversais-models-list'),
     document.querySelector('#view-visoes-transversais #transversalidade-programas-list'),
     document.querySelector('#view-visoes-transversais .card-body > div'),
     document.querySelector('#view-cenario-transversalidades #transversalidade-programas-list')
@@ -1230,7 +1362,7 @@ window.addProgramaToVisoesTransversais = function(name, iconSvg) {
       
       const inputs = programaForm.querySelectorAll('.form-row-grid input[type="text"]');
       let progName = (inputs.length > 0 && inputs[0].value.trim()) ? inputs[0].value.trim() : 'Novo Programa';
-      const iconSvg = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`;
+      const iconSvg = window.selectedIconObj ? window.selectedIconObj.svg : `<svg class="programa-icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#004b6e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M4 20h2c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.8-1.1 2-1.7 3.3-1.7H21"/><path d="M21 16v5h-5"/><path d="M4 4h2c1.3 0 2.5.6 3.3 1.7l6.1 8.6c.8 1.1 2 1.7 3.3 1.7H21"/></svg>`;
 
       addProgramaToVisoesTransversais(progName, iconSvg);
 
@@ -1242,3 +1374,176 @@ window.addProgramaToVisoesTransversais = function(name, iconSvg) {
     });
   }
 });
+
+// ==========================================
+// ICON PICKER & PROGRAMA ICON MANAGEMENT
+// ==========================================
+
+window.ICON_DATABASE = [
+  {
+    id: 'transversal',
+    name: 'Setas Cruzadas (Transversal)',
+    category: 'Programa',
+    svg: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#004b6e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M4 20h2c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.8-1.1 2-1.7 3.3-1.7H21"/><path d="M21 16v5h-5"/><path d="M4 4h2c1.3 0 2.5.6 3.3 1.7l6.1 8.6c.8 1.1 2 1.7 3.3 1.7H21"/></svg>`
+  },
+  {
+    id: 'engrenagem',
+    name: 'Engrenagem / Configurações',
+    category: 'Geral',
+    svg: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`
+  },
+  {
+    id: 'maleta',
+    name: 'Maleta / Portfólio',
+    category: 'Portfólio',
+    svg: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>`
+  },
+  {
+    id: 'pasta',
+    name: 'Pasta / Categoria',
+    category: 'Geral',
+    svg: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>`
+  },
+  {
+    id: 'edificio',
+    name: 'Edifício / Organização',
+    category: 'Estrutura',
+    svg: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="9" y1="6" x2="9" y2="6.01"/><line x1="15" y1="6" x2="15" y2="6.01"/><line x1="9" y1="10" x2="9" y2="10.01"/><line x1="15" y1="10" x2="15" y2="10.01"/><line x1="9" y1="14" x2="9" y2="14.01"/><line x1="15" y1="14" x2="15" y2="14.01"/><path d="M10 22v-4h4v4"/></svg>`
+  },
+  {
+    id: 'alvo',
+    name: 'Alvo / Meta',
+    category: 'Objetivos',
+    svg: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`
+  },
+  {
+    id: 'grafico',
+    name: 'Gráfico / Desempenho',
+    category: 'Métricas',
+    svg: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`
+  },
+  {
+    id: 'camadas',
+    name: 'Camadas / Níveis',
+    category: 'Estrutura',
+    svg: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>`
+  },
+  {
+    id: 'livro',
+    name: 'Documento / Registro',
+    category: 'Geral',
+    svg: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>`
+  },
+  {
+    id: 'estrela',
+    name: 'Estrela / Destaque',
+    category: 'Geral',
+    svg: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`
+  },
+  {
+    id: 'usuarios',
+    name: 'Usuários / Equipe',
+    category: 'Geral',
+    svg: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`
+  },
+  {
+    id: 'check',
+    name: 'Check / Validação',
+    category: 'Geral',
+    svg: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`
+  }
+];
+
+window.activeModelContext = 'programa';
+window.selectedIconObj = window.ICON_DATABASE[0]; // Setas Cruzadas default!
+
+window.openIconPickerModal = function(context = 'programa') {
+  window.activeModelContext = context;
+  const modal = document.getElementById('icon-picker-modal');
+  if (!modal) return;
+
+  renderIconGallery();
+  modal.classList.remove('hidden');
+};
+
+window.closeIconPickerModal = function() {
+  const modal = document.getElementById('icon-picker-modal');
+  if (modal) modal.classList.add('hidden');
+};
+
+window.renderIconGallery = function(searchTerm = '') {
+  const grid = document.getElementById('icon-gallery-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+
+  const term = searchTerm.toLowerCase().trim();
+  const filtered = window.ICON_DATABASE.filter(item => 
+    item.name.toLowerCase().includes(term) || item.category.toLowerCase().includes(term)
+  );
+
+  filtered.forEach(iconItem => {
+    const card = document.createElement('div');
+    card.className = 'icon-gallery-item' + (window.selectedIconObj && window.selectedIconObj.id === iconItem.id ? ' selected' : '');
+    card.onclick = function() {
+      selectIconItem(iconItem);
+    };
+    card.ondblclick = function() {
+      selectIconItem(iconItem);
+      applySelectedIcon();
+    };
+
+    card.innerHTML = `
+      <div class="icon-gallery-svg">${iconItem.svg}</div>
+      <div class="icon-gallery-item-name">${iconItem.name}</div>
+    `;
+    grid.appendChild(card);
+  });
+};
+
+window.filterIconGallery = function(val) {
+  renderIconGallery(val);
+};
+
+window.selectIconItem = function(iconItem) {
+  window.selectedIconObj = iconItem;
+  renderIconGallery(document.getElementById('icon-search-input')?.value || '');
+};
+
+window.applySelectedIcon = function() {
+  if (!window.selectedIconObj) return;
+
+  const iconSvg = window.selectedIconObj.svg;
+  const context = window.activeModelContext || 'programa';
+
+  // Update target preview box
+  const targetPreview = document.getElementById(`${context}-icon-preview`);
+  if (targetPreview) {
+    targetPreview.innerHTML = iconSvg;
+  }
+
+  // If context is programa, update all programa icon instances across UI
+  if (context === 'programa') {
+    window.updateAllProgramaIcons(iconSvg);
+  }
+
+  closeIconPickerModal();
+  if (typeof showToast === 'function') showToast(`Ícone '${window.selectedIconObj.name}' setado com sucesso em Propriedades!`);
+};
+
+window.clearSelectedIcon = function(context = 'programa') {
+  const targetPreview = document.getElementById(`${context}-icon-preview`);
+  if (targetPreview) {
+    targetPreview.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><circle cx="12" cy="12" r="9"/><line x1="18" y1="6" x2="6" y2="18"/></svg>`;
+  }
+  if (typeof showToast === 'function') showToast(`Ícone limpo.`);
+};
+
+window.updateAllProgramaIcons = function(iconSvgHtml) {
+  document.querySelectorAll('.programa-icon-svg').forEach(el => {
+    const parent = el.parentElement;
+    if (parent) {
+      parent.innerHTML = iconSvgHtml;
+    }
+  });
+};
+
