@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Modelo de Plano - Sistema de Gestão PMO</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=vt-project-tree-4">
 </head>
 <body>
 
@@ -2164,7 +2164,7 @@
             <div id="tab-vt-eap" class="vt-tab" style="padding-bottom: 8px; cursor: pointer;" onclick="switchVTTab('eap')">EAP</div>
             <div id="tab-vt-prop" class="vt-tab" style="padding-bottom: 8px; cursor: pointer;" onclick="switchVTTab('prop')">Propriedades</div>
             <div id="tab-vt-prog" class="vt-tab" style="padding-bottom: 8px; cursor: pointer;" onclick="switchVTTab('prog'); showVTProgramList()">Programas</div>
-            <div id="tab-vt-proj" class="vt-tab" style="padding-bottom: 8px; cursor: pointer;" onclick="showToast('Projetos')">Projetos</div>
+            <div id="tab-vt-proj" class="vt-tab" style="padding-bottom: 8px; cursor: pointer;" onclick="switchVTTab('proj'); renderVTProjectsList()">Projetos</div>
           </div>
 
           <!-- TAB CONTENT: PAINEL DE CONTROLE -->
@@ -2651,6 +2651,43 @@
             </section>
           </div>
 
+          <!-- TAB CONTENT: PROJETOS DA VISÃO TRANSVERSAL -->
+          <div id="vt-content-proj" class="vt-content vt-projects" style="display: none;">
+            <div class="vt-projects-toolbar">
+              <label class="vt-projects-cancelled-toggle">
+                <input type="checkbox" aria-label="Exibir projetos cancelados">
+                <span class="vt-projects-toggle-track" aria-hidden="true"><i></i></span>
+                <span>Exibir cancelado</span>
+              </label>
+
+              <div class="vt-projects-toolbar-actions">
+                <label class="vt-projects-filter">
+                  <span>Exibir</span>
+                  <select aria-label="Filtrar projetos">
+                    <option>Todos</option>
+                    <option>Ativos</option>
+                    <option>Concluídos</option>
+                  </select>
+                </label>
+                <button type="button" class="vt-projects-add-top" title="Vincular projeto" aria-label="Vincular projeto" aria-expanded="false" onclick="openVTProjectPicker(event, this)">+</button>
+              </div>
+            </div>
+
+            <div id="vt-project-picker" class="vt-project-picker hidden" role="dialog" aria-modal="false" aria-label="Vincular projeto">
+              <div class="vt-project-picker-header">
+                <strong>Vincular projeto</strong>
+                <button type="button" aria-label="Fechar vínculo de projeto" onclick="event.stopPropagation(); closeVTProjectPicker()">&times;</button>
+              </div>
+              <div id="vt-project-tree" class="vt-project-tree" role="tree"></div>
+            </div>
+
+            <div id="vt-projects-list" class="vt-projects-list" aria-label="Lista de projetos da visão transversal"></div>
+
+            <button type="button" class="vt-projects-add-bottom" aria-label="Vincular projeto" aria-expanded="false" onclick="openVTProjectPicker(event, this)">
+              <span aria-hidden="true">+</span>
+            </button>
+          </div>
+
         </div> <!-- Fechamento de view-cenario-transversalidades -->
 
         <!-- VIEW 5: VISÕES TRANSVERSAIS (Tela de Visão ao Clicar em Visões Transversais) -->
@@ -2745,6 +2782,35 @@
           </div>
         </div>
 
+        <!-- VIEW: PROJETOS (Blue Rail) -->
+        <div id="view-blue-projetos" class="view-container hidden" style="padding: 24px; max-width: 1200px; margin: 0 auto;">
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; margin-bottom: 16px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div class="toggle-switch" style="width: 28px; height: 16px; background: #cbd5e1; border-radius: 8px; position: relative; cursor: pointer;">
+                <div style="width: 12px; height: 12px; background: white; border-radius: 50%; position: absolute; left: 2px; top: 2px;"></div>
+              </div>
+              <span style="font-size: 12px; color: #94a3b8; font-weight: 500;">Exibir cancelado</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <label style="font-size: 12px; color: #94a3b8; font-weight: 500; display: flex; align-items: center; gap: 8px;">
+                Exibir
+                <select style="border: none; border-bottom: 1px solid #cbd5e1; color: #0f172a; font-weight: 500; font-size: 12px; outline: none; background: transparent; cursor: pointer; padding-bottom: 2px;">
+                  <option>Todos</option>
+                </select>
+              </label>
+              <button type="button" style="border: 1px solid #e2e8f0; background: #fff; color: #cbd5e1; font-size: 18px; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 4px; cursor: pointer;">+</button>
+            </div>
+          </div>
+          
+          <div id="blue-projetos-list">
+            <!-- JS vai renderizar aqui -->
+          </div>
+          
+          <div style="margin-top: 12px; border: 1px solid #f1f5f9; background: #f8fafc; display: flex; justify-content: center; align-items: center; padding: 8px; cursor: pointer; border-radius: 4px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </div>
+        </div>
+
       </section>
     </main>
   </div>
@@ -2780,6 +2846,6 @@
     </div>
   </div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=vt-project-tree-4"></script>
 </body>
 </html>

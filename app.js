@@ -71,7 +71,7 @@ window.renderBlueRailIcons = function() {
     </button>
 
     <!-- Icon 3: Briefcase -->
-    <button class="rail-btn" title="Projetos" data-tooltip="Projetos">
+    <button class="rail-btn" title="Projetos" data-tooltip="Projetos" onclick="openBlueProjetosView(event)">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <rect x="2" y="7" width="20" height="14" rx="2"/>
         <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
@@ -222,6 +222,7 @@ window.switchVTTab = function(tabName) {
   const eapContent = document.getElementById('vt-content-eap');
   const propertiesContent = document.getElementById('vt-content-prop');
   const programsContent = document.getElementById('vt-content-prog');
+  const projectsContent = document.getElementById('vt-content-proj');
 
   // Alguns navegadores recompõem o HTML legado colocando a EAP dentro do painel.
   // Normalizamos a estrutura antes de alternar as abas para que uma não oculte a outra.
@@ -233,6 +234,9 @@ window.switchVTTab = function(tabName) {
   }
   if (transversalView && propertiesContent && programsContent && programsContent.parentElement !== transversalView) {
     propertiesContent.insertAdjacentElement('afterend', programsContent);
+  }
+  if (transversalView && programsContent && projectsContent && projectsContent.parentElement !== transversalView) {
+    programsContent.insertAdjacentElement('afterend', projectsContent);
   }
 
   // Reset all tabs
@@ -827,6 +831,9 @@ window.openPlanoView = function(e) {
   if (vAreaTematica) vAreaTematica.classList.add('hidden');
   if (vCenario) vCenario.classList.add('hidden');
   if (vVisoes) vVisoes.classList.add('hidden');
+  
+  const vBlueProj = document.getElementById('view-blue-projetos');
+  if (vBlueProj) vBlueProj.classList.add('hidden');
 
   if (vPlanoList) vPlanoList.classList.remove('hidden');
 
@@ -1706,3 +1713,362 @@ window.updateAllProgramaIcons = function(iconSvgHtml) {
   });
 };
 
+window.VT_PROJECTS = [
+  { name: 'Cais das Artes', state: 'play', info: true, risk: 'red', bars: [28, 0, 72], code: '35055', export: true },
+  { name: 'Centro Cultural Carmélia', state: 'play', info: false, risk: 'red', bars: [30, 40, 26, 4], code: '763321', export: true },
+  { name: 'Coinvestimento da Cultura – Fundo a Fundo', state: 'alert', info: true, risk: 'orange', bars: [12, 55, 33], code: '587154' },
+  { name: 'Editais Funcultura', state: 'play', info: true, risk: 'red', bars: [10, 25, 50, 15], code: '554839' },
+  { name: 'Hub Criativo ES+', state: 'play', info: true, risk: 'orange', bars: [5, 10, 80, 5], code: '382023' },
+  { name: 'Incentivo à Produção Cultural Capixaba', state: 'play', info: true, risk: 'red', bars: [0, 52, 42, 6], code: '544617' },
+  { name: 'Interiorização de sinal', state: 'play', info: true, risk: 'red', bars: [58, 15, 15, 12], code: '157507' },
+  { name: 'Midiateca Capixaba', state: 'alert', info: true, risk: 'red', bars: [24, 55, 11, 10], code: '592508' },
+  { name: 'Modernização TVE e Rad ES', state: 'play', info: true, risk: 'orange', bars: [25, 42, 33], code: '2112' },
+  { name: 'Reforma do Teatro Carlos Gomes', state: 'check', info: true, risk: 'check', bars: [100], code: '539064' },
+  { name: 'Sistema Estadual de Espaços Culturais', state: 'play', info: true, risk: 'red', bars: [0, 65, 30, 5], code: '504450' },
+  { name: 'TVE Revista', state: 'check', info: true, risk: 'check', bars: [100], code: '872' },
+  { name: 'Valorização das Culturas Populares', state: 'play', info: true, risk: 'red', bars: [10, 12, 73, 5], code: '544479' }
+];
+
+window.VT_PROJECT_TREE = {
+  id: 'pe-2023-2026',
+  name: 'PE 2023-2026',
+  type: 'plan',
+  children: [{
+    id: 'realiza',
+    name: 'Realiza+',
+    type: 'portfolio',
+    children: [{
+      id: 'eixo-qualidade',
+      name: 'Eixo I: +Qualidade de vida',
+      type: 'axis',
+      children: [{
+        id: 'educacao-cultura-esporte',
+        name: 'Educação, Cultura, Esporte e Lazer',
+        type: 'folder',
+        children: [
+          {
+            id: 'cultura-es',
+            name: 'Cultura ES',
+            type: 'program',
+            children: window.VT_PROJECTS.map(project => ({
+              id: 'project-' + project.code,
+              name: project.name,
+              type: 'project'
+            }))
+          },
+          {
+            id: 'esportes',
+            name: 'EsportES',
+            type: 'program',
+            children: [{
+              id: 'eixo-infraestrutura',
+              name: 'Eixo Infraestrutura',
+              type: 'axis',
+              children: [
+                { id: 'project-academias-populares', name: 'Academias Populares', type: 'project', code: '62110' },
+                { id: 'project-arena-capixaba', name: 'Arena Capixaba', type: 'project', code: '62111' },
+                { id: 'project-campo-bom-de-bola', name: 'Campo Bom de Bola', type: 'project', code: '62112' },
+                { id: 'project-campo-melhor', name: 'Campo Melhor', type: 'project', code: '62113' },
+                { id: 'project-campo-perfeito', name: 'Campo Perfeito', type: 'project', code: '62114' },
+                { id: 'project-centro-excelencia-pcd', name: 'Centro de Excelência PCD', type: 'project', code: '62115' }
+              ]
+            }]
+          }
+        ]
+      }]
+    }]
+  }]
+};
+
+window.getVTProjectTreeBranchIds = function(node) {
+  if (!node.children || node.children.length === 0) return [];
+  return [node.id, ...node.children.flatMap(child => getVTProjectTreeBranchIds(child))];
+};
+
+window.VT_COLLAPSED_PROJECT_NODES = new Set(getVTProjectTreeBranchIds(window.VT_PROJECT_TREE));
+
+window.getVTProjectTreeLeaves = function(node) {
+  if (!node.children || node.children.length === 0) return node.type === 'project' ? [node] : [];
+  return node.children.flatMap(child => getVTProjectTreeLeaves(child));
+};
+
+window.isVTProjectAdded = function(name) {
+  return window.VT_PROJECTS.some(project => project.name === name);
+};
+
+window.getVTProjectTreeIcon = function(type) {
+  if (type === 'folder') {
+    return `<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5h6l2 2h10v12H3z"/></svg>`;
+  }
+  if (type === 'portfolio') {
+    return `<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 5V3h6v2h5a2 2 0 0 1 2 2v4H2V7a2 2 0 0 1 2-2h5Zm2 0h2V4h-2v1ZM2 13h8v2h4v-2h8v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6Z"/></svg>`;
+  }
+  if (type === 'axis') {
+    return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="m8 7 3 9m5-9-3 9M8 6h8"/></svg>`;
+  }
+  return `<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.04.04-2.83 2.83-.04-.04a1.7 1.7 0 0 0-1.87-.34A1.7 1.7 0 0 0 14 20.93V21h-4v-.07a1.7 1.7 0 0 0-1.04-1.57 1.7 1.7 0 0 0-1.87.34l-.04.04-2.83-2.83.04-.04A1.7 1.7 0 0 0 4.6 15.0 1.7 1.7 0 0 0 3.03 14H3v-4h.03A1.7 1.7 0 0 0 4.6 8.96a1.7 1.7 0 0 0-.34-1.87l-.04-.04 2.83-2.83.04.04a1.7 1.7 0 0 0 1.87.34A1.7 1.7 0 0 0 10 3.03V3h4v.03a1.7 1.7 0 0 0 1.04 1.57 1.7 1.7 0 0 0 1.87-.34l.04-.04 2.83 2.83-.04.04a1.7 1.7 0 0 0-.34 1.87A1.7 1.7 0 0 0 20.97 10H21v4h-.03A1.7 1.7 0 0 0 19.4 15ZM12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"/></svg>`;
+};
+
+window.renderVTProjectTree = function() {
+  const tree = document.getElementById('vt-project-tree');
+  if (!tree) return;
+
+  const checkIcon = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="5 12 10 17 19 7"/></svg>`;
+  const arrowIcon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>`;
+
+  function renderNode(node, depth) {
+    const hasChildren = Boolean(node.children && node.children.length);
+    const isCollapsed = window.VT_COLLAPSED_PROJECT_NODES.has(node.id);
+    const leaves = getVTProjectTreeLeaves(node);
+    const isSelected = node.type === 'project'
+      ? isVTProjectAdded(node.name)
+      : leaves.some(leaf => isVTProjectAdded(leaf.name));
+    const checkbox = `<span class="vt-project-tree-checkbox${isSelected ? ' selected' : ''}">${checkIcon}</span>`;
+    const icon = `<span class="vt-project-tree-icon">${getVTProjectTreeIcon(node.type)}</span>`;
+    const label = `<span class="vt-project-tree-label">${node.name}</span>`;
+    const toggle = hasChildren
+      ? `<button type="button" class="vt-project-tree-toggle${isCollapsed ? ' collapsed' : ''}" data-tree-toggle="${node.id}" aria-label="${isCollapsed ? 'Expandir' : 'Recolher'} ${node.name}">${arrowIcon}</button>`
+      : `<span class="vt-project-tree-spacer" aria-hidden="true"></span>`;
+    const selector = node.type === 'project'
+      ? `<button type="button" class="vt-project-tree-select" data-project-name="${node.name}" data-project-code="${node.code || ''}" role="treeitem" aria-selected="${isSelected}">${checkbox}${icon}${label}</button>`
+      : `<div class="vt-project-tree-select" role="treeitem" aria-expanded="${!isCollapsed}">${checkbox}${icon}${label}</div>`;
+    const children = hasChildren
+      ? `<div class="vt-project-tree-children${isCollapsed ? ' collapsed' : ''}" role="group">${node.children.map(child => renderNode(child, depth + 1)).join('')}</div>`
+      : '';
+    return `<div class="vt-project-tree-node"><div class="vt-project-tree-row" style="--tree-depth:${depth}">${toggle}${selector}</div>${children}</div>`;
+  }
+
+  tree.innerHTML = renderNode(window.VT_PROJECT_TREE, 0);
+
+  tree.querySelectorAll('[data-tree-toggle]').forEach(button => {
+    button.addEventListener('click', event => {
+      event.stopPropagation();
+      const nodeId = button.getAttribute('data-tree-toggle');
+      if (window.VT_COLLAPSED_PROJECT_NODES.has(nodeId)) {
+        window.VT_COLLAPSED_PROJECT_NODES.delete(nodeId);
+      } else {
+        window.VT_COLLAPSED_PROJECT_NODES.add(nodeId);
+      }
+      renderVTProjectTree();
+    });
+  });
+
+  tree.querySelectorAll('[data-project-name]').forEach(button => {
+    button.addEventListener('click', event => {
+      addVTProjectFromTree(event, button.getAttribute('data-project-name'), button.getAttribute('data-project-code'));
+    });
+  });
+};
+
+window.openVTProjectPicker = function(event, trigger) {
+  if (event) event.stopPropagation();
+  const picker = document.getElementById('vt-project-picker');
+  if (!picker) return;
+  const shouldClose = !picker.classList.contains('hidden') && trigger && trigger.getAttribute('aria-expanded') === 'true';
+  if (shouldClose) {
+    closeVTProjectPicker();
+    return;
+  }
+  window.VT_COLLAPSED_PROJECT_NODES = new Set(getVTProjectTreeBranchIds(window.VT_PROJECT_TREE));
+  renderVTProjectTree();
+  picker.classList.remove('hidden');
+  document.querySelectorAll('.vt-projects-add-top, .vt-projects-add-bottom').forEach(button => {
+    button.setAttribute('aria-expanded', button === trigger ? 'true' : 'false');
+  });
+};
+
+window.closeVTProjectPicker = function() {
+  const picker = document.getElementById('vt-project-picker');
+  if (picker) picker.classList.add('hidden');
+  document.querySelectorAll('.vt-projects-add-top, .vt-projects-add-bottom').forEach(button => button.setAttribute('aria-expanded', 'false'));
+};
+
+window.addVTProjectFromTree = function(event, name, code) {
+  if (event) event.stopPropagation();
+  if (isVTProjectAdded(name)) {
+    showToast(`O projeto '${name}' já está na listagem.`);
+    return;
+  }
+
+  const variations = [
+    [22, 18, 50, 10],
+    [35, 30, 30, 5],
+    [15, 45, 35, 5]
+  ];
+  const bars = variations[window.VT_PROJECTS.length % variations.length];
+  window.VT_PROJECTS.push({
+    name,
+    state: 'play',
+    info: true,
+    risk: 'red',
+    bars,
+    code: code || String(62000 + window.VT_PROJECTS.length)
+  });
+  renderVTProjectsList();
+  renderVTProjectTree();
+  showToast(`Projeto '${name}' adicionado à listagem.`);
+};
+
+document.addEventListener('click', function(event) {
+  const picker = document.getElementById('vt-project-picker');
+  if (!picker || picker.classList.contains('hidden')) return;
+  if (!picker.contains(event.target) && !event.target.closest('.vt-projects-add-top, .vt-projects-add-bottom')) {
+    closeVTProjectPicker();
+  }
+});
+
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') closeVTProjectPicker();
+});
+
+window.renderVTProjectsList = function() {
+  const container = document.getElementById('vt-projects-list');
+  if (!container) return;
+
+  const colors = ['#43b29f', '#e55e61', '#078db8', '#7467aa'];
+  const gearIcon = `<svg class="vt-project-gear" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.04.04-2.83 2.83-.04-.04a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.04 1.57V21h-4v-.07a1.7 1.7 0 0 0-1.04-1.57 1.7 1.7 0 0 0-1.87.34l-.04.04-2.83-2.83.04-.04A1.7 1.7 0 0 0 4.6 15.0 1.7 1.7 0 0 0 3.03 14H3v-4h.03A1.7 1.7 0 0 0 4.6 8.96a1.7 1.7 0 0 0-.34-1.87l-.04-.04 2.83-2.83.04.04a1.7 1.7 0 0 0 1.87.34A1.7 1.7 0 0 0 10 3.03V3h4v.03a1.7 1.7 0 0 0 1.04 1.57 1.7 1.7 0 0 0 1.87-.34l.04-.04 2.83 2.83-.04.04a1.7 1.7 0 0 0-.34 1.87A1.7 1.7 0 0 0 20.97 10H21v4h-.03A1.7 1.7 0 0 0 19.4 15ZM12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"/></svg>`;
+  const infoIcon = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#148db5" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.7" r=".8" fill="#148db5" stroke="none"/></svg>`;
+  const shareIcon = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="16" cy="18" r="2"/><path d="m8 7 8 1M7 8l8 8"/></svg>`;
+  const exportIcon = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 3h7v7"/><path d="m21 3-9 9"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>`;
+
+  container.innerHTML = window.VT_PROJECTS.map(project => {
+    const bars = project.bars.map((width, index) => width > 0
+      ? `<i style="width:${width}%;background:${project.state === 'check' ? '#078db8' : colors[index % colors.length]}"></i>`
+      : '').join('');
+
+    let stateIcon = '';
+    if (project.state === 'check') {
+      stateIcon = `<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#078db8"/><polyline points="7.5 12 10.5 15 16.5 8.8" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    } else if (project.state === 'alert') {
+      stateIcon = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#29373e" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 5 7 18m5-13 5 13M9 13h6"/></svg>`;
+    } else {
+      stateIcon = `<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#16b7a4"/><path d="m10 8 6 4-6 4Z" fill="#fff"/></svg>`;
+    }
+
+    const riskColor = project.risk === 'orange' ? '#ed7c2c' : '#bd5556';
+    const riskIcon = project.risk === 'check'
+      ? `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1599d1" stroke-width="2.2" aria-hidden="true"><rect x="4" y="3" width="16" height="18"/><polyline points="8 12 11 15 16 8"/></svg>`
+      : `<svg width="17" height="17" viewBox="0 0 24 24" fill="${riskColor}" aria-hidden="true"><path d="M5 21V10a7 7 0 0 1 14 0v11l-2.4-1.8-2.3 1.8-2.3-1.8L9.7 21l-2.3-1.8L5 21Z"/><circle cx="9.5" cy="11" r="1" fill="#fff"/><circle cx="14.5" cy="11" r="1" fill="#fff"/></svg>`;
+
+    return `
+      <div class="vt-project-row">
+        <div class="vt-project-name">${gearIcon}<span>${project.name}</span></div>
+        <div class="vt-project-metrics">
+          <span class="vt-project-state">${stateIcon}</span>
+          <span class="vt-project-info">${project.info ? infoIcon : ''}</span>
+          <span class="vt-project-risk">${riskIcon}</span>
+          <span class="vt-project-progress">${bars}</span>
+          <span class="vt-project-row-actions">
+            <span class="vt-project-kebab" aria-hidden="true">⋮</span>
+            <span class="vt-project-secondary-actions">${project.export ? exportIcon : ''}${shareIcon}</span>
+            <span class="vt-project-code">${project.code}</span>
+          </span>
+        </div>
+      </div>`;
+  }).join('');
+};
+
+window.renderBlueProjetosList = function() {
+  const container = document.getElementById('blue-projetos-list');
+  if (!container) return;
+
+  const projects = [
+    { name: 'Cais das Artes', warning: true, icon: 'play', ghost: true, bars: [30, 0, 70], idc: true, idp: true, money: true, clock: true, scope: true, code: '35055' },
+    { name: 'Centro Cultural Carmélia', warning: false, icon: 'play', ghost: true, bars: [30, 40, 26, 4], idc: true, idp: true, money: true, clock: true, scope: true, code: '763321' },
+    { name: 'Coinvestimento da Cultura – Fundo a Fundo', warning: true, icon: 'A', ghost: true, bars: [12, 55, 33], idc: false, idp: false, money: true, clock: true, scope: true, code: '587154' },
+    { name: 'Editais Funcultura', warning: false, icon: 'play', ghost: true, bars: [10, 20, 50, 20], idc: false, idp: false, money: true, clock: true, scope: true, code: '554839' },
+    { name: 'Hub Criativo ES+', warning: true, icon: 'play', ghost: true, bars: [5, 80, 15], idc: true, idp: true, money: true, clock: true, scope: true, code: '382023' },
+    { name: 'Incentivo à Produção Cultural Capixaba', warning: false, icon: 'play', ghost: true, bars: [50, 40, 10], idc: true, idp: true, money: true, clock: true, scope: true, code: '544617' },
+    { name: 'Interiorização de sinal', warning: true, icon: 'play', ghost: true, bars: [58, 14, 15, 13], idc: true, idp: true, money: true, clock: true, scope: true, code: '157507' },
+    { name: 'Midiateca Capixaba', warning: false, icon: 'A', ghost: true, bars: [20, 60, 10, 10], idc: false, idp: false, money: true, clock: true, scope: true, code: '592508' },
+    { name: 'Modernização TVE e Rad ES', warning: false, icon: 'play', ghost: true, bars: [20, 60, 20], idc: true, idp: true, money: true, clock: true, scope: true, code: '2112' },
+    { name: 'Reforma do Teatro Carlos Gomes', warning: false, icon: 'check', ghost: false, bars: [100], idc: true, idp: true, money: true, clock: true, scope: true, code: '539064', checked: true },
+    { name: 'Sistema Estadual de Espaços Culturais', warning: false, icon: 'play', ghost: true, bars: [60, 30, 10], idc: true, idp: true, money: true, clock: true, scope: true, code: '504450' },
+    { name: 'TVE Revista', warning: true, icon: 'check', ghost: false, bars: [100], idc: true, idp: true, money: true, clock: true, scope: true, code: '872', checked: true },
+    { name: 'Valorização das Culturas Populares', warning: false, icon: 'play', ghost: true, bars: [10, 80, 10], idc: true, idp: true, money: true, clock: true, scope: true, code: '544479' }
+  ];
+
+  const colors = ['#36b39b', '#ef4444', '#0ea5e9', '#8b5cf6'];
+
+  let html = '';
+  projects.forEach(p => {
+    let barsHtml = '';
+    p.bars.forEach((w, i) => {
+      barsHtml += `<div style="width: ${w}%; background: ${colors[i % colors.length]}; height: 100%;"></div>`;
+    });
+    
+    // Ghost icon (pacman/ghost placeholder) or checkbox
+    let ghostIcon = p.ghost ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="2"><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/><path d="M5 21V9a7 7 0 0 1 14 0v12"/></svg>` : (p.checked ? `<div style="width: 14px; height: 14px; background: #0ea5e9; border-radius: 2px; display: flex; align-items: center; justify-content: center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>` : '');
+    
+    // State icon
+    let stateIcon = '';
+    if (p.icon === 'play') {
+      stateIcon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#36b39b" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>`;
+    } else if (p.icon === 'check') {
+      stateIcon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="#0ea5e9" stroke="#0ea5e9" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9" stroke="#fff" stroke-width="2.5"/></svg>`;
+    } else if (p.icon === 'A') {
+      stateIcon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 7l-4 9h8z"/><path d="M9.5 13h5"/></svg>`;
+    }
+
+    html += `
+      <div style="display: flex; align-items: center; justify-content: space-between; border: 1px solid #e2e8f0; border-radius: 4px; padding: 12px 16px; margin-bottom: 8px; background: #fff;">
+        <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span style="font-size: 14px; font-weight: 500; color: #64748b;">${p.name}</span>
+        </div>
+        
+        <div style="display: flex; align-items: center; gap: 20px;">
+          ${stateIcon}
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          ${ghostIcon}
+          
+          <div style="width: 140px; height: 8px; background: #e2e8f0; border-radius: 4px; display: flex; overflow: hidden; margin: 0 10px;">
+            ${barsHtml}
+          </div>
+          
+          <div style="display: flex; align-items: center; gap: 12px; margin-left: 10px;">
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
+              <div style="display: flex; gap: 4px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>
+              </div>
+            </div>
+            <span style="font-size: 10px; color: #94a3b8; align-self: flex-end;">${p.code}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+};
+
+setTimeout(() => {
+  if (typeof renderBlueProjetosList === 'function') renderBlueProjetosList();
+}, 600);
+
+window.openBlueProjetosView = function(e) {
+  if (e && e.stopPropagation) e.stopPropagation();
+  
+  // Hide all view-containers
+  document.querySelectorAll('.view-container').forEach(v => v.classList.add('hidden'));
+  
+  // Update rail active state
+  document.querySelectorAll('.rail-btn').forEach(b => b.classList.remove('active'));
+  if (e && e.currentTarget) {
+    e.currentTarget.classList.add('active');
+  } else {
+    const btns = document.querySelectorAll('#rail-top-icons .rail-btn');
+    if (btns && btns.length >= 3) btns[2].classList.add('active');
+  }
+
+  // Show blue projetos view
+  const vProj = document.getElementById('view-blue-projetos');
+  if (vProj) {
+    vProj.classList.remove('hidden');
+    if (typeof renderBlueProjetosList === 'function') {
+      renderBlueProjetosList();
+    }
+  }
+};
