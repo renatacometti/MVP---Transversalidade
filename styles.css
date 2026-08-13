@@ -120,6 +120,10 @@ body {
   background: #36b39b !important;
 }
 
+.app-container.blue-theme .topbar {
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
 /* Breadcrumb Theme Rules */
 .pink-breadcrumb {
   display: flex;
