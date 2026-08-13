@@ -273,6 +273,9 @@ window.openHomeScenarioView = function(e) {
   if (appContainer) appContainer.classList.add('blue-theme');
 
   renderBlueRailIcons();
+  
+  // Always default to Painel de Controle when opening Visão Transversal
+  if (typeof switchVTTab === 'function') switchVTTab('painel');
 
   // Update sub-sidebar header title to PE 2023-2026 and set pin icon on the right (Blue Menu Theme)
   const subTitle = document.querySelector('.sub-sidebar .sidebar-title');
