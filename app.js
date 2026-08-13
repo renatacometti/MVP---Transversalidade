@@ -108,6 +108,40 @@ window.renderBlueRailIcons = function() {
   railContainer.appendChild(btn);
 };
 
+// Tab switching for Cenário Transversalidades sub-tabs (Painel de Controle / EAP etc)
+window.switchCenarioTab = function(tabEl, tabId) {
+  // Hide all tab content panels
+  var panels = document.querySelectorAll('#tab-painel-controle, #tab-eap');
+  panels.forEach(function(p) { p.classList.add('hidden'); });
+  
+  // Show the selected panel
+  var target = document.getElementById(tabId);
+  if (target) target.classList.remove('hidden');
+  
+  // Update tab styles
+  var allTabs = document.querySelectorAll('#cenario-tabs-bar .cenario-tab');
+  allTabs.forEach(function(t) {
+    t.style.color = '#64748b';
+    t.style.fontWeight = '500';
+    t.style.borderBottom = 'none';
+    t.classList.remove('active');
+  });
+  tabEl.style.color = '#004b6e';
+  tabEl.style.fontWeight = '700';
+  tabEl.style.borderBottom = '3px solid #36b39b';
+  tabEl.classList.add('active');
+};
+
+// Toggle EAP tree sections (expand/collapse children)
+window.toggleEapSection = function(el) {
+  var programa = el.closest('.eap-programa');
+  if (programa) {
+    var children = programa.querySelector('.eap-children');
+    if (children) {
+      children.classList.toggle('hidden');
+    }
+  }
+};
 window.syncTransversalRailIcons = function() {
   const appContainer = document.querySelector('.app-container');
   if (appContainer && appContainer.classList.contains('blue-theme')) {
