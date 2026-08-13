@@ -2158,20 +2158,20 @@
             </div>
           </div>
 
-          <!-- Navigation Sub-Tabs Bar -->
-          <div id="cenario-tabs-bar" style="display: flex; align-items: center; gap: 24px; border-bottom: 2px solid #e2e8f0; margin-bottom: 16px; font-size: 13px; color: #64748b; font-weight: 500;">
-            <div class="cenario-tab active" data-tab="tab-painel-controle" style="color: #004b6e; font-weight: 700; border-bottom: 3px solid #36b39b; padding-bottom: 8px; margin-bottom: -2px; cursor: pointer;" onclick="switchCenarioTab(this, 'tab-painel-controle')">Painel de Controle</div>
-            <div class="cenario-tab" data-tab="tab-eap" style="padding-bottom: 8px; cursor: pointer;" onclick="switchCenarioTab(this, 'tab-eap')">EAP</div>
-            <div class="cenario-tab" data-tab="tab-propriedades" style="padding-bottom: 8px; cursor: pointer;" onclick="showToast('Propriedades')">Propriedades</div>
-            <div class="cenario-tab" data-tab="tab-programas" style="padding-bottom: 8px; cursor: pointer;" onclick="showToast('Programas')">Programas</div>
-            <div class="cenario-tab" data-tab="tab-projetos" style="padding-bottom: 8px; cursor: pointer;" onclick="showToast('Projetos')">Projetos</div>
+          <!-- Navigation Sub-Tabs Bar matching Print 2 -->
+          <div style="display: flex; align-items: center; gap: 24px; border-bottom: 2px solid #e2e8f0; margin-bottom: 16px; font-size: 13px; color: #64748b; font-weight: 500;">
+            <div id="tab-vt-painel" class="vt-tab" style="color: #004b6e; font-weight: 700; border-bottom: 3px solid #36b39b; padding-bottom: 8px; margin-bottom: -2px; cursor: pointer;" onclick="switchVTTab('painel')">Painel de Controle</div>
+            <div id="tab-vt-eap" class="vt-tab" style="padding-bottom: 8px; cursor: pointer;" onclick="switchVTTab('eap')">EAP</div>
+            <div id="tab-vt-prop" class="vt-tab" style="padding-bottom: 8px; cursor: pointer;" onclick="showToast('Propriedades')">Propriedades</div>
+            <div id="tab-vt-prog" class="vt-tab" style="padding-bottom: 8px; cursor: pointer;" onclick="showToast('Programas')">Programas</div>
+            <div id="tab-vt-proj" class="vt-tab" style="padding-bottom: 8px; cursor: pointer;" onclick="showToast('Projetos')">Projetos</div>
           </div>
 
-          <!-- Tab: Painel de Controle -->
-          <div id="tab-painel-controle">
-          <!-- Dashboard Panel matching Print 2 -->
-          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 20px; position: relative;">
-            <button style="position: absolute; right: 14px; top: 14px; background: none; border: none; font-size: 16px; color: #64748b; cursor: pointer;" title="Fechar">&times;</button>
+          <!-- TAB CONTENT: PAINEL DE CONTROLE -->
+          <div id="vt-content-painel" class="vt-content">
+            <!-- Dashboard Panel matching Print 2 -->
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 20px; position: relative;">
+              <button style="position: absolute; right: 14px; top: 14px; background: none; border: none; font-size: 16px; color: #64748b; cursor: pointer;" title="Fechar">&times;</button>
             
             <h2 style="font-size: 15px; font-weight: 700; color: #004b6e; margin-top: 0; margin-bottom: 16px;">Realiza+</h2>
 
@@ -2433,172 +2433,97 @@
               </div>
             </div>
 
+          </div> <!-- Fechamento de vt-content-painel -->
+
+          <!-- TAB CONTENT: EAP (Conforme Print) -->
+          <div id="vt-content-eap" class="vt-content" style="display: none; background: #fff; padding: 10px;">
+            
+            <!-- EAP Tree Container -->
+            <div style="width: 100%; border: 1px solid #f1f5f9; border-radius: 4px; font-size: 13px;">
+              
+              <!-- Programas Header -->
+              <div style="display: flex; align-items: center; padding: 10px 16px; background: #f8fafc; border-bottom: 1px solid #f1f5f9; color: #475569; font-weight: 700;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right: 8px;"><polyline points="6 9 12 15 18 9"/></svg>
+                PROGRAMAS (3)
+              </div>
+
+              <!-- Programa Item: Cultura ES -->
+              <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid #f1f5f9; padding-left: 32px; color: #64748b;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                  Cultura ES
+                </div>
+                <div style="display: flex; align-items: center; gap: 14px;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="2"><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/><path d="M5 21V9a7 7 0 0 1 14 0v12"/></svg>
+                  <div style="display: flex; height: 6px; width: 100px; border-radius: 3px; overflow: hidden; background: #e2e8f0;">
+                    <div style="width: 40%; background: #36b39b;"></div>
+                    <div style="width: 30%; background: #ef4444;"></div>
+                    <div style="width: 20%; background: #0ea5e9;"></div>
+                  </div>
+                  <span style="font-size: 10px; font-weight: 700; color: #ef4444;">IDC</span>
+                  <span style="font-size: 10px; font-weight: 700; color: #ef4444;">IDP</span>
+                  <span style="color: #36b39b; font-weight: 700;">$</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#36b39b" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>
+                </div>
+              </div>
+
+              <!-- Projetos Header -->
+              <div style="display: flex; align-items: center; padding: 10px 16px; background: #f8fafc; border-bottom: 1px solid #f1f5f9; padding-left: 48px; color: #475569; font-weight: 700;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right: 8px;"><polyline points="6 9 12 15 18 9"/></svg>
+                PROJETOS (13)
+              </div>
+
+              <!-- Dynamic Projects List Container -->
+              <div id="eap-projetos-list">
+                <!-- Projects will be injected by JS -->
+              </div>
+
+              <!-- Programa Item: EsportES -->
+              <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid #f1f5f9; padding-left: 32px; color: #64748b;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                  EsportES
+                </div>
+                <div style="display: flex; align-items: center; gap: 14px;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="2"><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/><path d="M5 21V9a7 7 0 0 1 14 0v12"/></svg>
+                  <div style="display: flex; height: 6px; width: 100px; border-radius: 3px; overflow: hidden; background: #e2e8f0;">
+                    <div style="width: 15%; background: #36b39b;"></div>
+                    <div style="width: 20%; background: #ef4444;"></div>
+                    <div style="width: 50%; background: #0ea5e9;"></div>
+                    <div style="width: 10%; background: #8b5cf6;"></div>
+                  </div>
+                  <span style="font-size: 10px; font-weight: 700; color: #ef4444;">IDC</span>
+                  <span style="font-size: 10px; font-weight: 700; color: #ef4444;">IDP</span>
+                  <span style="color: #ef4444; font-weight: 700;">$</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#36b39b" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#36b39b" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>
+                </div>
+              </div>
+
+              <!-- Programa Item: Melhoria da Qualidade -->
+              <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; padding-left: 32px; color: #64748b;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                  Melhoria da Qualidade da Educação
+                </div>
+                <div style="display: flex; align-items: center; gap: 14px;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="2"><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/><path d="M5 21V9a7 7 0 0 1 14 0v12"/></svg>
+                  <div style="display: flex; height: 6px; width: 100px; border-radius: 3px; overflow: hidden; background: #e2e8f0;">
+                    <div style="width: 10%; background: #36b39b;"></div>
+                    <div style="width: 15%; background: #ef4444;"></div>
+                    <div style="width: 60%; background: #0ea5e9;"></div>
+                  </div>
+                  <span style="font-size: 10px; font-weight: 700; color: #0ea5e9;">IDC</span>
+                  <span style="font-size: 10px; font-weight: 700; color: #ef4444;">IDP</span>
+                  <span style="color: #36b39b; font-weight: 700;">$</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#36b39b" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#36b39b" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>
+                </div>
+              </div>
+
+            </div>
           </div>
-          </div> <!-- /tab-painel-controle -->
-
-          <!-- Tab: EAP -->
-          <div id="tab-eap" class="hidden" style="padding: 0;">
-            <div class="eap-tree">
-              <!-- Section Header -->
-              <div class="eap-section-header" style="display: flex; align-items: center; gap: 8px; padding: 10px 12px; cursor: pointer; border-bottom: 1px solid #e2e8f0; background: #f8fafc;">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
-                <span style="font-weight: 700; color: #004b6e; font-size: 13px;">PROGRAMAS (3)</span>
-              </div>
-
-              <!-- Programa 1: Cultura ES -->
-              <div class="eap-programa">
-                <div class="eap-item" onclick="toggleEapSection(this)" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 12px 8px 28px; border-bottom: 1px solid #f1f5f9; cursor: pointer;">
-                  <div style="display: flex; align-items: center; gap: 8px; min-width: 200px;">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
-                    <span style="font-weight: 500; color: #334155;">Cultura ES</span>
-                  </div>
-                  <div style="display: flex; align-items: center; gap: 8px;">
-                    <span style="font-size: 14px;">🚩</span>
-                    <div style="display: flex; flex-direction: column; gap: 3px; width: 160px;">
-                      <div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 62%; background: #36b39b;"></div><div style="width: 15%; background: #f59e0b;"></div></div>
-                      <div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 45%; background: #3b82f6;"></div><div style="width: 30%; background: #ef4444;"></div><div style="width: 10%; background: #f59e0b;"></div></div>
-                    </div>
-                    <span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDC</span>
-                    <span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDP</span>
-                    <span style="font-size: 12px; font-weight: 600; color: #64748b; cursor: pointer;">$</span>
-                    <span style="color: #64748b; cursor: pointer;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
-                    <span style="color: #64748b; cursor: pointer;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12l3 3-3 3"/></svg></span>
-                  </div>
-                </div>
-
-                <!-- PROJETOS (13) -->
-                <div class="eap-children" style="padding-left: 20px;">
-                  <div style="display: flex; align-items: center; gap: 6px; padding: 8px 12px 8px 16px; border-bottom: 1px solid #e2e8f0;">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
-                    <span style="font-weight: 700; color: #004b6e; font-size: 12px;">PROJETOS (13)</span>
-                  </div>
-
-                  <!-- Cais das Artes -->
-                  <div class="eap-project-row" style="display: flex; align-items: center; justify-content: space-between; padding: 7px 12px 7px 40px; border-bottom: 1px solid #f1f5f9;">
-                    <div style="display: flex; align-items: center; gap: 8px; min-width: 260px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg><span style="font-size: 11px;">⚠️</span><span style="font-size: 12px; color: #dc2626;">Cais das Artes</span></div>
-                    <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 22px; height: 22px; border-radius: 50%; background: #36b39b; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px;">▶</span><span style="width: 22px; height: 22px; border-radius: 50%; background: #3b82f6; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px;">ℹ</span><span style="font-size: 14px;">🚩</span><div style="display: flex; flex-direction: column; gap: 3px; width: 160px;"><div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 55%; background: #36b39b;"></div><div style="width: 20%; background: #3b82f6;"></div></div><div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 40%; background: #3b82f6;"></div><div style="width: 25%; background: #ef4444;"></div><div style="width: 10%; background: #f59e0b;"></div></div></div><span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDC</span><span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDP</span><span style="font-size: 12px; font-weight: 600; color: #64748b; cursor: pointer;">$</span><span style="color: #64748b; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span style="color: #64748b; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12l3 3-3 3"/></svg></span></div>
-                  </div>
-
-                  <!-- Centro Cultural Carmélia -->
-                  <div class="eap-project-row" style="display: flex; align-items: center; justify-content: space-between; padding: 7px 12px 7px 40px; border-bottom: 1px solid #f1f5f9;">
-                    <div style="display: flex; align-items: center; gap: 8px; min-width: 260px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg><span style="font-size: 12px; color: #334155;">Centro Cultural Carmélia</span></div>
-                    <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 22px; height: 22px; border-radius: 50%; background: #36b39b; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px;">▶</span><span style="font-size: 14px;">🚩</span><div style="display: flex; flex-direction: column; gap: 3px; width: 160px;"><div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 65%; background: #36b39b;"></div><div style="width: 15%; background: #3b82f6;"></div></div><div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 50%; background: #3b82f6;"></div><div style="width: 20%; background: #ef4444;"></div></div></div><span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDC</span><span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDP</span><span style="font-size: 12px; font-weight: 600; color: #64748b; cursor: pointer;">$</span><span style="color: #64748b; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span style="color: #64748b; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12l3 3-3 3"/></svg></span></div>
-                  </div>
-
-                  <!-- Coinvestimento da Cultura -->
-                  <div class="eap-project-row" style="display: flex; align-items: center; justify-content: space-between; padding: 7px 12px 7px 40px; border-bottom: 1px solid #f1f5f9;">
-                    <div style="display: flex; align-items: center; gap: 8px; min-width: 260px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg><span style="font-size: 11px;">⚠️</span><span style="font-size: 12px; color: #dc2626;">Coinvestimento da Cultura – Fundo a Fundo</span></div>
-                    <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 22px; height: 22px; border-radius: 50%; background: #f59e0b; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px;">⏸</span><span style="width: 22px; height: 22px; border-radius: 50%; background: #3b82f6; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px;">ℹ</span><span style="font-size: 14px;">🚩</span><div style="display: flex; flex-direction: column; gap: 3px; width: 160px;"><div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 70%; background: #36b39b;"></div><div style="width: 10%; background: #f59e0b;"></div></div><div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 55%; background: #3b82f6;"></div><div style="width: 25%; background: #ef4444;"></div><div style="width: 8%; background: #f59e0b;"></div></div></div><span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDC</span><span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDP</span><span style="font-size: 12px; font-weight: 600; color: #64748b; cursor: pointer;">$</span><span style="color: #64748b; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span style="color: #64748b; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12l3 3-3 3"/></svg></span></div>
-                  </div>
-
-                  <!-- Editais Funcultura -->
-                  <div class="eap-project-row" style="display: flex; align-items: center; justify-content: space-between; padding: 7px 12px 7px 40px; border-bottom: 1px solid #f1f5f9;">
-                    <div style="display: flex; align-items: center; gap: 8px; min-width: 260px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg><span style="font-size: 12px; color: #334155;">Editais Funcultura</span></div>
-                    <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 22px; height: 22px; border-radius: 50%; background: #36b39b; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px;">▶</span><span style="width: 22px; height: 22px; border-radius: 50%; background: #3b82f6; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px;">ℹ</span><span style="font-size: 14px;">🚩</span><div style="display: flex; flex-direction: column; gap: 3px; width: 160px;"><div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 60%; background: #36b39b;"></div><div style="width: 18%; background: #f59e0b;"></div></div><div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 48%; background: #3b82f6;"></div><div style="width: 30%; background: #ef4444;"></div></div></div><span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDC</span><span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDP</span><span style="font-size: 12px; font-weight: 600; color: #64748b; cursor: pointer;">$</span><span style="color: #64748b; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span style="color: #64748b; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12l3 3-3 3"/></svg></span></div>
-                  </div>
-
-                  <!-- Hub Criativo ES+ -->
-                  <div class="eap-project-row" style="display: flex; align-items: center; justify-content: space-between; padding: 7px 12px 7px 40px; border-bottom: 1px solid #f1f5f9;">
-                    <div style="display: flex; align-items: center; gap: 8px; min-width: 260px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg><span style="font-size: 11px;">⚠️</span><span style="font-size: 12px; color: #dc2626;">Hub Criativo ES+</span></div>
-                    <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 22px; height: 22px; border-radius: 50%; background: #36b39b; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px;">▶</span><span style="width: 22px; height: 22px; border-radius: 50%; background: #3b82f6; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px;">ℹ</span><span style="font-size: 14px;">🚩</span><div style="display: flex; flex-direction: column; gap: 3px; width: 160px;"><div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 50%; background: #36b39b;"></div></div><div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 35%; background: #3b82f6;"></div><div style="width: 35%; background: #ef4444;"></div><div style="width: 15%; background: #f59e0b;"></div></div></div><span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDC</span><span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDP</span><span style="font-size: 12px; font-weight: 600; color: #64748b; cursor: pointer;">$</span><span style="color: #64748b; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span style="color: #64748b; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12l3 3-3 3"/></svg></span></div>
-                  </div>
-
-                  <!-- Incentivo à Produção Cultural Capixaba -->
-                  <div class="eap-project-row" style="display: flex; align-items: center; justify-content: space-between; padding: 7px 12px 7px 40px; border-bottom: 1px solid #f1f5f9;">
-                    <div style="display: flex; align-items: center; gap: 8px; min-width: 260px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg><span style="font-size: 12px; color: #334155;">Incentivo à Produção Cultural Capixaba</span></div>
-                    <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 22px; height: 22px; border-radius: 50%; background: #36b39b; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px;">▶</span><span style="width: 22px; height: 22px; border-radius: 50%; background: #3b82f6; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px;">ℹ</span><span style="font-size: 14px;">🚩</span><div style="display: flex; flex-direction: column; gap: 3px; width: 160px;"><div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 72%; background: #36b39b;"></div><div style="width: 12%; background: #f59e0b;"></div></div><div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 55%; background: #3b82f6;"></div><div style="width: 22%; background: #ef4444;"></div></div></div><span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDC</span><span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDP</span><span style="font-size: 12px; font-weight: 600; color: #64748b; cursor: pointer;">$</span><span style="color: #64748b; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span style="color: #64748b; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12l3 3-3 3"/></svg></span></div>
-                  </div>
-
-                  <!-- Interiorização de sinal -->
-                  <div class="eap-project-row" style="display: flex; align-items: center; justify-content: space-between; padding: 7px 12px 7px 40px; border-bottom: 1px solid #f1f5f9;">
-                    <div style="display: flex; align-items: center; gap: 8px; min-width: 260px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg><span style="font-size: 11px;">⚠️</span><span style="font-size: 12px; color: #dc2626;">Interiorização de sinal</span></div>
-                    <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 22px; height: 22px; border-radius: 50%; background: #36b39b; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px;">▶</span><span style="width: 22px; height: 22px; border-radius: 50%; background: #3b82f6; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px;">ℹ</span><span style="font-size: 14px;">🚩</span><div style="display: flex; flex-direction: column; gap: 3px; width: 160px;"><div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 58%; background: #36b39b;"></div><div style="width: 22%; background: #f59e0b;"></div></div><div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 42%; background: #3b82f6;"></div><div style="width: 28%; background: #ef4444;"></div><div style="width: 12%; background: #f59e0b;"></div></div></div><span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDC</span><span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDP</span><span style="font-size: 12px; font-weight: 600; color: #64748b; cursor: pointer;">$</span><span style="color: #64748b; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span style="color: #64748b; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12l3 3-3 3"/></svg></span></div>
-                  </div>
-
-                  <!-- Midiateca Capixaba -->
-                  <div class="eap-project-row" style="display: flex; align-items: center; justify-content: space-between; padding: 7px 12px 7px 40px; border-bottom: 1px solid #f1f5f9;">
-                    <div style="display: flex; align-items: center; gap: 8px; min-width: 260px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg><span style="font-size: 12px; color: #334155;">Midiateca Capixaba</span></div>
-                    <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 22px; height: 22px; border-radius: 50%; background: #f59e0b; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px;">⏸</span><span style="width: 22px; height: 22px; border-radius: 50%; background: #3b82f6; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px;">ℹ</span><span style="font-size: 14px;">🚩</span><div style="display: flex; flex-direction: column; gap: 3px; width: 160px;"><div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 60%; background: #36b39b;"></div><div style="width: 20%; background: #3b82f6;"></div></div><div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 50%; background: #3b82f6;"></div><div style="width: 18%; background: #ef4444;"></div></div></div><span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDC</span><span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDP</span><span style="font-size: 12px; font-weight: 600; color: #64748b; cursor: pointer;">$</span><span style="color: #64748b; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span style="color: #64748b; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12l3 3-3 3"/></svg></span></div>
-                  </div>
-
-                  <!-- Modernização TVE e Rad ES -->
-                  <div class="eap-project-row" style="display: flex; align-items: center; justify-content: space-between; padding: 7px 12px 7px 40px; border-bottom: 1px solid #f1f5f9;">
-                    <div style="display: flex; align-items: center; gap: 8px; min-width: 260px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg><span style="font-size: 12px; color: #334155;">Modernização TVE e Rad ES</span></div>
-                    <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 22px; height: 22px; border-radius: 50%; background: #36b39b; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px;">▶</span><span style="width: 22px; height: 22px; border-radius: 50%; background: #3b82f6; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px;">ℹ</span><span style="font-size: 14px;">🚩</span><div style="display: flex; flex-direction: column; gap: 3px; width: 160px;"><div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 68%; background: #36b39b;"></div></div><div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 45%; background: #3b82f6;"></div><div style="width: 25%; background: #ef4444;"></div></div></div><span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDC</span><span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDP</span><span style="font-size: 12px; font-weight: 600; color: #64748b; cursor: pointer;">$</span><span style="color: #64748b; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span style="color: #64748b; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12l3 3-3 3"/></svg></span></div>
-                  </div>
-
-                  <!-- Reforma do Teatro Carlos Gomes -->
-                  <div class="eap-project-row" style="display: flex; align-items: center; justify-content: space-between; padding: 7px 12px 7px 40px; border-bottom: 1px solid #f1f5f9;">
-                    <div style="display: flex; align-items: center; gap: 8px; min-width: 260px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg><span style="font-size: 12px; color: #334155;">Reforma do Teatro Carlos Gomes</span></div>
-                    <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 22px; height: 22px; border-radius: 50%; background: #36b39b; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px;">✔</span><span style="width: 22px; height: 22px; border-radius: 50%; background: #3b82f6; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px;">ℹ</span><span style="font-size: 14px;">🚩</span><div style="display: flex; flex-direction: column; gap: 3px; width: 160px;"><div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 80%; background: #36b39b;"></div><div style="width: 10%; background: #3b82f6;"></div></div><div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 60%; background: #3b82f6;"></div><div style="width: 20%; background: #ef4444;"></div></div></div><span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDC</span><span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDP</span><span style="font-size: 12px; font-weight: 600; color: #64748b; cursor: pointer;">$</span><span style="color: #64748b; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span style="color: #64748b; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12l3 3-3 3"/></svg></span></div>
-                  </div>
-
-                  <!-- Sistema Estadual de Espaços Culturais -->
-                  <div class="eap-project-row" style="display: flex; align-items: center; justify-content: space-between; padding: 7px 12px 7px 40px; border-bottom: 1px solid #f1f5f9;">
-                    <div style="display: flex; align-items: center; gap: 8px; min-width: 260px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg><span style="font-size: 12px; color: #334155;">Sistema Estadual de Espaços Culturais</span></div>
-                    <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 22px; height: 22px; border-radius: 50%; background: #36b39b; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px;">▶</span><span style="width: 22px; height: 22px; border-radius: 50%; background: #3b82f6; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px;">ℹ</span><span style="font-size: 14px;">🚩</span><div style="display: flex; flex-direction: column; gap: 3px; width: 160px;"><div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 55%; background: #36b39b;"></div><div style="width: 20%; background: #f59e0b;"></div></div><div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 40%; background: #3b82f6;"></div><div style="width: 30%; background: #ef4444;"></div></div></div><span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDC</span><span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDP</span><span style="font-size: 12px; font-weight: 600; color: #64748b; cursor: pointer;">$</span><span style="color: #64748b; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span style="color: #64748b; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12l3 3-3 3"/></svg></span></div>
-                  </div>
-
-                  <!-- TVE Revista -->
-                  <div class="eap-project-row" style="display: flex; align-items: center; justify-content: space-between; padding: 7px 12px 7px 40px; border-bottom: 1px solid #f1f5f9;">
-                    <div style="display: flex; align-items: center; gap: 8px; min-width: 260px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg><span style="font-size: 11px;">⚠️</span><span style="font-size: 12px; color: #dc2626;">TVE Revista</span></div>
-                    <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 22px; height: 22px; border-radius: 50%; background: #36b39b; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px;">✔</span><span style="width: 22px; height: 22px; border-radius: 50%; background: #3b82f6; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px;">ℹ</span><span style="font-size: 14px;">🚩</span><div style="display: flex; flex-direction: column; gap: 3px; width: 160px;"><div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 75%; background: #36b39b;"></div><div style="width: 12%; background: #f59e0b;"></div></div><div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 52%; background: #3b82f6;"></div><div style="width: 22%; background: #ef4444;"></div></div></div><span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDC</span><span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDP</span><span style="font-size: 12px; font-weight: 600; color: #64748b; cursor: pointer;">$</span><span style="color: #64748b; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span style="color: #64748b; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12l3 3-3 3"/></svg></span></div>
-                  </div>
-
-                  <!-- Valorização das Culturas Populares -->
-                  <div class="eap-project-row" style="display: flex; align-items: center; justify-content: space-between; padding: 7px 12px 7px 40px; border-bottom: 1px solid #f1f5f9;">
-                    <div style="display: flex; align-items: center; gap: 8px; min-width: 260px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg><span style="font-size: 12px; color: #334155;">Valorização das Culturas Populares</span></div>
-                    <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 22px; height: 22px; border-radius: 50%; background: #36b39b; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px;">▶</span><span style="width: 22px; height: 22px; border-radius: 50%; background: #3b82f6; color: white; display: flex; align-items: center; justify-content: center; font-size: 11px;">ℹ</span><span style="font-size: 14px;">🚩</span><div style="display: flex; flex-direction: column; gap: 3px; width: 160px;"><div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 62%; background: #36b39b;"></div><div style="width: 18%; background: #3b82f6;"></div></div><div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 48%; background: #3b82f6;"></div><div style="width: 26%; background: #ef4444;"></div></div></div><span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDC</span><span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDP</span><span style="font-size: 12px; font-weight: 600; color: #64748b; cursor: pointer;">$</span><span style="color: #64748b; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span style="color: #64748b; cursor: pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12l3 3-3 3"/></svg></span></div>
-                  </div>
-                </div> <!-- /eap-children PROJETOS -->
-              </div> <!-- /eap-programa Cultura ES -->
-
-              <!-- Programa 2: EsportES -->
-              <div class="eap-programa">
-                <div class="eap-item" onclick="toggleEapSection(this)" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 12px 8px 28px; border-bottom: 1px solid #f1f5f9; cursor: pointer;">
-                  <div style="display: flex; align-items: center; gap: 8px; min-width: 200px;">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg>
-                    <span style="font-weight: 500; color: #334155;">EsportES</span>
-                  </div>
-                  <div style="display: flex; align-items: center; gap: 8px;">
-                    <span style="font-size: 14px;">🚩</span>
-                    <div style="display: flex; flex-direction: column; gap: 3px; width: 160px;">
-                      <div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 50%; background: #36b39b;"></div><div style="width: 25%; background: #3b82f6;"></div><div style="width: 10%; background: #ef4444;"></div></div>
-                      <div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 60%; background: #3b82f6;"></div><div style="width: 25%; background: #ef4444;"></div></div>
-                    </div>
-                    <span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDC</span>
-                    <span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDP</span>
-                    <span style="font-size: 12px; font-weight: 600; color: #64748b; cursor: pointer;">$</span>
-                    <span style="color: #64748b; cursor: pointer;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
-                    <span style="color: #64748b; cursor: pointer;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12l3 3-3 3"/></svg></span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Programa 3: Melhoria da Qualidade da Educação -->
-              <div class="eap-programa">
-                <div class="eap-item" onclick="toggleEapSection(this)" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 12px 8px 28px; border-bottom: 1px solid #f1f5f9; cursor: pointer;">
-                  <div style="display: flex; align-items: center; gap: 8px; min-width: 200px;">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg>
-                    <span style="font-weight: 500; color: #334155;">Melhoria da Qualidade da Educação</span>
-                  </div>
-                  <div style="display: flex; align-items: center; gap: 8px;">
-                    <span style="font-size: 14px;">🚩</span>
-                    <div style="display: flex; flex-direction: column; gap: 3px; width: 160px;">
-                      <div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 55%; background: #36b39b;"></div><div style="width: 20%; background: #3b82f6;"></div><div style="width: 12%; background: #ef4444;"></div></div>
-                      <div style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #e2e8f0;"><div style="width: 58%; background: #3b82f6;"></div><div style="width: 22%; background: #ef4444;"></div></div>
-                    </div>
-                    <span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDC</span>
-                    <span style="font-size: 10px; font-weight: 600; color: #004b6e;">IDP</span>
-                    <span style="font-size: 12px; font-weight: 600; color: #64748b; cursor: pointer;">$</span>
-                    <span style="color: #64748b; cursor: pointer;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
-                    <span style="color: #64748b; cursor: pointer;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12l3 3-3 3"/></svg></span>
-                  </div>
-                </div>
-              </div>
-
-            </div> <!-- /eap-tree -->
-          </div> <!-- /tab-eap -->
 
         </div>
 

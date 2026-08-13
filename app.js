@@ -108,40 +108,6 @@ window.renderBlueRailIcons = function() {
   railContainer.appendChild(btn);
 };
 
-// Tab switching for Cenário Transversalidades sub-tabs (Painel de Controle / EAP etc)
-window.switchCenarioTab = function(tabEl, tabId) {
-  // Hide all tab content panels
-  var panels = document.querySelectorAll('#tab-painel-controle, #tab-eap');
-  panels.forEach(function(p) { p.classList.add('hidden'); });
-  
-  // Show the selected panel
-  var target = document.getElementById(tabId);
-  if (target) target.classList.remove('hidden');
-  
-  // Update tab styles
-  var allTabs = document.querySelectorAll('#cenario-tabs-bar .cenario-tab');
-  allTabs.forEach(function(t) {
-    t.style.color = '#64748b';
-    t.style.fontWeight = '500';
-    t.style.borderBottom = 'none';
-    t.classList.remove('active');
-  });
-  tabEl.style.color = '#004b6e';
-  tabEl.style.fontWeight = '700';
-  tabEl.style.borderBottom = '3px solid #36b39b';
-  tabEl.classList.add('active');
-};
-
-// Toggle EAP tree sections (expand/collapse children)
-window.toggleEapSection = function(el) {
-  var programa = el.closest('.eap-programa');
-  if (programa) {
-    var children = programa.querySelector('.eap-children');
-    if (children) {
-      children.classList.toggle('hidden');
-    }
-  }
-};
 window.syncTransversalRailIcons = function() {
   const appContainer = document.querySelector('.app-container');
   if (appContainer && appContainer.classList.contains('blue-theme')) {
@@ -178,11 +144,108 @@ window.syncDominioOptions = function() {
     }
     dominioSelect.appendChild(opt);
   });
-
-  if (typeof syncTransversalRailIcons === 'function') syncTransversalRailIcons();
 };
 
-// Global helper functions for View Switching (disponíveis imediatamente para eventos inline)
+window.renderEAPProjects = function() {
+  const container = document.getElementById('eap-projetos-list');
+  if (!container) return;
+
+  const projects = [
+    { name: 'Cais das Artes', warning: true, icon: 'play', ghost: true, bars: [30, 0, 70], idc: true, idp: true, money: true, clock: true, scope: true },
+    { name: 'Centro Cultural Carmélia', warning: false, icon: 'play', ghost: true, bars: [50, 30, 20], idc: true, idp: true, money: true, clock: true, scope: true },
+    { name: 'Coinvestimento da Cultura – Fundo a Fundo', warning: true, icon: 'A', ghost: true, bars: [10, 40, 50], idc: false, idp: false, money: true, clock: true, scope: true },
+    { name: 'Editais Funcultura', warning: false, icon: 'play', ghost: true, bars: [10, 20, 50, 20], idc: false, idp: false, money: true, clock: true, scope: true },
+    { name: 'Hub Criativo ES+', warning: true, icon: 'play', ghost: true, bars: [5, 80, 15], idc: true, idp: true, money: true, clock: true, scope: true },
+    { name: 'Incentivo à Produção Cultural Capixaba', warning: false, icon: 'play', ghost: true, bars: [50, 40, 10], idc: true, idp: true, money: true, clock: true, scope: true },
+    { name: 'Interiorização de sinal', warning: true, icon: 'play', ghost: true, bars: [70, 10, 10, 10], idc: true, idp: true, money: true, clock: true, scope: true },
+    { name: 'Midiateca Capixaba', warning: false, icon: 'A', ghost: true, bars: [20, 60, 10, 10], idc: false, idp: false, money: true, clock: true, scope: true },
+    { name: 'Modernização TVE e Rad ES', warning: false, icon: 'play', ghost: true, bars: [20, 60, 20], idc: true, idp: true, money: true, clock: true, scope: true },
+    { name: 'Reforma do Teatro Carlos Gomes', warning: false, icon: 'check', ghost: true, bars: [100], idc: true, idp: true, money: true, clock: true, scope: true },
+    { name: 'Sistema Estadual de Espaços Culturais', warning: false, icon: 'play', ghost: true, bars: [60, 30, 10], idc: true, idp: true, money: true, clock: true, scope: true },
+    { name: 'TVE Revista', warning: true, icon: 'check', ghost: true, bars: [100], idc: true, idp: true, money: true, clock: true, scope: true },
+    { name: 'Valorização das Culturas Populares', warning: false, icon: 'play', ghost: true, bars: [10, 80, 10], idc: true, idp: true, money: true, clock: true, scope: true }
+  ];
+
+  const colors = ['#36b39b', '#ef4444', '#0ea5e9', '#8b5cf6'];
+
+  let html = '';
+  projects.forEach(p => {
+    let barsHtml = '';
+    p.bars.forEach((w, i) => {
+      barsHtml += `<div style="width: ${w}%; background: ${colors[i % colors.length]};"></div>`;
+    });
+
+    const warningIcon = p.warning ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5" style="margin-right: 4px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>` : '';
+    const nameColor = p.warning ? '#f59e0b' : '#64748b';
+    
+    let stateIcon = '';
+    if (p.icon === 'play') {
+      stateIcon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#36b39b" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>`;
+    } else if (p.icon === 'check') {
+      stateIcon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="#0ea5e9" stroke="#0ea5e9" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9" stroke="#fff" stroke-width="2.5"/></svg>`;
+    } else if (p.icon === 'A') {
+      stateIcon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 7l-4 9h8z"/><path d="M9.5 13h5"/></svg>`;
+    }
+
+    html += `
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid #f1f5f9; padding-left: 64px; color: ${nameColor};">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          ${warningIcon}${p.name}
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px;">
+          ${stateIcon}
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="2"><path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/><path d="M5 21V9a7 7 0 0 1 14 0v12"/></svg>
+          <div style="display: flex; height: 6px; width: 100px; border-radius: 3px; overflow: hidden; background: #e2e8f0;">
+            ${barsHtml}
+          </div>
+          <span style="font-size: 10px; font-weight: 700; color: ${p.idc ? '#ef4444' : 'transparent'};">IDC</span>
+          <span style="font-size: 10px; font-weight: 700; color: ${p.idp ? '#0ea5e9' : 'transparent'};">IDP</span>
+          <span style="color: ${p.money ? '#36b39b' : 'transparent'}; font-weight: 700;">$</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="${p.clock ? '#36b39b' : 'transparent'}" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="${p.scope ? '#36b39b' : 'transparent'}" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>
+        </div>
+      </div>
+    `;
+  });
+  
+  container.innerHTML = html;
+};
+
+// Initialize EAP Projects list after a small delay to ensure DOM is ready
+setTimeout(renderEAPProjects, 500);
+
+window.switchVTTab = function(tabName) {
+  // Reset all tabs
+  document.querySelectorAll('.vt-tab').forEach(t => {
+    t.style.color = '#64748b';
+    t.style.fontWeight = '500';
+    t.style.borderBottom = 'none';
+    t.style.marginBottom = '0';
+  });
+  
+  // Set active tab
+  const activeTab = document.getElementById('tab-vt-' + tabName);
+  if (activeTab) {
+    activeTab.style.color = '#004b6e';
+    activeTab.style.fontWeight = '700';
+    activeTab.style.borderBottom = '3px solid #36b39b';
+    activeTab.style.marginBottom = '-2px';
+  }
+
+  // Hide all contents
+  document.querySelectorAll('.vt-content').forEach(c => {
+    c.style.display = 'none';
+  });
+
+  // Show active content
+  const activeContent = document.getElementById('vt-content-' + tabName);
+  if (activeContent) {
+    activeContent.style.display = 'block';
+  }
+};
+
 window.openHomeScenarioView = function(e) {
   if (e && e.stopPropagation) e.stopPropagation();
   const vPlanoList = document.getElementById('view-modelo-de-plano-list');
