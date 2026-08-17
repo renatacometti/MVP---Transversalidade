@@ -269,8 +269,10 @@ window.switchVTTab = function(tabName) {
 };
 
 window.openVTProgramForm = function() {
+  const transversalView = document.getElementById('view-cenario-transversalidades');
   const list = document.getElementById('vt-program-list');
   const form = document.getElementById('vt-program-form');
+  if (transversalView) transversalView.classList.add('vt-program-creation-active');
   if (list) list.style.display = 'none';
   if (form) form.style.display = 'block';
   const firstField = document.querySelector('#vt-program-form input');
@@ -305,6 +307,361 @@ window.showVTProgramList = function() {
   if (list) list.style.display = 'block';
 };
 
+window.restoreVTProgramCreationView = function() {
+  const transversalView = document.getElementById('view-cenario-transversalidades');
+  if (transversalView && transversalView.classList.contains('vt-program-creation-active')) {
+    openVTProgramForm();
+  } else {
+    showVTProgramList();
+  }
+};
+
+window.saveVTProgram = function() {
+  const transversalView = document.getElementById('view-cenario-transversalidades');
+  const detailView = document.getElementById('view-vt-program-detail');
+  const nameField = document.querySelector('#vt-program-form input[aria-label="Nome do novo programa"]');
+  const fullNameField = document.querySelector('#vt-program-form textarea[aria-label="Nome completo do novo programa"]');
+  const objectiveField = document.querySelector('#vt-program-form textarea[aria-label="Objetivo do novo programa"]');
+  const audienceField = document.querySelector('#vt-program-form textarea[aria-label="Público-alvo do novo programa"]');
+  const programName = nameField ? nameField.value.trim() : '';
+  const fullProgramName = fullNameField ? fullNameField.value.trim() : '';
+  const programObjective = objectiveField ? objectiveField.value.trim() : '';
+  const programAudience = audienceField ? audienceField.value.trim() : '';
+
+  if (!programName || !fullProgramName) {
+    const missingField = !programName ? nameField : fullNameField;
+    if (missingField) missingField.focus();
+    if (typeof showToast === 'function') showToast('Informe o Nome e o Nome completo do programa.');
+    return;
+  }
+
+  // O HTML legado possui blocos extensos; garante que a nova página seja irmã
+  // do cenário antes de ocultá-lo, mesmo se o navegador recompuser a marcação.
+  if (transversalView && detailView && transversalView.contains(detailView)) {
+    transversalView.insertAdjacentElement('afterend', detailView);
+  }
+
+  if (transversalView) transversalView.classList.remove('vt-program-creation-active');
+  if (transversalView) transversalView.classList.add('hidden');
+  if (detailView) detailView.classList.remove('hidden');
+
+  document.querySelectorAll('[data-vt-program-name]').forEach(element => {
+    element.textContent = programName;
+  });
+  document.querySelectorAll('[data-vt-program-full-name]').forEach(element => {
+    element.textContent = fullProgramName;
+  });
+
+  const detailNameField = document.querySelector('[data-vt-program-property="name"]');
+  const detailFullNameField = document.querySelector('[data-vt-program-property="full-name"]');
+  const detailObjectiveField = document.querySelector('[data-vt-program-property="objective"]');
+  const detailAudienceField = document.querySelector('[data-vt-program-property="audience"]');
+  if (detailNameField) detailNameField.value = programName;
+  if (detailFullNameField) detailFullNameField.value = fullProgramName;
+  if (detailObjectiveField) detailObjectiveField.value = programObjective;
+  if (detailAudienceField) detailAudienceField.value = programAudience;
+
+  renderVTProgramBreadcrumb(programName);
+  switchVTProgramDetailTab('painel');
+  if (typeof showToast === 'function') showToast(`Programa '${programName}' salvo com sucesso!`);
+};
+
+window.switchVTProgramDetailTab = function(tabName) {
+  document.querySelectorAll('.vt-program-detail-tab').forEach(tab => {
+    tab.classList.toggle('active', tab.dataset.tab === tabName);
+  });
+  document.querySelectorAll('.vt-program-detail-panel').forEach(panel => {
+    panel.classList.toggle('active', panel.dataset.panel === tabName);
+  });
+  if (tabName === 'projetos') renderVTProgramProjects();
+};
+
+window.setVTProgramEAPExpanded = function(expanded) {
+  const root = document.getElementById('vt-program-eap-root');
+  const children = document.getElementById('vt-program-eap-children');
+  if (root) root.setAttribute('aria-expanded', String(expanded));
+  if (children) children.hidden = !expanded;
+};
+
+window.toggleVTProgramEAP = function() {
+  const root = document.getElementById('vt-program-eap-root');
+  const shouldExpand = root ? root.getAttribute('aria-expanded') !== 'true' : true;
+  setVTProgramEAPExpanded(shouldExpand);
+};
+
+window.renderVTProgramProjects = function() {
+  const container = document.getElementById('vt-program-projects-list');
+  if (!container || container.dataset.rendered === 'true') return;
+
+  const projects = [
+    ['Cais das Artes', '35055', 'play', 'ghost-red', [26, 0, 0, 74]],
+    ['Centro Cultural Carmélia', '763321', 'play', 'ghost-red', [34, 38, 24, 4]],
+    ['Coinvestimento da Cultura – Fundo a Fundo', '587154', 'tower', 'ghost-orange', [12, 54, 34, 0]],
+    ['Editais Funcultura', '554839', 'play', 'ghost-red', [10, 25, 48, 17]],
+    ['Hub Criativo ES+', '382023', 'play', 'ghost-orange', [8, 7, 80, 5]],
+    ['Incentivo à Produção Cultural Capixaba', '545417', 'play', 'ghost-red', [0, 52, 41, 7]],
+    ['Interiorização de sinal', '157507', 'play', 'ghost-red', [57, 15, 14, 14]],
+    ['Midiateca Capixaba', '592508', 'tower', 'ghost-red', [25, 56, 10, 9]],
+    ['Modernização TVE e Rad ES', '2112', 'play', 'ghost-orange', [26, 42, 32, 0]],
+    ['Reforma do Teatro Carlos Gomes', '539064', 'check', 'scope', [0, 0, 100, 0]],
+    ['Sistema Estadual de Espaços Culturais', '504450', 'play', 'ghost-red', [0, 64, 31, 5]],
+    ['TVE Revista', '872', 'check', 'scope', [0, 0, 100, 0]],
+    ['Valorização das Culturas Populares', '544479', 'play', 'ghost-red', [5, 16, 72, 7]],
+    ['tyeste', '1414402', 'tower', 'none', [0, 0, 0, 0]],
+    ...(window.VT_PROGRAM_LINKED_PROJECTS || []).map((project, index) => [
+      project.name,
+      project.code || String(62000 + index),
+      'play',
+      'ghost-orange',
+      [18, 22, 55, 5]
+    ])
+  ];
+
+  container.innerHTML = projects.map(([name, code, status, alert, bars]) => `
+    <div class="vt-program-project-row">
+      <div class="vt-program-project-name"><span class="vt-project-gear">⚙</span><span>${name}</span></div>
+      <div class="vt-program-project-indicators">
+        <span class="vt-project-status ${status}" aria-hidden="true">${status === 'play' ? '▶' : status === 'check' ? '✓' : 'A'}</span>
+        ${status !== 'tower' ? '<span class="vt-project-info">i</span>' : ''}
+        ${alert !== 'none' ? `<span class="vt-project-alert ${alert}">${alert === 'scope' ? '✓' : '●'}</span>` : ''}
+      </div>
+      <div class="vt-program-project-progress" aria-label="Progresso do projeto">
+        <i class="green" style="width:${bars[0]}%"></i><i class="red" style="width:${bars[1]}%"></i><i class="blue" style="width:${bars[2]}%"></i><i class="purple" style="width:${bars[3]}%"></i>
+      </div>
+      <div class="vt-program-project-meta">
+        <button type="button" class="vt-project-more" aria-label="Mais opções para ${name}">⋮</button>
+        <span class="vt-project-links">⌘</span><small>${code}</small>
+      </div>
+    </div>`).join('');
+
+  container.dataset.rendered = 'true';
+};
+
+window.VT_PROGRAM_LINK_TREE = {
+  id: 'link-plan', name: 'PE 2023-2026', type: 'plan', children: [
+    { id: 'link-manual', name: 'gabi manual', type: 'portfolio', children: [] },
+    { id: 'link-realiza', name: 'Realiza+', type: 'portfolio', children: [
+      { id: 'link-eixo', name: 'Eixo I: +Qualidade de vida', type: 'axis', children: [
+        { id: 'link-area', name: 'Educação, Cultura, Esporte e Lazer', type: 'folder', children: [
+          { id: 'link-cultura', name: 'Cultura ES', type: 'program', children: [] },
+          { id: 'link-esportes', name: 'EsportES', type: 'program', children: [] },
+          { id: 'link-qualidade', name: 'Melhoria da Qualidade da Educação', type: 'program', children: [
+            { id: 'link-apoio-pesquisa', name: 'Apoio à Pesquisa, Capacitação e Inclusão Social', type: 'project' },
+            { id: 'link-escola-futuro', name: 'Escola do Futuro', type: 'project' },
+            { id: 'link-tempo-integral', name: 'Escolas de Educação em Tempo Integral', type: 'project' },
+            { id: 'link-educacao-tecnica', name: 'Expansão da Educação Profissional Técnica', type: 'project' },
+            { id: 'link-redetec', name: 'Expansão da Redetec', type: 'project' },
+            { id: 'link-eja', name: 'Fortalecimento da EJA', type: 'project' },
+            { id: 'link-musica-rede', name: 'Música na Rede', type: 'project' },
+            { id: 'link-paes', name: 'Pacto pela Aprendizagem no Espírito Santo - PAES', type: 'project' },
+            { id: 'link-proeti', name: 'PROETI', type: 'project' },
+            { id: 'link-reestruturacao', name: 'Reestruturação da Rede física escolar', type: 'project' },
+            { id: 'link-todos-escola', name: 'Todos na Escola', type: 'project' },
+            { id: 'link-unac', name: 'UnAC FAMES', type: 'project' }
+          ] }
+        ] }
+      ] }
+    ] }
+  ]
+};
+
+window.VT_PROGRAM_LINK_COLLAPSED = new Set(['link-cultura']);
+window.VT_PROGRAM_LINK_SELECTED = new Set();
+window.VT_PROGRAM_LINKED_PROJECTS = [];
+
+window.getVTProgramLinkProjects = function(node) {
+  if (!node.children || node.children.length === 0) return node.type === 'project' ? [node] : [];
+  return node.children.flatMap(getVTProgramLinkProjects);
+};
+
+window.toggleVTProgramLinkMenu = function(event, trigger) {
+  if (event) event.stopPropagation();
+  const menu = document.getElementById('vt-program-link-menu');
+  if (!menu) return;
+  const willOpen = !menu.classList.contains('open');
+  menu.classList.toggle('open', willOpen);
+  if (trigger) trigger.setAttribute('aria-expanded', String(willOpen));
+};
+
+window.openVTProgramLinkTree = function(event) {
+  if (event) event.stopPropagation();
+  const menu = document.getElementById('vt-program-link-menu');
+  const picker = document.getElementById('vt-program-link-picker');
+  const trigger = document.querySelector('.vt-program-projects-add');
+  if (menu) menu.classList.remove('open');
+  if (trigger) trigger.setAttribute('aria-expanded', 'false');
+  window.VT_PROGRAM_LINK_SELECTED = new Set();
+  renderVTProgramLinkTree();
+  if (picker) picker.classList.remove('hidden');
+};
+
+window.closeVTProgramLinkTree = function() {
+  const picker = document.getElementById('vt-program-link-picker');
+  if (picker) picker.classList.add('hidden');
+};
+
+window.confirmVTProgramProjectLinks = function() {
+  const selectedProjects = getVTProgramLinkProjects(window.VT_PROGRAM_LINK_TREE)
+    .filter(project => window.VT_PROGRAM_LINK_SELECTED.has(project.id));
+
+  selectedProjects.forEach(project => {
+    if (!window.VT_PROGRAM_LINKED_PROJECTS.some(linked => linked.id === project.id)) {
+      window.VT_PROGRAM_LINKED_PROJECTS.push({
+        id: project.id,
+        name: project.name,
+        code: String(62000 + window.VT_PROGRAM_LINKED_PROJECTS.length)
+      });
+    }
+  });
+
+  const list = document.getElementById('vt-program-projects-list');
+  if (list) {
+    list.dataset.rendered = 'false';
+    list.innerHTML = '';
+  }
+  renderVTProgramProjects();
+  closeVTProgramLinkTree();
+  if (typeof showToast === 'function') {
+    showToast(selectedProjects.length
+      ? `${selectedProjects.length} projeto(s) vinculado(s) ao programa.`
+      : 'Nenhum projeto selecionado.');
+  }
+};
+
+window.renderVTProgramLinkTree = function() {
+  const tree = document.getElementById('vt-program-link-tree');
+  if (!tree) return;
+  const checkIcon = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="5 12 10 17 19 7"/></svg>`;
+  const arrowIcon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>`;
+
+  function renderNode(node, depth) {
+    const hasChildren = Boolean(node.children && node.children.length);
+    const collapsed = window.VT_PROGRAM_LINK_COLLAPSED.has(node.id);
+    const branchProjects = getVTProgramLinkProjects(node);
+    const selected = node.type === 'project'
+      ? window.VT_PROGRAM_LINK_SELECTED.has(node.id)
+      : branchProjects.length > 0 && branchProjects.every(project => window.VT_PROGRAM_LINK_SELECTED.has(project.id));
+    const toggle = hasChildren
+      ? `<button type="button" class="vt-project-tree-toggle${collapsed ? ' collapsed' : ''}" data-program-link-toggle="${node.id}" aria-label="${collapsed ? 'Expandir' : 'Recolher'} ${node.name}">${arrowIcon}</button>`
+      : `<span class="vt-project-tree-spacer"></span>`;
+    const selectorTag = 'button';
+    const selectorAttrs = node.type === 'project'
+      ? `type="button" data-program-link-project="${node.id}" aria-selected="${selected}"`
+      : `type="button" data-program-link-branch="${node.id}" aria-selected="${selected}"`;
+    const icon = getVTProjectTreeIcon(node.type);
+    const children = hasChildren
+      ? `<div class="vt-project-tree-children${collapsed ? ' collapsed' : ''}" role="group">${node.children.map(child => renderNode(child, depth + 1)).join('')}</div>`
+      : '';
+    return `<div class="vt-project-tree-node"><div class="vt-project-tree-row" style="--tree-depth:${depth}">${toggle}<${selectorTag} class="vt-project-tree-select" ${selectorAttrs}><span class="vt-project-tree-checkbox${selected ? ' selected' : ''}">${checkIcon}</span><span class="vt-project-tree-icon">${icon}</span><span class="vt-project-tree-label">${node.name}</span></${selectorTag}></div>${children}</div>`;
+  }
+
+  tree.innerHTML = renderNode(window.VT_PROGRAM_LINK_TREE, 0);
+  tree.querySelectorAll('[data-program-link-toggle]').forEach(button => {
+    button.addEventListener('click', event => {
+      event.stopPropagation();
+      const id = button.getAttribute('data-program-link-toggle');
+      if (window.VT_PROGRAM_LINK_COLLAPSED.has(id)) window.VT_PROGRAM_LINK_COLLAPSED.delete(id);
+      else window.VT_PROGRAM_LINK_COLLAPSED.add(id);
+      renderVTProgramLinkTree();
+    });
+  });
+  tree.querySelectorAll('[data-program-link-project]').forEach(button => {
+    button.addEventListener('click', event => {
+      event.stopPropagation();
+      const id = button.getAttribute('data-program-link-project');
+      if (window.VT_PROGRAM_LINK_SELECTED.has(id)) window.VT_PROGRAM_LINK_SELECTED.delete(id);
+      else window.VT_PROGRAM_LINK_SELECTED.add(id);
+      renderVTProgramLinkTree();
+    });
+  });
+  tree.querySelectorAll('[data-program-link-branch]').forEach(button => {
+    button.addEventListener('click', event => {
+      event.stopPropagation();
+      const id = button.getAttribute('data-program-link-branch');
+      const findNode = node => {
+        if (node.id === id) return node;
+        for (const child of node.children || []) {
+          const found = findNode(child);
+          if (found) return found;
+        }
+        return null;
+      };
+      const branch = findNode(window.VT_PROGRAM_LINK_TREE);
+      const projects = branch ? getVTProgramLinkProjects(branch) : [];
+      const allSelected = projects.length > 0 && projects.every(project => window.VT_PROGRAM_LINK_SELECTED.has(project.id));
+      projects.forEach(project => {
+        if (allSelected) window.VT_PROGRAM_LINK_SELECTED.delete(project.id);
+        else window.VT_PROGRAM_LINK_SELECTED.add(project.id);
+      });
+      renderVTProgramLinkTree();
+    });
+  });
+};
+
+document.addEventListener('click', function(event) {
+  const trigger = document.querySelector('.vt-program-projects-link-trigger');
+  if (trigger && !trigger.contains(event.target)) {
+    const menu = document.getElementById('vt-program-link-menu');
+    if (menu) menu.classList.remove('open');
+  }
+});
+
+window.renderVTPlanBreadcrumb = function() {
+  const breadcrumb = document.querySelector('.blue-breadcrumb');
+  if (!breadcrumb) return;
+  breadcrumb.innerHTML = `
+    <div class="vt-blue-breadcrumb-home">
+      <span>PMO-ES</span>
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="#d7e0e4" stroke="#d7e0e4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" onclick="openPlanoView(event)" aria-label="Início"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </div>`;
+};
+
+window.renderVTProgramBreadcrumb = function(programName) {
+  const breadcrumb = document.querySelector('.blue-breadcrumb');
+  if (!breadcrumb) return;
+  breadcrumb.innerHTML = `
+    <div class="vt-program-breadcrumb">
+      <div class="vt-program-breadcrumb-context"><span>PMO-ES</span><strong>teste Renata</strong></div>
+      <div class="vt-program-breadcrumb-path">
+        <svg class="vt-program-breadcrumb-home" viewBox="0 0 24 24" aria-label="Início" onclick="openHomeScenarioView(event)"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span class="vt-program-breadcrumb-separator">›</span>
+        <span class="vt-program-breadcrumb-group">
+          <span class="vt-program-breadcrumb-pill neutral">Portfólio</span>
+          <small>teste</small>
+        </span>
+        <span class="vt-program-breadcrumb-separator">›</span>
+        <span class="vt-program-breadcrumb-group">
+          <span class="vt-program-breadcrumb-pill active">Programa</span>
+          <small class="program-name">${programName}</small>
+        </span>
+      </div>
+    </div>`;
+};
+
+window.undoVTProgramChanges = function() {
+  document.querySelectorAll('#vt-program-form input, #vt-program-form textarea').forEach(field => {
+    field.value = '';
+  });
+
+  const planName = document.querySelector('#vt-content-prop input[aria-label="Nome"]');
+  const planFullName = document.querySelector('#vt-content-prop textarea[aria-label="Nome completo"]');
+  const planStart = document.querySelector('#vt-content-prop input[aria-label="Início"]');
+  const planEnd = document.querySelector('#vt-content-prop input[aria-label="Fim"]');
+  if (planName) planName.value = 'teste Renata';
+  if (planFullName) planFullName.value = 'teste Renata';
+  if (planStart) planStart.value = '2026-08-17';
+  if (planEnd) planEnd.value = '2026-08-31';
+  setVTEAPExpanded(true);
+
+  if (typeof showToast === 'function') showToast('Alterações desfeitas.');
+};
+
+window.cancelVTProgramCreation = function() {
+  const transversalView = document.getElementById('view-cenario-transversalidades');
+  if (transversalView) transversalView.classList.remove('vt-program-creation-active');
+  showVTProgramList();
+};
+
 window.openHomeScenarioView = function(e) {
   if (e && e.stopPropagation) e.stopPropagation();
   const vPlanoList = document.getElementById('view-modelo-de-plano-list');
@@ -316,6 +673,7 @@ window.openHomeScenarioView = function(e) {
   const vAreaTematica = document.getElementById('view-modelo-area-tematica');
   const vCenario = document.getElementById('view-cenario-transversalidades');
   const vVisoes = document.getElementById('view-visoes-transversais');
+  const vProgramDetail = document.getElementById('view-vt-program-detail');
 
   if (vPlanoList) vPlanoList.classList.add('hidden');
   if (vPlano) vPlano.classList.add('hidden');
@@ -325,6 +683,7 @@ window.openHomeScenarioView = function(e) {
   if (vEixo) vEixo.classList.add('hidden');
   if (vAreaTematica) vAreaTematica.classList.add('hidden');
   if (vVisoes) vVisoes.classList.add('hidden');
+  if (vProgramDetail) vProgramDetail.classList.add('hidden');
   if (vCenario) vCenario.classList.remove('hidden');
 
   // Activate Blue Theme Mode on app container and render blue rail icons
@@ -332,40 +691,48 @@ window.openHomeScenarioView = function(e) {
   if (appContainer) appContainer.classList.add('blue-theme');
 
   renderBlueRailIcons();
+  renderVTPlanBreadcrumb();
   
-  // Always default to Painel de Controle when opening Visão Transversal
-  if (typeof switchVTTab === 'function') switchVTTab('painel');
+  // A entrada da Visão Transversal deve abrir a lista de Programas do cenário.
+  // As demais telas continuam montadas e acessíveis pelas respectivas abas.
+  if (typeof switchVTTab === 'function') switchVTTab('prog');
+  if (typeof showVTProgramList === 'function') showVTProgramList();
 
-  // Update sub-sidebar header title to PE 2023-2026 and set pin icon on the right (Blue Menu Theme)
+  // No cenário azul, o menu lateral mostra somente o nome do plano.
   const subTitle = document.querySelector('.sub-sidebar .sidebar-title');
-  if (subTitle) subTitle.innerText = 'PE 2023-2026';
+  if (subTitle) subTitle.innerText = 'teste Renata';
 
   const headerSvg = document.querySelector('.sub-sidebar .sidebar-header svg');
   if (headerSvg) {
     headerSvg.setAttribute('data-blue-icon', 'true');
     headerSvg.innerHTML = `
-      <path d="M12 17v5"/>
-      <path d="M9 4h6l-1 6h2.5l-4.5 7-4.5-7H10z"/>
+      <circle cx="12" cy="12" r="9"/>
+      <path d="M12 7v5l3 2"/>
     `;
   }
 
   const dropBox = document.querySelector('.sub-sidebar .sidebar-dropdown-box');
   if (dropBox) {
-    dropBox.style.display = 'flex';
-    dropBox.title = 'Abrir Visão Transversal';
-    dropBox.onclick = openHomeScenarioView;
-    dropBox.innerHTML = `
-      <div class="sidebar-dropdown-left" style="display: flex; align-items: center; gap: 8px;">
-        <span style="font-size: 13px; font-weight: 500; color: #004b6e;">Visão Transversal</span>
-      </div>
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-    `;
+    dropBox.style.display = 'none';
   }
 
   const treeSec = document.querySelector('.sub-sidebar .sidebar-tree-section');
   if (treeSec) treeSec.style.display = 'none';
 
-  if (typeof showToast === 'function') showToast('Cenário Transversalidades exibido no Tema Azul!');
+  if (typeof showToast === 'function') showToast('Visão Transversal aberta em Programas!');
+};
+
+window.setVTEAPExpanded = function(expanded) {
+  const toggle = document.getElementById('vt-eap-plan-toggle');
+  const content = document.getElementById('vt-eap-plan-content');
+  if (toggle) toggle.setAttribute('aria-expanded', String(expanded));
+  if (content) content.hidden = !expanded;
+};
+
+window.toggleVTEAPPlan = function() {
+  const toggle = document.getElementById('vt-eap-plan-toggle');
+  const expanded = toggle ? toggle.getAttribute('aria-expanded') !== 'true' : true;
+  setVTEAPExpanded(expanded);
 };
 
 window.updateBreadcrumb = function(viewMode, activePillName) {
@@ -822,6 +1189,7 @@ window.openPlanoView = function(e) {
   const vAreaTematica = document.getElementById('view-modelo-area-tematica');
   const vCenario = document.getElementById('view-cenario-transversalidades');
   const vVisoes = document.getElementById('view-visoes-transversais');
+  const vProgramDetail = document.getElementById('view-vt-program-detail');
 
   if (vPlano) vPlano.classList.add('hidden');
   if (vProjeto) vProjeto.classList.add('hidden');
@@ -831,6 +1199,7 @@ window.openPlanoView = function(e) {
   if (vAreaTematica) vAreaTematica.classList.add('hidden');
   if (vCenario) vCenario.classList.add('hidden');
   if (vVisoes) vVisoes.classList.add('hidden');
+  if (vProgramDetail) vProgramDetail.classList.add('hidden');
   
   const vBlueProj = document.getElementById('view-blue-projetos');
   if (vBlueProj) vBlueProj.classList.add('hidden');
