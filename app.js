@@ -316,6 +316,82 @@ window.restoreVTProgramCreationView = function() {
   }
 };
 
+const VT_PROGRAM_STORAGE_KEY = 'transversalidade-programas';
+
+window.getStoredVTPrograms = function() {
+  try {
+    const programs = JSON.parse(localStorage.getItem(VT_PROGRAM_STORAGE_KEY) || '[]');
+    return Array.isArray(programs) ? programs : [];
+  } catch (error) {
+    return [];
+  }
+};
+
+window.storeVTProgram = function(program) {
+  const programs = getStoredVTPrograms();
+  const existingIndex = programs.findIndex(item => item.name === program.name);
+  if (existingIndex >= 0) programs[existingIndex] = program;
+  else programs.push(program);
+  localStorage.setItem(VT_PROGRAM_STORAGE_KEY, JSON.stringify(programs));
+};
+
+window.renderBlueProgramSidebar = function(activeProgramName = '') {
+  const sidebar = document.querySelector('.sub-sidebar');
+  if (!sidebar) return;
+
+  let list = sidebar.querySelector('.blue-program-sidebar-list');
+  if (!list) {
+    list = document.createElement('div');
+    list.className = 'blue-program-sidebar-list';
+    sidebar.appendChild(list);
+  }
+
+  list.replaceChildren();
+  getStoredVTPrograms().forEach(program => {
+    const item = document.createElement('button');
+    item.type = 'button';
+    item.className = 'blue-program-sidebar-item';
+    item.classList.toggle('active', program.name === activeProgramName);
+    item.title = `Abrir ${program.name}`;
+    item.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="12" rx="1.5"/><path d="M9 7V5h6v2M3 11h18M10 11v2h4v-2"/></svg><span></span>';
+    item.querySelector('span').textContent = program.name;
+    item.addEventListener('click', () => openStoredVTProgram(program.name));
+    list.appendChild(item);
+  });
+};
+
+window.openStoredVTProgram = function(programName) {
+  const program = getStoredVTPrograms().find(item => item.name === programName);
+  if (!program) return;
+
+  const transversalView = document.getElementById('view-cenario-transversalidades');
+  const detailView = document.getElementById('view-vt-program-detail');
+  if (transversalView) transversalView.classList.add('hidden');
+  if (detailView) detailView.classList.remove('hidden');
+
+  document.querySelectorAll('[data-vt-program-name]').forEach(element => {
+    element.textContent = program.name;
+  });
+  document.querySelectorAll('[data-vt-program-full-name]').forEach(element => {
+    element.textContent = program.fullName;
+  });
+
+  const propertyValues = {
+    name: program.name,
+    'full-name': program.fullName,
+    objective: program.objective,
+    audience: program.audience
+  };
+  Object.entries(propertyValues).forEach(([property, value]) => {
+    const field = document.querySelector(`[data-vt-program-property="${property}"]`);
+    if (field) field.value = value || '';
+  });
+
+  renderVTProgramBreadcrumb(program.name);
+  renderBlueProgramSidebar(program.name);
+  switchVTProgramDetailTab('painel');
+};
+
 window.saveVTProgram = function() {
   const transversalView = document.getElementById('view-cenario-transversalidades');
   const detailView = document.getElementById('view-vt-program-detail');
@@ -361,6 +437,13 @@ window.saveVTProgram = function() {
   if (detailObjectiveField) detailObjectiveField.value = programObjective;
   if (detailAudienceField) detailAudienceField.value = programAudience;
 
+  storeVTProgram({
+    name: programName,
+    fullName: fullProgramName,
+    objective: programObjective,
+    audience: programAudience
+  });
+  renderBlueProgramSidebar(programName);
   renderVTProgramBreadcrumb(programName);
   switchVTProgramDetailTab('painel');
   if (typeof showToast === 'function') showToast(`Programa '${programName}' salvo com sucesso!`);
@@ -698,7 +781,7 @@ window.openHomeScenarioView = function(e) {
   if (typeof switchVTTab === 'function') switchVTTab('prog');
   if (typeof showVTProgramList === 'function') showVTProgramList();
 
-  // No cenário azul, o menu lateral mostra somente o nome do plano.
+  // No cenário azul, o menu lateral mostra o plano e os programas cadastrados.
   const subTitle = document.querySelector('.sub-sidebar .sidebar-title');
   if (subTitle) subTitle.innerText = 'teste Renata';
 
@@ -718,6 +801,7 @@ window.openHomeScenarioView = function(e) {
 
   const treeSec = document.querySelector('.sub-sidebar .sidebar-tree-section');
   if (treeSec) treeSec.style.display = 'none';
+  renderBlueProgramSidebar();
 
   if (typeof showToast === 'function') showToast('Visão Transversal aberta em Programas!');
 };
