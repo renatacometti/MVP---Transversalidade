@@ -1184,6 +1184,10 @@ body {
   display: flex;
 }
 
+.blue-theme .blue-program-sidebar-list[hidden] {
+  display: none;
+}
+
 .blue-program-sidebar-item {
   width: 100%;
   min-height: 30px;
@@ -1210,9 +1214,11 @@ body {
   width: 15px;
   height: 15px;
   flex: 0 0 15px;
-  fill: #303b43;
+  fill: none;
   stroke: #303b43;
-  stroke-width: 1.5;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .blue-program-sidebar-item span {

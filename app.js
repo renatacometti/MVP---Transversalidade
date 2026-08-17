@@ -316,15 +316,10 @@ window.restoreVTProgramCreationView = function() {
   }
 };
 
-const VT_PROGRAM_STORAGE_KEY = 'transversalidade-programas';
+window.vtCreatedPrograms = [];
 
 window.getStoredVTPrograms = function() {
-  try {
-    const programs = JSON.parse(localStorage.getItem(VT_PROGRAM_STORAGE_KEY) || '[]');
-    return Array.isArray(programs) ? programs : [];
-  } catch (error) {
-    return [];
-  }
+  return window.vtCreatedPrograms;
 };
 
 window.storeVTProgram = function(program) {
@@ -332,7 +327,6 @@ window.storeVTProgram = function(program) {
   const existingIndex = programs.findIndex(item => item.name === program.name);
   if (existingIndex >= 0) programs[existingIndex] = program;
   else programs.push(program);
-  localStorage.setItem(VT_PROGRAM_STORAGE_KEY, JSON.stringify(programs));
 };
 
 window.renderBlueProgramSidebar = function(activeProgramName = '') {
@@ -346,14 +340,17 @@ window.renderBlueProgramSidebar = function(activeProgramName = '') {
     sidebar.appendChild(list);
   }
 
+  const programs = getStoredVTPrograms();
   list.replaceChildren();
-  getStoredVTPrograms().forEach(program => {
+  list.hidden = programs.length === 0;
+
+  programs.forEach(program => {
     const item = document.createElement('button');
     item.type = 'button';
     item.className = 'blue-program-sidebar-item';
     item.classList.toggle('active', program.name === activeProgramName);
     item.title = `Abrir ${program.name}`;
-    item.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="12" rx="1.5"/><path d="M9 7V5h6v2M3 11h18M10 11v2h4v-2"/></svg><span></span>';
+    item.innerHTML = '<svg class="blue-program-sidebar-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3h5v5"/><path d="M4 20h2c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.8-1.1 2-1.7 3.3-1.7H21"/><path d="M21 16v5h-5"/><path d="M4 4h2c1.3 0 2.5.6 3.3 1.7l6.1 8.6c.8 1.1 2 1.7 3.3 1.7H21"/></svg><span></span>';
     item.querySelector('span').textContent = program.name;
     item.addEventListener('click', () => openStoredVTProgram(program.name));
     list.appendChild(item);
