@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Modelo de Plano - Sistema de Gestão PMO</title>
-  <link rel="stylesheet" href="styles.css?v=vt-sidebar-session-only-5">
+  <link rel="stylesheet" href="styles.css?v=pink-project-indicators-10">
 </head>
 <body>
 
@@ -90,6 +90,8 @@
 
       <!-- Tree Section -->
       <div class="sidebar-tree-section">
+        <div class="sidebar-tree-group-title">MODELOS ESTRUTURAIS</div>
+
         <!-- Root: Portfólio (Expanded with chevron down) -->
         <div class="sidebar-tree-item root-item expanded" id="tree-portfolio-toggle" onclick="openPlanoView(event)">
           <div class="sidebar-tree-left">
@@ -111,17 +113,8 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
 
-          <!-- Level 2: Programa (Expanded chevron down) -->
-          <div class="sidebar-tree-item level-2 expanded" onclick="openProgramaView(event)" style="cursor: pointer;">
-            <div class="sidebar-tree-left">
-              <svg class="programa-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M4 20h2c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.8-1.1 2-1.7 3.3-1.7H21"/><path d="M21 16v5h-5"/><path d="M4 4h2c1.3 0 2.5.6 3.3 1.7l6.1 8.6c.8 1.1 2 1.7 3.3 1.7H21"/></svg>
-              <span>Programa</span>
-            </div>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-          </div>
-
-          <!-- Level 3: Projeto (SELECTED / BOLD & Expanded chevron down) -->
-          <div class="sidebar-tree-item level-3 active-selected expanded" id="tree-item-projeto" onclick="openProjetoView(event)" style="cursor: pointer;">
+          <!-- Level 2: Projeto (SELECTED / BOLD & Expanded chevron down) -->
+          <div class="sidebar-tree-item level-2 active-selected expanded" id="tree-item-projeto" onclick="openProjetoView(event)" style="cursor: pointer;">
             <div class="sidebar-tree-left">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1e293b" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
               <strong>Projeto</strong>
@@ -129,8 +122,8 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1e293b" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
 
-          <!-- Level 4: Etapa (Under Projeto, chevron right >) -->
-          <div class="sidebar-tree-item level-4">
+          <!-- Level 3: Etapa (Under Projeto, chevron right >) -->
+          <div class="sidebar-tree-item level-3">
             <div class="sidebar-tree-left">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
               <span>Etapa</span>
@@ -138,8 +131,8 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
           </div>
 
-          <!-- Level 2: Subprograma (Under Gerência, aligned with Programa, chevron right >) -->
-          <div class="sidebar-tree-item level-2" id="tree-item-subprograma" onclick="openSubprogramaView(event)" style="cursor: pointer;">
+          <!-- Subprograma será posicionado em Visões Transversais ao carregar a página. -->
+          <div class="sidebar-tree-item level-1" id="tree-item-subprograma" onclick="openSubprogramaView(event)" style="cursor: pointer;">
             <div class="sidebar-tree-left">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
               <span>Subprograma</span>
@@ -149,11 +142,13 @@
 
         </div>
 
-        <!-- Independent item: Programa Transversal -->
-        <div class="sidebar-tree-item root-item" onclick="openProgramaView(event)" style="cursor: pointer;">
+        <div class="sidebar-tree-group-title" id="sidebar-transversal-group-title">VISÕES TRANSVERSAIS</div>
+
+        <!-- Independent item: Programa -->
+        <div class="sidebar-tree-item root-item" id="tree-item-programa-transversal" onclick="openProgramaView(event)" style="cursor: pointer;">
           <div class="sidebar-tree-left">
             <svg class="programa-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M4 20h2c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.8-1.1 2-1.7 3.3-1.7H21"/><path d="M21 16v5h-5"/><path d="M4 4h2c1.3 0 2.5.6 3.3 1.7l6.1 8.6c.8 1.1 2 1.7 3.3 1.7H21"/></svg>
-            <span>Programa Transversal</span>
+            <span>Programa</span>
           </div>
         </div>
       </div>
@@ -901,6 +896,60 @@
                     </div>
                   </div>
                 </div>
+              </div>
+
+              <!-- Indicadores do Projeto -->
+              <div class="card-section project-extra-property project-indicators" style="margin-top: 12px;">
+                <div class="card-header">
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <span class="card-header-title">INDICADORES</span>
+                    <label class="switch-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+                  </div>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+                </div>
+                <div class="card-body project-indicator-options">
+                  <label><span>Desempenho</span><span class="switch-toggle"><input type="checkbox" checked><span class="slider"></span></span></label>
+                  <label><span>Alinhamento<br>Estratégico</span><span class="switch-toggle"><input type="checkbox" checked><span class="slider"></span></span></label>
+                </div>
+              </div>
+
+              <!-- Propriedades complementares do Projeto -->
+              <div class="card-section project-extra-property" style="margin-top: 12px;">
+                <div class="card-header">
+                  <div style="display:flex; align-items:center; gap:8px;"><span class="card-header-title">NOTIFICAÇÕES</span><label class="switch-toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+                </div>
+                <div class="card-body">
+                  <div class="form-group" style="max-width:680px;"><label class="form-label">Funções que recebem notificações <span class="help-icon">?</span></label><div class="chips-dropdown-field"><span class="chip-pill">Ponto Focal <span class="chip-pill-remove">&times;</span></span><span class="chip-pill">Gestor PMO ES <span class="chip-pill-remove">&times;</span></span><span class="chip-pill">Gerente <span class="chip-pill-remove">&times;</span></span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#004b6e" stroke-width="2.5" style="margin-left:auto;"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+                  <div class="project-notification-events">
+                    <span class="form-label">Sobre os eventos <span class="help-icon">?</span></span>
+                    <div><strong>MARCO CRÍTICO A VENCER</strong><label class="switch-toggle"><input type="checkbox" checked><span class="slider"></span></label><select class="pagination-page-select"><option>7</option></select><strong>DIAS ANTES DO VENCIMENTO</strong></div>
+                    <div><strong>CRONOGRAMAS E DIÁRIOS A ATUALIZAR</strong><label class="switch-toggle"><input type="checkbox" checked><span class="slider"></span></label><strong>NO DIA</strong><select class="pagination-page-select"><option>10</option></select><strong>DO MÊS SEGUINTE</strong></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-section project-extra-property" style="margin-top: 12px;">
+                <div class="card-header">
+                  <div style="display:flex; align-items:center; gap:8px;"><span class="card-header-title">PAINEL DE CONTROLE</span><label class="switch-toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+                </div>
+                <div class="card-body">
+                  <div class="form-group" style="max-width:685px;"><label class="form-label">Exibir partes interessadas <span class="help-icon">?</span></label><div class="chips-dropdown-field"><span class="chip-pill">Gerente <span class="chip-pill-remove">&times;</span></span><span class="chip-pill">Gestor PMO ES <span class="chip-pill-remove">&times;</span></span><span class="chip-pill">Ponto Focal <span class="chip-pill-remove">&times;</span></span><span class="chip-pill">Secretário/Dirigente Líder <span class="chip-pill-remove">&times;</span></span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#004b6e" stroke-width="2.5" style="margin-left:auto;"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+                  <div class="project-dashboard-options"><label>Marco histórico <span class="switch-toggle"><input type="checkbox" checked><span class="slider"></span></span></label><label>EVA <span class="switch-toggle"><input type="checkbox" checked><span class="slider"></span></span></label><label>Risco <span class="switch-toggle"><input type="checkbox" checked><span class="slider"></span></span></label></div>
+                </div>
+              </div>
+
+              <div class="project-collapsed-properties">
+                <div class="card-section"><div class="card-header"><div><span class="card-header-title">GESTÃO DE RISCOS E OCORRÊNCIAS</span><label class="switch-toggle"><input type="checkbox" checked><span class="slider"></span></label></div></div></div>
+                <div class="card-section"><div class="card-header"><div><span class="card-header-title">CENTROS DE CUSTO</span><label class="switch-toggle"><input type="checkbox" checked><span class="slider"></span></label></div></div></div>
+                <div class="card-section"><div class="card-header"><div><span class="card-header-title">GESTÃO DE PROCESSOS</span><label class="switch-toggle"><input type="checkbox" checked><span class="slider"></span></label></div></div></div>
+                <div class="card-section"><div class="card-header"><div><span class="card-header-title">DIÁRIO</span><label class="switch-toggle"><input type="checkbox" checked><span class="slider"></span></label></div></div></div>
+              </div>
+
+              <div class="card-section project-extra-property" style="margin-top: 12px;">
+                <div class="card-header"><div style="display:flex; align-items:center; gap:8px;"><span class="card-header-title">MODELOS</span><label class="switch-toggle"><input type="checkbox" checked><span class="slider"></span></label></div><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg></div>
+                <div class="card-body"><div class="estrutura-model-row"><div class="estrutura-model-left"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg><span>Etapa</span></div><div class="estrutura-model-right"><button type="button" class="cost-center-kebab-btn" title="Mais opções">⋮</button><span class="cost-center-id-code">146</span></div></div><div class="estrutura-add-box" title="Adicionar modelo"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
               </div>
 
               <div class="actions-footer">
@@ -2677,6 +2726,10 @@
                   <textarea rows="2" aria-label="Objetivo do novo programa"></textarea>
                 </label>
                 <label class="vt-property-field vt-program-full-field">
+                  <span>Benefícios do Programa</span>
+                  <textarea rows="2" aria-label="Benefícios do novo programa"></textarea>
+                </label>
+                <label class="vt-property-field vt-program-full-field">
                   <span>Público-alvo</span>
                   <textarea rows="2" aria-label="Público-alvo do novo programa"></textarea>
                 </label>
@@ -2837,6 +2890,11 @@
                 <label class="vt-property-field vt-program-property-wide">
                   <span>Objetivo do programa</span>
                   <textarea rows="3" data-vt-program-property="objective" aria-label="Objetivo do programa"></textarea>
+                </label>
+
+                <label class="vt-property-field vt-program-property-wide">
+                  <span>Benefícios do Programa</span>
+                  <textarea rows="3" data-vt-program-property="benefits" aria-label="Benefícios do programa"></textarea>
                 </label>
 
                 <label class="vt-property-field vt-program-property-wide">
@@ -3043,6 +3101,6 @@
     </div>
   </div>
 
-  <script src="app.js?v=vt-sidebar-session-only-5"></script>
+  <script src="app.js?v=pink-project-indicators-10"></script>
 </body>
 </html>

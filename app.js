@@ -377,6 +377,7 @@ window.openStoredVTProgram = function(programName) {
     name: program.name,
     'full-name': program.fullName,
     objective: program.objective,
+    benefits: program.benefits,
     audience: program.audience
   };
   Object.entries(propertyValues).forEach(([property, value]) => {
@@ -395,10 +396,12 @@ window.saveVTProgram = function() {
   const nameField = document.querySelector('#vt-program-form input[aria-label="Nome do novo programa"]');
   const fullNameField = document.querySelector('#vt-program-form textarea[aria-label="Nome completo do novo programa"]');
   const objectiveField = document.querySelector('#vt-program-form textarea[aria-label="Objetivo do novo programa"]');
+  const benefitsField = document.querySelector('#vt-program-form textarea[aria-label="Benefícios do novo programa"]');
   const audienceField = document.querySelector('#vt-program-form textarea[aria-label="Público-alvo do novo programa"]');
   const programName = nameField ? nameField.value.trim() : '';
   const fullProgramName = fullNameField ? fullNameField.value.trim() : '';
   const programObjective = objectiveField ? objectiveField.value.trim() : '';
+  const programBenefits = benefitsField ? benefitsField.value.trim() : '';
   const programAudience = audienceField ? audienceField.value.trim() : '';
 
   if (!programName || !fullProgramName) {
@@ -428,16 +431,19 @@ window.saveVTProgram = function() {
   const detailNameField = document.querySelector('[data-vt-program-property="name"]');
   const detailFullNameField = document.querySelector('[data-vt-program-property="full-name"]');
   const detailObjectiveField = document.querySelector('[data-vt-program-property="objective"]');
+  const detailBenefitsField = document.querySelector('[data-vt-program-property="benefits"]');
   const detailAudienceField = document.querySelector('[data-vt-program-property="audience"]');
   if (detailNameField) detailNameField.value = programName;
   if (detailFullNameField) detailFullNameField.value = fullProgramName;
   if (detailObjectiveField) detailObjectiveField.value = programObjective;
+  if (detailBenefitsField) detailBenefitsField.value = programBenefits;
   if (detailAudienceField) detailAudienceField.value = programAudience;
 
   storeVTProgram({
     name: programName,
     fullName: fullProgramName,
     objective: programObjective,
+    benefits: programBenefits,
     audience: programAudience
   });
   renderBlueProgramSidebar(programName);
@@ -1001,7 +1007,7 @@ window.openProgramaView = function(e, customName) {
   if (vPrograma) vPrograma.classList.remove('hidden');
 
   document.querySelectorAll('.sidebar-tree-item').forEach(i => i.classList.remove('active-selected'));
-  const progItem = document.querySelector('.sidebar-tree-item.level-2');
+  const progItem = document.getElementById('tree-item-programa-transversal');
   if (progItem) progItem.classList.add('active-selected');
 
   let selectedName = 'Programa';
@@ -1428,6 +1434,46 @@ window.openVisoesTransversaisView = function(e) {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+  const treeSection = document.querySelector('.sub-sidebar .sidebar-tree-section');
+  const structuralTitle = treeSection ? treeSection.querySelector('.sidebar-tree-group-title:first-child') : null;
+  const transversalTitle = document.getElementById('sidebar-transversal-group-title');
+  const portfolio = document.getElementById('tree-portfolio-toggle');
+  const portfolioBranch = document.getElementById('tree-portfolio-branch');
+  const transversalProgram = document.getElementById('tree-item-programa-transversal');
+  const subprogram = document.getElementById('tree-item-subprograma');
+
+  const createSidebarGroup = (title, items) => {
+    if (!title || !treeSection) return;
+    const group = document.createElement('div');
+    group.className = 'sidebar-tree-group-items';
+    title.insertAdjacentElement('afterend', group);
+    items.filter(Boolean).forEach(item => group.appendChild(item));
+
+    title.setAttribute('role', 'button');
+    title.setAttribute('tabindex', '0');
+    title.setAttribute('aria-expanded', 'true');
+    title.classList.add('expanded');
+
+    const toggleGroup = () => {
+      const expanded = title.getAttribute('aria-expanded') === 'true';
+      title.setAttribute('aria-expanded', String(!expanded));
+      title.classList.toggle('expanded', !expanded);
+      group.hidden = expanded;
+    };
+    title.addEventListener('click', toggleGroup);
+    title.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        toggleGroup();
+      }
+    });
+  };
+
+  if (treeSection && !treeSection.querySelector('.sidebar-tree-group-items')) {
+    createSidebarGroup(structuralTitle, [portfolio, portfolioBranch]);
+    createSidebarGroup(transversalTitle, [transversalProgram, subprogram]);
+  }
+
   if (typeof syncDominioOptions === 'function') syncDominioOptions();
   if (typeof syncTransversalRailIcons === 'function') syncTransversalRailIcons();
 
