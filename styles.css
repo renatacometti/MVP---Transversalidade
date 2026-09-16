@@ -1228,6 +1228,47 @@ body {
   display: none;
 }
 
+.sidebar-transversal-created-icon {
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 16px;
+}
+
+.sidebar-transversal-created-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.sidebar-transversal-created-toggle {
+  width: 22px;
+  height: 22px;
+  padding: 4px;
+  border: 0;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+}
+
+.sidebar-transversal-created-toggle svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  transition: transform 0.15s ease;
+}
+
+.sidebar-transversal-created-toggle.collapsed svg {
+  transform: rotate(-90deg);
+}
+
+.sidebar-transversal-created-subprogram[hidden] {
+  display: none;
+}
+
 .project-notification-events { display:flex; flex-direction:column; gap:10px; color:#004b6e; font-size:12px; }
 .project-notification-events > div { display:flex; align-items:center; gap:9px; flex-wrap:wrap; }
 .project-notification-events strong { font-weight:500; }

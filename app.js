@@ -1474,6 +1474,17 @@ document.addEventListener('DOMContentLoaded', () => {
     createSidebarGroup(transversalTitle, [transversalProgram, subprogram]);
   }
 
+  const transversalProgramToggle = document.getElementById('tree-programa-transversal-toggle');
+  if (transversalProgramToggle && subprogram) {
+    transversalProgramToggle.addEventListener('click', event => {
+      event.stopPropagation();
+      const expanded = transversalProgramToggle.getAttribute('aria-expanded') === 'true';
+      transversalProgramToggle.setAttribute('aria-expanded', String(!expanded));
+      transversalProgramToggle.classList.toggle('collapsed', expanded);
+      subprogram.hidden = expanded;
+    });
+  }
+
   if (typeof syncDominioOptions === 'function') syncDominioOptions();
   if (typeof syncTransversalRailIcons === 'function') syncTransversalRailIcons();
 
@@ -1973,6 +1984,73 @@ window.selectProjetoVinculo = function(element, name) {
     });
   }
 
+window.addProgramaToPinkSidebar = function(name, iconSvg) {
+  const baseProgram = document.getElementById('tree-item-programa-transversal');
+  const subprogram = document.getElementById('tree-item-subprograma');
+  const transversalTitle = document.getElementById('sidebar-transversal-group-title');
+  const groupedItems = transversalTitle && transversalTitle.nextElementSibling && transversalTitle.nextElementSibling.classList.contains('sidebar-tree-group-items')
+    ? transversalTitle.nextElementSibling
+    : null;
+  const group = groupedItems || (baseProgram ? baseProgram.parentElement : null) || (subprogram ? subprogram.parentElement : null);
+  if (!group) return;
+
+  const existingItem = Array.from(group.querySelectorAll('.sidebar-transversal-created-item'))
+    .find(item => item.dataset.programName === name);
+  if (existingItem) return;
+
+  const item = document.createElement('div');
+  item.className = 'sidebar-tree-item root-item sidebar-transversal-created-item';
+  item.dataset.programName = name;
+  item.style.cursor = 'pointer';
+  item.title = `Abrir ${name}`;
+
+  const left = document.createElement('div');
+  left.className = 'sidebar-tree-left';
+  const icon = document.createElement('span');
+  icon.className = 'sidebar-transversal-created-icon';
+  icon.innerHTML = iconSvg;
+  const label = document.createElement('span');
+  label.textContent = name;
+  left.append(icon, label);
+  const toggle = document.createElement('button');
+  toggle.type = 'button';
+  toggle.className = 'sidebar-transversal-created-toggle';
+  toggle.setAttribute('aria-label', `Expandir ou recolher subprogramas de ${name}`);
+  toggle.setAttribute('aria-expanded', 'true');
+  toggle.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>';
+  item.append(left, toggle);
+  item.addEventListener('click', event => openProgramaView(event, name));
+
+  const child = document.createElement('div');
+  child.className = 'sidebar-tree-item level-1 sidebar-transversal-created-subprogram';
+  child.dataset.parentProgramName = name;
+  child.style.cursor = 'pointer';
+  child.title = `Abrir Subprograma de ${name}`;
+  child.innerHTML = '<div class="sidebar-tree-left"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>Subprograma</span></div>';
+  child.addEventListener('click', event => {
+    event.stopPropagation();
+    openSubprogramaView(event);
+  });
+
+  toggle.addEventListener('click', event => {
+    event.stopPropagation();
+    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!expanded));
+    toggle.classList.toggle('collapsed', expanded);
+    child.hidden = expanded;
+  });
+
+  // Mantém cada visão transversal junto de seu próprio Subprograma.
+  // O Programa padrão e seu Subprograma permanecem como o primeiro par.
+  group.append(item, child);
+
+  if (transversalTitle) {
+    transversalTitle.setAttribute('aria-expanded', 'true');
+    transversalTitle.classList.add('expanded');
+  }
+  group.hidden = false;
+};
+
 window.addProgramaToVisoesTransversais = function(name, iconSvg) {
   const targetContainers = [
     document.querySelector('#visoes-transversais-models-list'),
@@ -2014,6 +2092,8 @@ window.addProgramaToVisoesTransversais = function(name, iconSvg) {
     container.appendChild(row);
   });
 
+  addProgramaToPinkSidebar(name, iconSvg);
+
   if (typeof syncTransversalRailIcons === 'function') syncTransversalRailIcons();
 };
 
@@ -2033,6 +2113,7 @@ window.addProgramaToVisoesTransversais = function(name, iconSvg) {
 
       showToast(`Programa '${progName}' cadastrado em Visões Transversais!`);
       openVisoesTransversaisView();
+      addProgramaToPinkSidebar(progName, iconSvg);
     });
   }
 });
