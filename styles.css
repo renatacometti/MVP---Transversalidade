@@ -1396,6 +1396,61 @@ body {
   padding: 0 4px;
 }
 
+.blue-transversal-parent-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.blue-transversal-parent-item {
+  width: 100%;
+  min-height: 32px;
+  padding: 6px 10px 6px 14px;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  color: #004b6e;
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr) 14px;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-family);
+  font-size: 13px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+
+.blue-transversal-parent-item:hover {
+  background: #eef2f4;
+}
+
+.blue-transversal-parent-item svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.blue-transversal-parent-chevron {
+  transition: transform 0.18s ease;
+}
+
+.blue-transversal-parent-item[aria-expanded="false"] .blue-transversal-parent-chevron {
+  transform: rotate(-90deg);
+}
+
+.blue-transversal-program-children {
+  display: flex;
+  flex-direction: column;
+}
+
+.blue-transversal-program-children[hidden] {
+  display: none;
+}
+
 .blue-theme .blue-program-sidebar-list {
   display: flex;
 }
@@ -1407,7 +1462,7 @@ body {
 .blue-program-sidebar-item {
   width: 100%;
   min-height: 30px;
-  padding: 6px 14px;
+  padding: 6px 14px 6px 38px;
   border: 0;
   border-radius: 3px;
   background: transparent;

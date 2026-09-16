@@ -324,9 +324,22 @@ window.getStoredVTPrograms = function() {
 
 window.storeVTProgram = function(program) {
   const programs = getStoredVTPrograms();
-  const existingIndex = programs.findIndex(item => item.name === program.name);
+  const existingIndex = programs.findIndex(item => item.name === program.name && item.transversalName === program.transversalName);
   if (existingIndex >= 0) programs[existingIndex] = program;
   else programs.push(program);
+};
+
+window.activeBlueTransversalName = 'Programa';
+
+window.getBlueTransversalParents = function() {
+  const parents = [{ name: 'Programa', type: 'program' }];
+  const savedItems = typeof getPinkTransversalItems === 'function' ? getPinkTransversalItems() : [];
+  savedItems.forEach(item => {
+    if (!item || !item.name) return;
+    const exists = parents.some(parent => parent.name.toLocaleLowerCase('pt-BR') === item.name.toLocaleLowerCase('pt-BR'));
+    if (!exists) parents.push(item);
+  });
+  return parents;
 };
 
 window.renderBlueProgramSidebar = function(activeProgramName = '') {
@@ -341,24 +354,56 @@ window.renderBlueProgramSidebar = function(activeProgramName = '') {
   }
 
   const programs = getStoredVTPrograms();
+  const parents = getBlueTransversalParents();
   list.replaceChildren();
-  list.hidden = programs.length === 0;
+  list.hidden = parents.length === 0;
 
-  programs.forEach(program => {
-    const item = document.createElement('button');
-    item.type = 'button';
-    item.className = 'blue-program-sidebar-item';
-    item.classList.toggle('active', program.name === activeProgramName);
-    item.title = `Abrir ${program.name}`;
-    item.innerHTML = '<svg class="blue-program-sidebar-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3h5v5"/><path d="M4 20h2c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.8-1.1 2-1.7 3.3-1.7H21"/><path d="M21 16v5h-5"/><path d="M4 4h2c1.3 0 2.5.6 3.3 1.7l6.1 8.6c.8 1.1 2 1.7 3.3 1.7H21"/></svg><span></span>';
-    item.querySelector('span').textContent = program.name;
-    item.addEventListener('click', () => openStoredVTProgram(program.name));
-    list.appendChild(item);
+  parents.forEach(parent => {
+    const group = document.createElement('div');
+    group.className = 'blue-transversal-parent-group';
+    group.dataset.transversalName = parent.name;
+
+    const parentButton = document.createElement('button');
+    parentButton.type = 'button';
+    parentButton.className = 'blue-transversal-parent-item';
+    parentButton.setAttribute('aria-expanded', 'true');
+    parentButton.title = `Visão Transversal: ${parent.name}`;
+    parentButton.innerHTML = '<svg class="blue-transversal-parent-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3h5v5"/><path d="M4 20h2c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.8-1.1 2-1.7 3.3-1.7H21"/><path d="M21 16v5h-5"/><path d="M4 4h2c1.3 0 2.5.6 3.3 1.7l6.1 8.6c.8 1.1 2 1.7 3.3 1.7H21"/></svg><span></span><svg class="blue-transversal-parent-chevron" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>';
+    parentButton.querySelector('span').textContent = parent.name;
+
+    const children = document.createElement('div');
+    children.className = 'blue-transversal-program-children';
+    const parentPrograms = programs.filter(program => (program.transversalName || 'Programa') === parent.name);
+
+    parentPrograms.forEach(program => {
+      const item = document.createElement('button');
+      item.type = 'button';
+      item.className = 'blue-program-sidebar-item';
+      item.classList.toggle('active', program.name === activeProgramName);
+      item.title = `Abrir ${program.name}`;
+      item.innerHTML = '<svg class="blue-program-sidebar-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3h5v5"/><path d="M4 20h2c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.8-1.1 2-1.7 3.3-1.7H21"/><path d="M21 16v5h-5"/><path d="M4 4h2c1.3 0 2.5.6 3.3 1.7l6.1 8.6c.8 1.1 2 1.7 3.3 1.7H21"/></svg><span></span>';
+      item.querySelector('span').textContent = program.name;
+      item.addEventListener('click', event => {
+        event.stopPropagation();
+        window.activeBlueTransversalName = parent.name;
+        openStoredVTProgram(program.name, parent.name);
+      });
+      children.appendChild(item);
+    });
+
+    parentButton.addEventListener('click', () => {
+      window.activeBlueTransversalName = parent.name;
+      const expanded = parentButton.getAttribute('aria-expanded') === 'true';
+      parentButton.setAttribute('aria-expanded', String(!expanded));
+      children.hidden = expanded;
+    });
+    group.append(parentButton, children);
+    list.appendChild(group);
   });
 };
 
-window.openStoredVTProgram = function(programName) {
-  const program = getStoredVTPrograms().find(item => item.name === programName);
+window.openStoredVTProgram = function(programName, transversalName = '') {
+  const program = getStoredVTPrograms().find(item => item.name === programName && (!transversalName || (item.transversalName || 'Programa') === transversalName));
   if (!program) return;
 
   const transversalView = document.getElementById('view-cenario-transversalidades');
@@ -444,7 +489,8 @@ window.saveVTProgram = function() {
     fullName: fullProgramName,
     objective: programObjective,
     benefits: programBenefits,
-    audience: programAudience
+    audience: programAudience,
+    transversalName: window.activeBlueTransversalName || 'Programa'
   });
   renderBlueProgramSidebar(programName);
   renderVTProgramBreadcrumb(programName);
@@ -792,7 +838,7 @@ window.openHomeScenarioView = function(e) {
 
   // No cenário azul, o menu lateral mostra o plano e os programas cadastrados.
   const subTitle = document.querySelector('.sub-sidebar .sidebar-title');
-  if (subTitle) subTitle.innerText = 'teste Renata';
+  if (subTitle) subTitle.innerText = 'Nome do Plano';
 
   const headerSvg = document.querySelector('.sub-sidebar .sidebar-header svg');
   if (headerSvg) {
