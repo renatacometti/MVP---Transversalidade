@@ -517,6 +517,157 @@ window.toggleVTDeliveryLinkMenu = function(event, button) {
   if (button) button.setAttribute('aria-expanded', String(willOpen));
 };
 
+window.VT_DELIVERY_LINK_SELECTED = new Set();
+window.VT_DELIVERY_LINK_COLLAPSED = new Set();
+window.VT_DELIVERY_LINK_TREE = {
+  id: 'delivery-plan', name: 'PE 2023-2026', type: 'plan', children: [
+    { id: 'delivery-realiza', name: 'Realiza+', type: 'portfolio', children: [
+      { id: 'delivery-eixo', name: 'Eixo I: +Qualidade de vida', type: 'axis', children: [
+        { id: 'delivery-area', name: 'Educação, Cultura, Esporte e Lazer', type: 'folder', children: [
+          { id: 'delivery-cultura', name: 'Cultura ES', type: 'project', children: [
+            { id: 'delivery-cais', name: 'Cais das Artes', type: 'project', children: [
+              { id: 'delivery-stage-cais', name: 'Conclusão da construção do Cais das Artes', type: 'stage', children: [
+                { id: 'delivery-cais-conclusao', name: 'Conclusão da construção do Cais das Artes', type: 'delivery', children: [] },
+                { id: 'delivery-cais-repactuacao', name: 'teste de status repactuação', type: 'delivery', children: [] }
+              ] }
+            ] },
+            { id: 'delivery-carmelia', name: 'Centro Cultural Carmélia', type: 'project', children: [
+              { id: 'delivery-stage-fachadas', name: 'ETAPA 1: Fachadas e Cobertura', type: 'stage', children: [
+                { id: 'delivery-reforma-fachada', name: 'Reforma da Cobertura e Fachada', type: 'delivery', children: [] }
+              ] },
+              { id: 'delivery-stage-interna', name: 'ETAPA 2: Reforma Interna', type: 'stage', children: [
+                { id: 'delivery-reforma-interna', name: 'Reforma da Área Interna', type: 'delivery', children: [] }
+              ] }
+            ] }
+          ] }
+        ] }
+      ] }
+    ] }
+  ]
+};
+
+window.getVTDeliveryLeaves = function(node) {
+  if (node.type === 'delivery') return [node];
+  return (node.children || []).flatMap(getVTDeliveryLeaves);
+};
+
+window.getVTDeliveryTreeIcon = function(type) {
+  if (type === 'delivery') return '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 13h6v7H3zm12 0h6v7h-6zM9 4h6v6H9z"/><path d="M11 10h2v3h-2zM6 11h12v2H6z"/></svg>';
+  if (type === 'stage') return '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="m3 6 1.5 1.5L7 4.5M3 12l1.5 1.5L7 10.5M3 18l1.5 1.5L7 16.5"/></svg>';
+  if (type === 'plan') return '';
+  return getVTProjectTreeIcon(type);
+};
+
+window.openVTDeliveryLinkTree = function(event) {
+  if (event && event.stopPropagation) event.stopPropagation();
+  const menu = document.getElementById('vt-delivery-link-menu');
+  const picker = document.getElementById('vt-delivery-link-picker');
+  const trigger = document.querySelector('.vt-program-deliveries-add');
+  if (menu) menu.classList.remove('open');
+  if (trigger) trigger.setAttribute('aria-expanded', 'false');
+  window.VT_DELIVERY_LINK_SELECTED = new Set(
+    Array.from(document.querySelectorAll('.vt-program-deliveries-list [data-delivery-id]'))
+      .map(row => row.dataset.deliveryId)
+  );
+  renderVTDeliveryLinkTree();
+  if (picker) picker.classList.remove('hidden');
+};
+
+window.closeVTDeliveryLinkTree = function() {
+  const picker = document.getElementById('vt-delivery-link-picker');
+  if (picker) picker.classList.add('hidden');
+};
+
+window.addLinkedDeliveryToList = function(delivery) {
+  const list = document.querySelector('.vt-program-deliveries-list');
+  if (!list || list.querySelector(`[data-delivery-id="${delivery.id}"]`)) return false;
+
+  const row = document.createElement('button');
+  row.type = 'button';
+  row.className = 'vt-program-delivery-row';
+  row.dataset.deliveryId = delivery.id;
+  row.innerHTML = `
+    <span class="vt-program-delivery-name">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13h5v7H4zM15 13h5v7h-5zM9 4h6v6H9z"/><path d="M12 10v3M6.5 13v-2h11v2"/></svg>
+      <span></span>
+    </span>
+    <span class="vt-program-delivery-status play">▶</span>
+    <span class="vt-program-delivery-meta"><b>⋮</b><span>⌘</span><small></small></span>`;
+  row.querySelector('.vt-program-delivery-name span').textContent = delivery.name;
+  row.querySelector('small').textContent = String(41000 + list.children.length);
+  row.addEventListener('click', () => showToast(`Abrindo entrega: ${delivery.name}`));
+  list.appendChild(row);
+  return true;
+};
+
+window.confirmVTDeliveryLinks = function() {
+  const selectedDeliveries = getVTDeliveryLeaves(window.VT_DELIVERY_LINK_TREE)
+    .filter(item => window.VT_DELIVERY_LINK_SELECTED.has(item.id));
+  const selectedIds = new Set(selectedDeliveries.map(delivery => delivery.id));
+  const list = document.querySelector('.vt-program-deliveries-list');
+  let removedCount = 0;
+  if (list) {
+    list.querySelectorAll('[data-delivery-id]').forEach(row => {
+      if (!selectedIds.has(row.dataset.deliveryId)) {
+        row.remove();
+        removedCount += 1;
+      }
+    });
+  }
+  let addedCount = 0;
+  selectedDeliveries.forEach(delivery => {
+    if (addLinkedDeliveryToList(delivery)) addedCount += 1;
+  });
+  closeVTDeliveryLinkTree();
+  if (typeof showToast === 'function') {
+    if (!selectedDeliveries.length) showToast(removedCount ? 'Todas as entregas foram desvinculadas.' : 'Nenhuma entrega selecionada.');
+    else if (!addedCount && !removedCount) showToast('As entregas selecionadas já estão vinculadas ao programa.');
+    else if (addedCount) showToast(`${addedCount} entrega(s) vinculada(s) ao programa.`);
+    else showToast('Lista de entregas atualizada.');
+  }
+};
+
+window.renderVTDeliveryLinkTree = function() {
+  const tree = document.getElementById('vt-delivery-link-tree');
+  if (!tree || !window.VT_DELIVERY_LINK_TREE) return;
+  const checkIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="5 12 10 17 19 7"/></svg>';
+  const arrowIcon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>';
+
+  function renderNode(node, depth) {
+    const hasChildren = Boolean(node.children && node.children.length);
+    const collapsed = window.VT_DELIVERY_LINK_COLLAPSED.has(node.id);
+    const isDelivery = node.type === 'delivery';
+    const selected = isDelivery && window.VT_DELIVERY_LINK_SELECTED.has(node.id);
+    const toggle = hasChildren
+      ? `<button type="button" class="vt-project-tree-toggle${collapsed ? ' collapsed' : ''}" data-delivery-link-toggle="${node.id}" aria-label="${collapsed ? 'Expandir' : 'Recolher'} ${node.name}">${arrowIcon}</button>`
+      : '<span class="vt-project-tree-spacer"></span>';
+    const icon = getVTDeliveryTreeIcon(node.type);
+    const selector = isDelivery
+      ? `<button type="button" class="vt-project-tree-select" data-delivery-link-item="${node.id}" aria-selected="${selected}"><span class="vt-project-tree-checkbox${selected ? ' selected' : ''}">${checkIcon}</span><span class="vt-project-tree-icon">${icon}</span><span class="vt-project-tree-label">${node.name}</span></button>`
+      : `<div class="vt-project-tree-select vt-delivery-tree-branch"><span class="vt-project-tree-icon">${icon}</span><span class="vt-project-tree-label">${node.name}</span></div>`;
+    const children = hasChildren
+      ? `<div class="vt-project-tree-children${collapsed ? ' collapsed' : ''}" role="group">${node.children.map(child => renderNode(child, depth + 1)).join('')}</div>`
+      : '';
+    return `<div class="vt-project-tree-node"><div class="vt-project-tree-row" style="--tree-depth:${depth}">${toggle}${selector}</div>${children}</div>`;
+  }
+
+  tree.innerHTML = renderNode(window.VT_DELIVERY_LINK_TREE, 0);
+  tree.querySelectorAll('[data-delivery-link-toggle]').forEach(button => button.addEventListener('click', event => {
+    event.stopPropagation();
+    const id = button.dataset.deliveryLinkToggle;
+    if (window.VT_DELIVERY_LINK_COLLAPSED.has(id)) window.VT_DELIVERY_LINK_COLLAPSED.delete(id);
+    else window.VT_DELIVERY_LINK_COLLAPSED.add(id);
+    renderVTDeliveryLinkTree();
+  }));
+  tree.querySelectorAll('[data-delivery-link-item]').forEach(button => button.addEventListener('click', event => {
+    event.stopPropagation();
+    const id = button.dataset.deliveryLinkItem;
+    if (window.VT_DELIVERY_LINK_SELECTED.has(id)) window.VT_DELIVERY_LINK_SELECTED.delete(id);
+    else window.VT_DELIVERY_LINK_SELECTED.add(id);
+    renderVTDeliveryLinkTree();
+  }));
+};
+
 document.addEventListener('click', function(event) {
   const trigger = document.querySelector('.vt-program-deliveries-add-trigger');
   if (!trigger || trigger.contains(event.target)) return;
