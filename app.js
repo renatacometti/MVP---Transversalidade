@@ -748,8 +748,14 @@ window.cancelVTProgramCreation = function() {
   showVTProgramList();
 };
 
+window.hideNewTransversalOrganizerView = function() {
+  const organizerView = document.getElementById('view-new-transversal-organizer');
+  if (organizerView) organizerView.classList.add('hidden');
+};
+
 window.openHomeScenarioView = function(e) {
   if (e && e.stopPropagation) e.stopPropagation();
+  hideNewTransversalOrganizerView();
   const vPlanoList = document.getElementById('view-modelo-de-plano-list');
   const vPlano = document.getElementById('view-modelo-de-plano');
   const vProjeto = document.getElementById('view-modelo-projeto');
@@ -897,6 +903,7 @@ window.updateBreadcrumb = function(viewMode, activePillName) {
 
 window.openPortfolioView = function(e) {
   if (e && e.stopPropagation) e.stopPropagation();
+  hideNewTransversalOrganizerView();
   const vPlanoList = document.getElementById('view-modelo-de-plano-list');
   const vPlano = document.getElementById('view-modelo-de-plano');
   const vProjeto = document.getElementById('view-modelo-projeto');
@@ -986,6 +993,7 @@ window.openAreaTematicaView = function(e) {
 
 window.openProgramaView = function(e, customName) {
   if (e && e.stopPropagation) e.stopPropagation();
+  hideNewTransversalOrganizerView();
   const vPlanoList = document.getElementById('view-modelo-de-plano-list');
   const vPlano = document.getElementById('view-modelo-de-plano');
   const vProjeto = document.getElementById('view-modelo-projeto');
@@ -1147,6 +1155,36 @@ window.openNewProgramaView = function(e) {
   if (typeof showToast === 'function') showToast('Novo Programa: Preencha os campos para incluir e salvar.');
 };
 
+window.openNewTransversalOrganizerView = function(e) {
+  if (e && e.stopPropagation) e.stopPropagation();
+
+  document.querySelectorAll('.view-container').forEach(view => view.classList.add('hidden'));
+  const organizerView = document.getElementById('view-new-transversal-organizer');
+  if (organizerView) organizerView.classList.remove('hidden');
+
+  const appContainer = document.querySelector('.app-container');
+  if (appContainer) appContainer.classList.remove('blue-theme');
+  if (typeof renderPinkRailIcons === 'function') renderPinkRailIcons();
+
+  const subTitle = document.querySelector('.sub-sidebar .sidebar-title');
+  if (subTitle) subTitle.innerText = 'Modelos de Plano';
+  const dropBox = document.querySelector('.sub-sidebar .sidebar-dropdown-box');
+  if (dropBox) dropBox.style.display = 'flex';
+  const treeSection = document.querySelector('.sub-sidebar .sidebar-tree-section');
+  if (treeSection) treeSection.style.display = 'block';
+
+  const form = document.getElementById('transversal-organizer-form');
+  if (form) form.reset();
+  updateBreadcrumb('subdetail', 'Modelo de Pacote de Trabalho');
+
+  ['visoes-transversais-add-menu', 'visao-add-menu'].forEach(id => {
+    const menu = document.getElementById(id);
+    if (menu) menu.style.display = 'none';
+  });
+
+  if (typeof showToast === 'function') showToast('Novo Organizador: preencha os campos para cadastrar.');
+};
+
 window.openNewPortfolioView = function(e) {
   if (e && e.stopPropagation) e.stopPropagation();
   const vPlano = document.getElementById('view-modelo-de-plano');
@@ -1235,6 +1273,7 @@ window.openNewProjetoView = function(e) {
 
 window.openProjetoView = function(e) {
   if (e && e.stopPropagation) e.stopPropagation();
+  hideNewTransversalOrganizerView();
   const vPlanoList = document.getElementById('view-modelo-de-plano-list');
   const vPlano = document.getElementById('view-modelo-de-plano');
   const vProjeto = document.getElementById('view-modelo-projeto');
@@ -1267,6 +1306,7 @@ window.openProjetoView = function(e) {
 
 window.openPlanoView = function(e) {
   if (e && e.stopPropagation) e.stopPropagation();
+  hideNewTransversalOrganizerView();
   const vPlanoList = document.getElementById('view-modelo-de-plano-list');
   const vPlano = document.getElementById('view-modelo-de-plano');
   const vProjeto = document.getElementById('view-modelo-projeto');
@@ -1392,6 +1432,7 @@ window.openModelosEstruturaisView = function(e) {
 
 window.openVisoesTransversaisView = function(e) {
   if (e && e.stopPropagation) e.stopPropagation();
+  hideNewTransversalOrganizerView();
   const vPlanoList = document.getElementById('view-modelo-de-plano-list');
   const vPlano = document.getElementById('view-modelo-de-plano');
   const vProjeto = document.getElementById('view-modelo-projeto');
@@ -1984,6 +2025,30 @@ window.selectProjetoVinculo = function(element, name) {
     });
   }
 
+const PINK_TRANSVERSAL_STORAGE_KEY = 'pmo-pink-transversal-items-v1';
+
+window.getPinkTransversalItems = function() {
+  try {
+    const storedItems = JSON.parse(localStorage.getItem(PINK_TRANSVERSAL_STORAGE_KEY) || '[]');
+    return Array.isArray(storedItems) ? storedItems : [];
+  } catch (error) {
+    return [];
+  }
+};
+
+window.persistPinkTransversalItem = function(item) {
+  try {
+    const items = getPinkTransversalItems();
+    const exists = items.some(savedItem => savedItem.type === item.type && savedItem.name === item.name);
+    if (!exists) {
+      items.push(item);
+      localStorage.setItem(PINK_TRANSVERSAL_STORAGE_KEY, JSON.stringify(items));
+    }
+  } catch (error) {
+    // A tela continua funcional mesmo quando o navegador bloqueia o armazenamento local.
+  }
+};
+
 window.addProgramaToPinkSidebar = function(name, iconSvg) {
   const baseProgram = document.getElementById('tree-item-programa-transversal');
   const subprogram = document.getElementById('tree-item-subprograma');
@@ -2051,11 +2116,10 @@ window.addProgramaToPinkSidebar = function(name, iconSvg) {
   group.hidden = false;
 };
 
-window.addProgramaToVisoesTransversais = function(name, iconSvg) {
+window.addProgramaToVisoesTransversais = function(name, iconSvg, shouldPersist = true) {
   const targetContainers = [
     document.querySelector('#visoes-transversais-models-list'),
-    document.querySelector('#view-visoes-transversais #transversalidade-programas-list'),
-    document.querySelector('#view-visoes-transversais .card-body > div'),
+    document.querySelector('#visoes-transversais-page-list'),
     document.querySelector('#view-cenario-transversalidades #transversalidade-programas-list')
   ];
 
@@ -2063,8 +2127,12 @@ window.addProgramaToVisoesTransversais = function(name, iconSvg) {
 
   targetContainers.forEach(container => {
     if (!container) return;
+    const duplicate = Array.from(container.querySelectorAll('.transversal-program-row'))
+      .some(existingRow => existingRow.dataset.programName === name);
+    if (duplicate) return;
     const row = document.createElement('div');
-    row.className = 'estrutura-model-row';
+    row.className = 'estrutura-model-row transversal-program-row';
+    row.dataset.programName = name;
     row.style.background = '#fff';
     row.style.border = '1px solid #e2e8f0';
     row.style.borderRadius = '6px';
@@ -2094,7 +2162,74 @@ window.addProgramaToVisoesTransversais = function(name, iconSvg) {
 
   addProgramaToPinkSidebar(name, iconSvg);
 
+  if (shouldPersist) {
+    persistPinkTransversalItem({ type: 'program', name, iconSvg });
+  }
+
   if (typeof syncTransversalRailIcons === 'function') syncTransversalRailIcons();
+};
+
+window.addOrganizerToVisoesTransversais = function(name, shouldPersist = true) {
+  if (shouldPersist) persistPinkTransversalItem({ type: 'organizer', name });
+
+  const targetContainers = [
+    document.getElementById('visoes-transversais-models-list'),
+    document.getElementById('visoes-transversais-page-list')
+  ];
+
+  targetContainers.forEach(container => {
+    if (container) {
+    const duplicate = Array.from(container.querySelectorAll('.transversal-organizer-row'))
+      .some(row => row.dataset.organizerName === name);
+    if (!duplicate) {
+      const randomId = Math.floor(100000 + Math.random() * 900000);
+      const row = document.createElement('div');
+      row.className = 'estrutura-model-row transversal-organizer-row';
+      row.dataset.organizerName = name;
+      row.style.cursor = 'pointer';
+      row.style.marginBottom = '10px';
+      row.title = `Abrir ${name}`;
+      row.innerHTML = `
+        <div class="estrutura-model-left">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#004b6e" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          <span></span>
+        </div>
+        <div class="estrutura-model-right">
+          <button type="button" class="cost-center-kebab-btn" title="Mais opções"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></button>
+          <span class="cost-center-id-code">${randomId}</span>
+        </div>`;
+      row.querySelector('.estrutura-model-left span').textContent = name;
+      row.querySelector('button').addEventListener('click', event => event.stopPropagation());
+      row.addEventListener('click', event => {
+        openNewTransversalOrganizerView(event);
+        const nameField = document.querySelector('#transversal-organizer-form input[type="text"]');
+        if (nameField) nameField.value = name;
+      });
+      container.appendChild(row);
+    }
+    }
+  });
+
+  const baseProgram = document.getElementById('tree-item-programa-transversal');
+  const group = baseProgram ? baseProgram.parentElement : null;
+  if (!group) return;
+  const sidebarDuplicate = Array.from(group.querySelectorAll('.sidebar-transversal-organizer-item'))
+    .some(item => item.dataset.organizerName === name);
+  if (sidebarDuplicate) return;
+
+  const sidebarItem = document.createElement('div');
+  sidebarItem.className = 'sidebar-tree-item root-item sidebar-transversal-organizer-item';
+  sidebarItem.dataset.organizerName = name;
+  sidebarItem.style.cursor = 'pointer';
+  sidebarItem.title = `Abrir ${name}`;
+  sidebarItem.innerHTML = '<div class="sidebar-tree-left"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span></span></div>';
+  sidebarItem.querySelector('span').textContent = name;
+  sidebarItem.addEventListener('click', event => {
+    openNewTransversalOrganizerView(event);
+    const nameField = document.querySelector('#transversal-organizer-form input[type="text"]');
+    if (nameField) nameField.value = name;
+  });
+  group.appendChild(sidebarItem);
 };
 
   const programaForm = document.getElementById('programa-properties-form');
@@ -2113,9 +2248,18 @@ window.addProgramaToVisoesTransversais = function(name, iconSvg) {
 
       showToast(`Programa '${progName}' cadastrado em Visões Transversais!`);
       openVisoesTransversaisView();
-      addProgramaToPinkSidebar(progName, iconSvg);
     });
   }
+
+  // Mantém as Visões Transversais criadas após atualizar ou reabrir a página.
+  getPinkTransversalItems().forEach(item => {
+    if (!item || !item.name) return;
+    if (item.type === 'organizer') {
+      addOrganizerToVisoesTransversais(item.name, false);
+    } else if (item.type === 'program') {
+      addProgramaToVisoesTransversais(item.name, item.iconSvg || '', false);
+    }
+  });
 });
 
 // ==========================================
@@ -2493,6 +2637,24 @@ document.addEventListener('click', function(event) {
     closeVTProjectPicker();
   }
 });
+
+const organizerForm = document.getElementById('transversal-organizer-form');
+if (organizerForm) {
+  organizerForm.addEventListener('submit', event => {
+    event.preventDefault();
+    const nameField = organizerForm.querySelector('input[type="text"]');
+    const organizerName = nameField ? nameField.value.trim() : '';
+    if (!organizerName) {
+      if (nameField) nameField.focus();
+      showToast('Informe o Nome do modelo.');
+      return;
+    }
+
+    addOrganizerToVisoesTransversais(organizerName);
+    showToast(`Organizador '${organizerName}' salvo com sucesso!`);
+    openVisoesTransversaisView();
+  });
+}
 
 document.addEventListener('keydown', function(event) {
   if (event.key === 'Escape') closeVTProjectPicker();

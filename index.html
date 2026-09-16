@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Modelo de Plano - Sistema de Gestão PMO</title>
-  <link rel="stylesheet" href="styles.css?v=pink-sidebar-subprograms-16">
+  <link rel="stylesheet" href="styles.css?v=pink-transversal-persistence-20">
 </head>
 <body>
 
@@ -424,7 +424,7 @@
                       <svg class="programa-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M4 20h2c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.8-1.1 2-1.7 3.3-1.7H21"/><path d="M21 16v5h-5"/><path d="M4 4h2c1.3 0 2.5.6 3.3 1.7l6.1 8.6c.8 1.1 2 1.7 3.3 1.7H21"/></svg>
                       <span>Programa</span>
                     </div>
-                    <div class="estrutura-menu-item" onclick="openNewPortfolioView(event)">
+                    <div class="estrutura-menu-item" onclick="openNewTransversalOrganizerView(event)">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
                       <span>Organizador</span>
                     </div>
@@ -963,6 +963,50 @@
               </div>
             </form>
           </div>
+        </div>
+
+        <!-- VIEW: NOVO ORGANIZADOR DE VISÕES TRANSVERSAIS -->
+        <div id="view-new-transversal-organizer" class="view-container hidden">
+          <div class="page-header-row transversal-organizer-heading">
+            <h1 class="page-title">Novo&nbsp; Organizador</h1>
+          </div>
+
+          <form id="transversal-organizer-form">
+            <div class="card-section">
+              <div class="card-header">
+                <span class="card-header-title">PROPRIEDADES</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+              </div>
+              <div class="card-body">
+                <div class="transversal-organizer-fields">
+                  <div class="form-group"><label class="form-label">Nome modelo <span class="required">*</span> <span class="help-icon">?</span></label><input type="text" class="form-input form-input-line" required></div>
+                  <div class="form-group"><label class="form-label">Nome modelo no plural <span class="required">*</span> <span class="help-icon">?</span></label><input type="text" class="form-input form-input-line" required></div>
+                  <div class="form-group"><label class="form-label">Posição <span class="required">*</span> <span class="help-icon">?</span></label><input type="number" class="form-input form-input-line" value="2" required></div>
+                  <div class="form-group"><label class="form-label">Ícone <span class="required">*</span> <span class="help-icon">?</span></label><div class="transversal-organizer-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="#004b6e"><path d="M10 4H2v16h20V6H12z"/></svg><span>×</span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#004b6e" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+                  <div class="form-group"><label class="form-label">Ordenar por <span class="required">*</span> <span class="help-icon">?</span></label><select class="form-select form-input-line"><option selected>Nome</option></select></div>
+                  <div class="transversal-organizer-actions"><button type="button" class="btn-teal-action" onclick="showToast('Adicionar propriedade...')">Adicionar propriedade&nbsp; +</button><button type="button" class="btn-teal-action" onclick="showToast('Adicionar grupo...')">Adicionar grupo&nbsp; +</button></div>
+                </div>
+
+                <div class="transversal-order-property">
+                  <span class="transversal-order-icon">#</span>
+                  <span>Número de Ordenação</span>
+                  <label class="switch-toggle"><input type="checkbox" checked><span class="slider"></span></label>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+              </div>
+            </div>
+
+            <div class="transversal-organizer-sections">
+              <div class="card-section"><div class="card-header"><div><span class="card-header-title">PARTES INTERESSADAS</span><label class="switch-toggle"><input type="checkbox"><span class="slider"></span></label></div></div></div>
+              <div class="card-section"><div class="card-header"><div><span class="card-header-title">PAINEL DE CONTROLE</span><label class="switch-toggle"><input type="checkbox"><span class="slider"></span></label></div></div></div>
+              <div class="card-section"><div class="card-header"><div><span class="card-header-title">GESTÃO DE RISCOS E OCORRÊNCIAS</span><label class="switch-toggle"><input type="checkbox"><span class="slider"></span></label></div></div></div>
+              <div class="card-section"><div class="card-header"><div><span class="card-header-title">CENTROS DE CUSTO</span><label class="switch-toggle"><input type="checkbox"><span class="slider"></span></label></div></div></div>
+              <div class="card-section"><div class="card-header"><div><span class="card-header-title">GESTÃO DE PROCESSOS</span><label class="switch-toggle"><input type="checkbox"><span class="slider"></span></label></div></div></div>
+              <div class="card-section"><div class="card-header"><div><span class="card-header-title">DIÁRIO</span><label class="switch-toggle"><input type="checkbox"><span class="slider"></span></label></div></div></div>
+            </div>
+
+            <div class="actions-footer"><button type="submit" class="btn-salvar">Salvar</button><button type="reset" class="btn-desfazer">Desfazer</button></div>
+          </form>
         </div>
 
         <!-- VIEW: MODELO PORTFÓLIO (Ao clicar em Portfólio na aba Estrutura) -->
@@ -2981,7 +3025,7 @@
 
             <div class="card-body" style="padding: 20px;">
               <!-- Lista de Programas em Visões Transversais -->
-              <div style="margin-bottom: 16px;">
+              <div id="visoes-transversais-page-list" style="margin-bottom: 16px;">
                 <!-- Row 1: Programa 105 -->
                 <div class="estrutura-model-row" onclick="openProgramaView(event)" style="background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; cursor: pointer;" title="Abrir Programa">
                   <div class="estrutura-model-left" style="display: flex; align-items: center; gap: 12px;">
@@ -3009,7 +3053,7 @@
                     <svg class="programa-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M4 20h2c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.8-1.1 2-1.7 3.3-1.7H21"/><path d="M21 16v5h-5"/><path d="M4 4h2c1.3 0 2.5.6 3.3 1.7l6.1 8.6c.8 1.1 2 1.7 3.3 1.7H21"/></svg>
                     <span>Programa</span>
                   </div>
-                  <div class="estrutura-menu-item" onclick="openPortfolioView(event)">
+                  <div class="estrutura-menu-item" onclick="openNewTransversalOrganizerView(event)">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
                     <span>Organizador</span>
                   </div>
@@ -3103,6 +3147,6 @@
     </div>
   </div>
 
-  <script src="app.js?v=pink-sidebar-subprograms-16"></script>
+  <script src="app.js?v=pink-transversal-persistence-20"></script>
 </body>
 </html>
