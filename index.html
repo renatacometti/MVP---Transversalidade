@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Modelo de Plano - Sistema de Gestão PMO</title>
-  <link rel="stylesheet" href="styles.css?v=blue-transversal-parent-menu-23">
+  <link rel="stylesheet" href="styles.css?v=blue-program-deliveries-tab-24">
 </head>
 <body>
 
@@ -2848,6 +2848,7 @@
             <button type="button" class="vt-program-detail-tab" data-tab="eap" onclick="switchVTProgramDetailTab('eap')">EAP</button>
             <button type="button" class="vt-program-detail-tab" data-tab="propriedades" onclick="switchVTProgramDetailTab('propriedades')">Propriedades</button>
             <button type="button" class="vt-program-detail-tab" data-tab="projetos" onclick="switchVTProgramDetailTab('projetos')">Projetos</button>
+            <button type="button" class="vt-program-detail-tab" data-tab="entregas" onclick="switchVTProgramDetailTab('entregas')">Entregas</button>
             <button type="button" class="vt-program-detail-tab" data-tab="partes" onclick="switchVTProgramDetailTab('partes')">Partes interessadas e permissões</button>
           </nav>
 
@@ -2975,6 +2976,34 @@
                 <button type="button" class="vt-program-link-select" onclick="confirmVTProgramProjectLinks()">Selecionar</button>
               </div>
             </div>
+          </section>
+          <section class="vt-program-detail-panel vt-program-deliveries" data-panel="entregas">
+            <div class="vt-program-deliveries-toolbar">
+              <label class="vt-program-deliveries-filter"><span>Exibir</span><select aria-label="Exibir entregas"><option>Todos</option><option>Ativas</option><option>Concluídas</option></select></label>
+              <button type="button" class="vt-program-deliveries-add-top" aria-label="Adicionar entrega" title="Adicionar entrega" onclick="showToast('Adicionar entrega')">+</button>
+            </div>
+            <label class="vt-program-projects-cancelled vt-program-deliveries-cancelled">
+              <input type="checkbox" aria-label="Exibir entregas canceladas"><span class="vt-program-projects-switch" aria-hidden="true"><i></i></span><span>Exibir cancelado</span>
+            </label>
+            <div class="vt-program-deliveries-list" aria-label="Entregas do programa">
+              <button type="button" class="vt-program-delivery-row" onclick="showToast('Abrindo entrega: teste de status repactuação')">
+                <span class="vt-program-delivery-name"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13h5v7H4zM15 13h5v7h-5zM9 4h6v6H9z"/><path d="M12 10v3M6.5 13v-2h11v2"/></svg><span>teste de status repactuação</span></span>
+                <span class="vt-program-delivery-status play">▶</span><span class="vt-program-delivery-meta"><b>⋮</b><span>⌘</span><small>1565293</small></span>
+              </button>
+              <button type="button" class="vt-program-delivery-row" onclick="showToast('Abrindo entrega: Conclusão da construção do Cais das Artes')">
+                <span class="vt-program-delivery-name"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13h5v7H4zM15 13h5v7h-5zM9 4h6v6H9z"/><path d="M12 10v3M6.5 13v-2h11v2"/></svg><span>Conclusão da construção do Cais das Artes</span></span>
+                <span class="vt-program-delivery-indicators"><i class="done">✓</i><i class="info">i</i><i class="scope">✓</i></span><span class="vt-program-delivery-meta"><b>⋮</b><span>⌘</span><small>35098</small></span>
+              </button>
+            </div>
+            <div class="vt-program-deliveries-add-trigger">
+              <button type="button" class="vt-program-deliveries-add" aria-label="Adicionar entrega" aria-expanded="false" onclick="toggleVTDeliveryLinkMenu(event, this)">+</button>
+              <div id="vt-delivery-link-menu" class="vt-delivery-link-menu" role="menu">
+                <button type="button" role="menuitem" onclick="event.stopPropagation(); showToast('Vincular entrega')">Vincular</button>
+              </div>
+            </div>
+            <nav class="vt-program-deliveries-pagination" aria-label="Paginação de entregas">
+              <button type="button" aria-label="Primeira página">«</button><button type="button" aria-label="Página anterior">‹</button><select aria-label="Página atual"><option>1 of 1</option></select><button type="button" aria-label="Próxima página">›</button><button type="button" aria-label="Última página">»</button>
+            </nav>
           </section>
           <section class="vt-program-detail-panel" data-panel="partes">
             <div class="vt-stakeholders-toolbar">
@@ -3147,6 +3176,6 @@
     </div>
   </div>
 
-  <script src="app.js?v=blue-transversal-parent-menu-23"></script>
+  <script src="app.js?v=blue-delivery-link-menu-25"></script>
 </body>
 </html>

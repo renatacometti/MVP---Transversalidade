@@ -508,6 +508,24 @@ window.switchVTProgramDetailTab = function(tabName) {
   if (tabName === 'projetos') renderVTProgramProjects();
 };
 
+window.toggleVTDeliveryLinkMenu = function(event, button) {
+  if (event && event.stopPropagation) event.stopPropagation();
+  const menu = document.getElementById('vt-delivery-link-menu');
+  if (!menu) return;
+  const willOpen = !menu.classList.contains('open');
+  menu.classList.toggle('open', willOpen);
+  if (button) button.setAttribute('aria-expanded', String(willOpen));
+};
+
+document.addEventListener('click', function(event) {
+  const trigger = document.querySelector('.vt-program-deliveries-add-trigger');
+  if (!trigger || trigger.contains(event.target)) return;
+  const menu = document.getElementById('vt-delivery-link-menu');
+  const button = trigger.querySelector('.vt-program-deliveries-add');
+  if (menu) menu.classList.remove('open');
+  if (button) button.setAttribute('aria-expanded', 'false');
+});
+
 window.setVTProgramEAPExpanded = function(expanded) {
   const root = document.getElementById('vt-program-eap-root');
   const children = document.getElementById('vt-program-eap-children');
